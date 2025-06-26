@@ -7,7 +7,6 @@ import { useAppDispatch, useAppSelector } from "@/hooks";
 export default function TestPage() {
   const dispatch = useAppDispatch();
   const open = useAppSelector((state) => state.modal.open);
-  console.log(open);
   return (
     <div>
       <Button onClick={() => dispatch(openModal("test"))}>Open modal</Button>

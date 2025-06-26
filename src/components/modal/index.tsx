@@ -11,7 +11,6 @@ export const Modal: React.FC<{
   const dispatch = useAppDispatch();
   const open = useAppSelector((state) => state.modal.open);
   const message = useAppSelector((state) => state.modal.message);
-  console.log("Modal render", open, message);
   return (
     <Dialog open={open} onClose={() => dispatch(closeModal())}>
       <div className="fixed inset-0 z-50 w-screen">
