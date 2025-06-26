@@ -1,0 +1,17 @@
+:root {
+  --bg-home: radial-gradient(
+      ellipse min(1024px, 100vw) min(1024px, 100vw) at 0 500px,
+      var(--circle-left),
+      transparent
+    ),
+    radial-gradient(
+      ellipse min(600px, 100vw) min(600px, 100vw) at 100% 700px,
+      var(--circle-right),
+      transparent
+    ),
+    radial-gradient(
+      ellipse 60% 600px at 35% 0,
+      var(--circle-right),
+      transparent
+    );
+}

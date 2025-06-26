@@ -1,16 +1,8 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import clsx from "clsx";
+import StoreProvider from "@/libs/redux/store-provider";
+import { geistMono, geistSans } from "@/styles/font";
 import "@/styles/globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: "Expo Floormap",
@@ -19,15 +11,24 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  modal,
 }: Readonly<{
   children: React.ReactNode;
+  modal?: React.ReactNode;
 }>) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={clsx(
+          geistSans.variable,
+          geistMono.variable,
+          "relative antialiased bg-background text-foreground min-h-screen bg-no-repeat has-[[data-home]]:bg-(image:--bg-home) "
+        )}
       >
-        {children}
+        <StoreProvider>
+          {children}
+          {modal}
+        </StoreProvider>
       </body>
     </html>
   );

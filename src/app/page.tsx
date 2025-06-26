@@ -1,3 +1,4 @@
 export default function Home() {
-  return <div></div>;
+  console.log("Home render");
+  return <div data-home></div>;
 }
