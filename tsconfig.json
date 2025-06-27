@@ -19,6 +19,8 @@
       }
     ],
     "paths": {
+      "@modals/*": ["./src/components/modals/*"],
+      "@ui/*": ["./src/components/ui/*"],
       "@/*": ["./src/*"]
     }
   },
