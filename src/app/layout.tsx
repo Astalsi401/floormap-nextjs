@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import clsx from "clsx";
+import { Header } from "@/components/header";
 import StoreProvider from "@/libs/redux/store-provider";
 import { geistMono, geistSans } from "@/styles/font";
 import "@/styles/globals.css";
@@ -26,7 +27,8 @@ export default function RootLayout({
         )}
       >
         <StoreProvider>
-          {children}
+          <Header />
+          <div className="pt-16.25">{children}</div>
           {modal}
         </StoreProvider>
       </body>

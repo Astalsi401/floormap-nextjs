@@ -1,7 +1,44 @@
+import { Routes } from "@/config/routes";
+import { UserIcon } from "@heroicons/react/24/outline";
+import { Hr } from "@ui/hr";
+import { NestMenu } from "@ui/nest-menu";
+import Link from "next/link";
+
 export const Header: React.FC = () => {
   return (
-    <header>
-      <h1 className="text-2xl font-bold">Expo Floormap</h1>
+    <header className="flex flex-col gap-3 py-3 px-5 sm:px-10 absolute z-50 top-0 w-full backdrop-blur-lg sm:backdrop-blur-none">
+      <div className="flex justify-between items-center">
+        <h1 className="text-xl font-bold">
+          <Link href={Routes.public.home}>Expo Floormap</Link>
+        </h1>
+        <NestMenu
+          items={[
+            {
+              key: "test",
+              label: "Test",
+              href: "/test",
+            },
+            {
+              key: "nest",
+              label: "Nest",
+              items: [
+                {
+                  key: "sub1",
+                  label: "Sub Item 1",
+                  href: "/sub1",
+                },
+                {
+                  key: "sub2",
+                  label: "Sub Item 2",
+                  href: "/sub2",
+                },
+              ],
+            },
+          ]}
+          btn={<UserIcon className="size-5" />}
+        />
+      </div>
+      <Hr />
     </header>
   );
 };

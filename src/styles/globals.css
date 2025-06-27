@@ -4,6 +4,12 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --fp-lv1: #daffe1;
+  --fp-lv2: #91fd8b;
+  --fp-lv3: #50ac6a;
+  --fp-lv4: #007956;
+  --fp-lv5: #0d564b;
+  --fp-lv6: #184743;
   --circle-left: rgb(34 0 255 / 0.3);
   --circle-right: rgb(0 208 184 / 0.5);
 }
@@ -11,6 +17,14 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-fp-lv1: var(--fp-lv1);
+  --color-fp-lv2: var(--fp-lv2);
+  --color-fp-lv3: var(--fp-lv3);
+  --color-fp-lv4: var(--fp-lv4);
+  --color-fp-lv5: var(--fp-lv5);
+  --color-fp-lv6: var(--fp-lv6);
+  --color-circle-left: var(--circle-left);
+  --color-circle-right: var(--circle-right);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
