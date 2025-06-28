@@ -1,8 +1,9 @@
-import { Routes } from "@/config/routes";
-import { UserIcon } from "@heroicons/react/24/outline";
+import Link from "next/link";
+import { Bars3BottomRightIcon } from "@heroicons/react/24/outline";
 import { Hr } from "@ui/hr";
 import { NestMenu } from "@ui/nest-menu";
-import Link from "next/link";
+import { UserInfo } from "@/components/auth/userinfo";
+import { Routes } from "@/config/routes";
 
 export const Header: React.FC = () => {
   return (
@@ -35,7 +36,8 @@ export const Header: React.FC = () => {
               ],
             },
           ]}
-          btn={<UserIcon className="size-5" />}
+          customElem={UserInfo}
+          btn={<Bars3BottomRightIcon className="size-5" />}
         />
       </div>
       <Hr />
