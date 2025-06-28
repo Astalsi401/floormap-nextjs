@@ -19,6 +19,9 @@
       }
     ],
     "paths": {
+      "@slices/*": ["./src/libs/redux/slices/*"],
+      "@dashboards/*": ["./src/components/dashboards/*"],
+      "@floormap/*": ["./src/components/floormap/*"],
       "@modals/*": ["./src/components/modals/*"],
       "@ui/*": ["./src/components/ui/*"],
       "@/*": ["./src/*"]
