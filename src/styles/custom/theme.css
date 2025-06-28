@@ -1,0 +1,7 @@
+:root {
+  --sidebar-bg: transparent;
+}
+
+:root:has([data-floormap]) {
+  --sidebar-bg: rgb(36 36 36);
+}

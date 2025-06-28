@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./custom/theme.css";
 @import "./custom/index.css";
 
 :root {
@@ -25,6 +26,7 @@
   --color-fp-lv6: var(--fp-lv6);
   --color-circle-left: var(--circle-left);
   --color-circle-right: var(--circle-right);
+  --color-sidebar-bg: var(--sidebar-bg);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }

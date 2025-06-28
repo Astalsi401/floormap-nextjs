@@ -24,13 +24,16 @@ export default function RootLayout({
         className={clsx(
           geistSans.variable,
           geistMono.variable,
-          "relative antialiased bg-background text-foreground min-h-screen bg-no-repeat has-[[data-home]]:bg-(image:--bg-home) "
+          "has-[[data-home]]:bg-(image:--bg-home)",
+          "has-[[data-floormap]]:[&_header]:ps-85 has-[[data-floormap]]:[&_header]:pe-5",
+          "has-[[data-floormap]]:[&_header]:bg-background",
+          "relative antialiased bg-background text-foreground min-h-screen bg-no-repeat"
         )}
       >
         <SessionProvider>
           <StoreProvider>
             <Header />
-            <div className="pt-16.25">{children}</div>
+            <main className="pt-16.25">{children}</main>
             {modal}
           </StoreProvider>
         </SessionProvider>
