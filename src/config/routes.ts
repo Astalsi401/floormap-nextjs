@@ -1,7 +1,12 @@
 export const Routes = {
-  auth: {},
+  auth: {
+    signOut: "/sign-out",
+    signIn: "/sign-in",
+  },
   public: {
     home: "/",
   },
-  private: {},
+  private: {
+    admin: "/admin",
+  },
 };
