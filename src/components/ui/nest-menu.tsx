@@ -10,7 +10,7 @@ import {
   MenuItems,
   Button as HeadlessButton,
 } from "@headlessui/react";
-import ChevronRightIcon from "@heroicons/react/24/solid/ChevronRightIcon";
+import { ChevronRightIcon } from "@heroicons/react/24/solid";
 import { Button } from "@ui/button";
 import type { MenuItemType } from "@/types/menu-items";
 
