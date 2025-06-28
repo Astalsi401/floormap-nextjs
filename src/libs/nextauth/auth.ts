@@ -14,9 +14,15 @@ export const providerMap = providers
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers,
   callbacks: {
-    authorized: async ({ auth }) => {
-      // Logged in users are authenticated, otherwise redirect to login page
-      return !!auth;
+    session: async ({ session, token }) => {
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: token.sub,
+        },
+      };
     },
+    authorized: async ({ auth }) => !!auth,
   },
 });
