@@ -2,8 +2,8 @@
 
 import clsx from "clsx";
 import { Dialog, DialogPanel } from "@headlessui/react";
+import { closeModal } from "@slices/modal-slice";
 import { useAppDispatch, useAppSelector } from "@/hooks";
-import { closeModal } from "./modal-slice";
 
 export const Modal: React.FC<{
   children?: React.ReactNode;
