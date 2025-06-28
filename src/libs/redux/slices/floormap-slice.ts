@@ -1,14 +1,22 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-type FloormapState = {};
+type FloormapState = {
+  overview: boolean;
+};
 
-const initialState: FloormapState = {};
+const initialState: FloormapState = {
+  overview: false,
+};
 
 export const floormapSlice = createSlice({
   name: "floormap",
   initialState,
-  reducers: {},
+  reducers: {
+    toggleOverview: (state) => {
+      state.overview = !state.overview;
+    },
+  },
 });
 
-export const {} = floormapSlice.actions;
+export const { toggleOverview } = floormapSlice.actions;
 export default floormapSlice.reducer;

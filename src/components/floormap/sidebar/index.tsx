@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { Search } from "./search";
 
-export const Sidebar: React.FC<{}> = ({}) => {
+export const Sidebar: React.FC = ({}) => {
   return (
     <aside
       className={clsx(
