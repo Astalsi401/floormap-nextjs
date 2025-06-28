@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@headlessui/react";
-import { openModal } from "@/components/modal/modal-slice";
+import { openModal } from "@slices/modal-slice";
 import { useAppDispatch } from "@/hooks";
 
 export default function TestPage() {
