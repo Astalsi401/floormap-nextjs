@@ -12,7 +12,7 @@ import {
 } from "@headlessui/react";
 import { ChevronRightIcon } from "@heroicons/react/24/solid";
 import { Button } from "@ui/button";
-import type { MenuItemType } from "@/types/menu-items";
+import type { MenuItemType } from "@/types";
 
 export const NestMenu: React.FC<{
   items: MenuItemType[];
