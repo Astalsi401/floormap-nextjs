@@ -9,7 +9,7 @@ export const Header: React.FC = () => {
   return (
     <header className="flex flex-col gap-3 py-3 px-5 sm:px-10 absolute z-50 top-0 w-full backdrop-blur-lg sm:backdrop-blur-none">
       <div className="flex justify-between items-center">
-        <h1 className="text-xl font-bold">
+        <h1 className="text-xl font-bold text-nowrap text-ellipsis overflow-hidden">
           <Link href={Routes.public.home}>Expo Floormap</Link>
         </h1>
         <NestMenu
