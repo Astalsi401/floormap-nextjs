@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import clsx from "clsx";
-import { Header } from "@/components/header";
+import { SessionProvider } from "next-auth/react";
 import StoreProvider from "@/libs/redux/store-provider";
+import { Header } from "@/components/header";
 import { geistMono, geistSans } from "@/styles/font";
 import "@/styles/globals.css";
 
@@ -26,11 +27,13 @@ export default function RootLayout({
           "relative antialiased bg-background text-foreground min-h-screen bg-no-repeat has-[[data-home]]:bg-(image:--bg-home) "
         )}
       >
-        <StoreProvider>
-          <Header />
-          <div className="pt-16.25">{children}</div>
-          {modal}
-        </StoreProvider>
+        <SessionProvider>
+          <StoreProvider>
+            <Header />
+            <div className="pt-16.25">{children}</div>
+            {modal}
+          </StoreProvider>
+        </SessionProvider>
       </body>
     </html>
   );
