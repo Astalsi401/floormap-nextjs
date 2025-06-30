@@ -45,8 +45,11 @@ const ToggleOverview: React.FC = () => {
   const overview = useAppSelector((state) => state.floormap.overview);
   const Icon = overview ? XMarkIcon : Bars3Icon;
   return (
-    <Button className="flex items-center h-full px-1">
-      <Icon className="size-5" onClick={() => dispatch(toggleOverview())} />
+    <Button
+      className="flex items-center h-full px-1"
+      onClick={() => dispatch(toggleOverview())}
+    >
+      <Icon className="size-5" />
     </Button>
   );
 };

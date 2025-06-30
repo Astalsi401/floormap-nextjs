@@ -10,7 +10,7 @@ export class FetchData {
   floormap = {
     overview: ({ exhibition, year }: { exhibition: string; year: string }) =>
       this.method
-        .get<ApiResponse<OverviewData>>(
+        .get<ApiResponse<OverviewData[]>>(
           `${API_ENDPOINTS.FP_OVERVIEW}/${exhibition}/${year}`
         )
         .catch((err) => {

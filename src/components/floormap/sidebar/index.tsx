@@ -3,7 +3,7 @@ import { Search } from "./search";
 import { Results } from "./results";
 import { Overview } from "./overview";
 
-export const Sidebar: React.FC = ({}) => {
+export const Sidebar: React.FC = () => {
   return (
     <aside
       className={clsx(
