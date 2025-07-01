@@ -1,3 +1,3 @@
-export type { ApiResponse } from "@/types/api-response";
-export type { OverviewData } from "@/types/floormap";
-export type { MenuItemType } from "@/types/menu-items";
+export type * from "@/types/api-response";
+export type * from "@/types/floormap";
+export type * from "@/types/menu-items";
