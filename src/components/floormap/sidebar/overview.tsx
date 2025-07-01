@@ -59,6 +59,7 @@ const OverviewItem: React.FC<OverviewData["items"][number]> = ({
   const { setSearchParams, searchParams } = useAppSearchParams();
   const addToSearch = () => {
     const tags = JSON.parse(searchParams.get("tags") || "[]");
+    if (tags.includes(label)) return;
     setSearchParams({ key: "tags", value: JSON.stringify([...tags, label]) });
   };
   return (
