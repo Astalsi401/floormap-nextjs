@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { forwardRef, useEffect, useRef } from "react";
 import { Input } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Button } from "@ui/button";
@@ -46,7 +46,7 @@ export const Search: React.FC = () => {
           onKeyDown={deleteTag}
         />
       </div>
-      <div className="flex shrink-0 items-center h-full px-1">
+      <div className="flex shrink-0 items-center h-full px-1 w-7">
         {isWaiting && <Spinner className="size-5" />}
       </div>
     </div>
@@ -70,9 +70,15 @@ const ToggleOverview: React.FC = () => {
 const SearchTags: React.FC<{ searchParams: ReadonlyURLSearchParams }> = ({
   searchParams,
 }) => {
+  const ref = useRef<HTMLDivElement>(null);
   const tags = JSON.parse(searchParams.get("tags") || "[]");
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.scrollLeft = ref.current.scrollWidth;
+    }
+  }, [searchParams]);
   return (
-    <div className="flex gap-1 text-xs w-full overflow-auto">
+    <div ref={ref} className="flex gap-1 text-xs w-full overflow-auto">
       {tags.map((tag: string) => (
         <span
           className="bg-fp-lv4 rounded-sm text-nowrap p-0.5 block"
