@@ -36,7 +36,7 @@ export const Search: React.FC = () => {
   return (
     <div className="flex gap-0.5 bg-background h-14">
       <ToggleOverview />
-      <div className="flex flex-col grow p-0.5 max-w-[calc(100%-3rem)]">
+      <div className="flex flex-col grow p-0.5 max-w-[calc(100%-3.5rem)]">
         <SearchTags searchParams={searchParams} />
         <Input
           ref={search}
