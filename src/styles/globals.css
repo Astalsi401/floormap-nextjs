@@ -3,6 +3,7 @@
 @import "./custom/index.css";
 
 :root {
+  --scroll-bar-width: 2px;
   --background: #ffffff;
   --foreground: #171717;
   --fp-lv1: #daffe1;
@@ -36,4 +37,20 @@
     --background: #0a0a0a;
     --foreground: #ededed;
   }
+}
+
+::-webkit-scrollbar {
+  width: var(--scroll-bar-width);
+  height: var(--scroll-bar-width);
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  width: var(--scroll-bar-width);
+  height: var(--scroll-bar-width);
+  border-radius: var(--scroll-bar-width);
+  background: rgb(255 255 255 / 0.2);
 }
