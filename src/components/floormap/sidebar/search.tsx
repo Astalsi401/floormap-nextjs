@@ -1,15 +1,15 @@
 "use client";
 
-import { forwardRef, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
+import { ReadonlyURLSearchParams } from "next/navigation";
 import { Input } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Button } from "@ui/button";
 import { Spinner } from "@ui/loading/spinner";
+import { toggleOverview } from "@slices/floormap-slice";
 import { useDebounce } from "@/hooks/use-debounce";
 import { useAppSearchParams } from "@/hooks/use-search-params";
 import { useAppDispatch, useAppSelector } from "@/hooks";
-import { toggleOverview } from "@slices/floormap-slice";
-import { ReadonlyURLSearchParams } from "next/navigation";
 
 export const Search: React.FC = () => {
   const { isWaiting, setWaiting } = useDebounce();
