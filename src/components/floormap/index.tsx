@@ -2,11 +2,11 @@
 
 import { useMemo, useRef } from "react";
 import { Elements } from "@floormap/elems";
+import { Container } from "@floormap/container";
 import { openModal } from "@slices/modal-slice";
 import { useAppDispatch } from "@/hooks";
 import { useAppSearchParams } from "@/hooks/use-search-params";
 import type { Elem, ElemTypes, Realsize } from "@/types";
-import { Container } from "./container";
 
 export const Floormap: React.FC<{
   realsize: Realsize[];
