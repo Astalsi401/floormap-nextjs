@@ -14,4 +14,11 @@
       var(--circle-right),
       transparent
     );
+  --overflow-fadeout: linear-gradient(
+    90deg,
+    transparent,
+    rgb(0 0 0 / 1) calc(0.25 * 10rem),
+    rgb(0 0 0 / 1) calc(100% - calc(0.25 * 10rem)),
+    transparent
+  );
 }

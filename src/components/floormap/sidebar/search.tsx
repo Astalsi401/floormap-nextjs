@@ -6,6 +6,7 @@ import { Input } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Button } from "@ui/button";
 import { Spinner } from "@ui/loading/spinner";
+import { OverflowFadeout } from "@ui/overflow-fadeout";
 import { toggleOverview } from "@slices/floormap-slice";
 import { useDebounce } from "@/hooks/use-debounce";
 import { useAppSearchParams } from "@/hooks/use-search-params";
@@ -78,7 +79,10 @@ const SearchTags: React.FC<{ searchParams: ReadonlyURLSearchParams }> = ({
     }
   }, [searchParams]);
   return (
-    <div ref={ref} className="flex gap-1 text-xs w-full overflow-auto">
+    <OverflowFadeout
+      className="flex gap-1 text-xs w-full overflow-auto"
+      ref={ref}
+    >
       {tags.map((tag: string) => (
         <span
           className="bg-fp-lv4 rounded-sm text-nowrap p-0.5 block"
@@ -87,6 +91,6 @@ const SearchTags: React.FC<{ searchParams: ReadonlyURLSearchParams }> = ({
           {tag}
         </span>
       ))}
-    </div>
+    </OverflowFadeout>
   );
 };
