@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { ReadonlyURLSearchParams } from "next/navigation";
 import { Input } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Button } from "@ui/button";
@@ -22,7 +21,6 @@ export const Search: React.FC = () => {
     setSearchParams({ key: "keyword", value: search.current.value });
   };
   const deleteTag = (tag?: string) => {
-    console.log(tag);
     const tags = JSON.parse(searchParams.get("tags") || "[]");
     return tag
       ? JSON.stringify(tags.filter((t: string) => t !== tag))
