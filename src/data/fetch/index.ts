@@ -1,6 +1,12 @@
 import { FetchMethod } from "@/data/fetch/methods";
 import { API_ENDPOINTS } from "@/data/endpoints";
-import type { ApiResponse, Elem, FloormapParams, OverviewData } from "@/types";
+import type {
+  ApiResponse,
+  Elem,
+  FloormapParams,
+  OverviewData,
+  Realsize,
+} from "@/types";
 
 export class FetchData {
   private method: FetchMethod;
@@ -23,6 +29,14 @@ export class FetchData {
         )
         .catch((err) => {
           throw new Error(`Failed to fetch floormap elements data\n${err}`);
+        }),
+    realsize: ({ exhibition, year }: FloormapParams) =>
+      this.method
+        .get<ApiResponse<Realsize[]>>(
+          `${API_ENDPOINTS.FP_REALSIZE}/${exhibition}/${year}`
+        )
+        .catch((err) => {
+          throw new Error(`Failed to fetch floormap real size data\n${err}`);
         }),
   };
 }

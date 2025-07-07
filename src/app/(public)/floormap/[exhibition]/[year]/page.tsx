@@ -9,9 +9,10 @@ export default async function FloormapPage({
 }) {
   const { exhibition, year } = await params;
   const elems = await fetchData.floormap.elems({ exhibition, year });
+  const realsize = await fetchData.floormap.realsize({ exhibition, year });
   return (
-    <div className="">
-      <Floormap elems={elems} />
-    </div>
+    <>
+      <Floormap realsize={realsize} elems={elems} />
+    </>
   );
 }
