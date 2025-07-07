@@ -3,5 +3,17 @@
 }
 
 :root:has([data-floormap]) {
-  --sidebar-bg: rgb(36 36 36);
+  --sidebar-bg: rgb(230 230 230);
+  --fp-pillar: rgb(0 0 0 / 0.2);
+  --fp-indoor: rgb(255 255 255);
+  --fp-wall: rgb(0 0 0);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:has([data-floormap]) {
+    --sidebar-bg: rgb(36 36 36);
+    --fp-pillar: rgb(255 255 255 / 0.2);
+    --fp-indoor: rgb(0 0 0);
+    --fp-wall: rgb(255 255 255);
+  }
 }

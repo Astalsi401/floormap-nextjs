@@ -20,9 +20,10 @@ export type PathCurve = {
 };
 export type PathType = PathLine | PathCurve;
 
+export type ElemTypes = "wall" | "pillar" | "text" | "icon" | "room";
 export type Elem = {
   id: string;
-  type: string;
+  type: ElemTypes;
   floor: number;
   x: number;
   y: number;

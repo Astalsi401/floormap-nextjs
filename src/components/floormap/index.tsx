@@ -2,7 +2,7 @@
 
 import { useMemo, useRef } from "react";
 import { useSearchParams } from "next/navigation";
-import type { Elem, Realsize } from "@/types";
+import type { Elem, ElemTypes, Realsize } from "@/types";
 import { Elements } from "./elems";
 
 export const Floormap: React.FC<{
@@ -14,17 +14,17 @@ export const Floormap: React.FC<{
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<SVGSVGElement | null>(null);
   const { floorElems, viewBox } = useMemo(() => {
-    const floorElems = elems.filter((e) => e.floor === floor);
     const viewBox = realsize.find((r) => r.floor === floor);
     if (!viewBox) {
       throw new Error(`No viewBox found for floor ${floor}`);
     }
+    const floorElems = elemsFilter(elems, floor);
     return { floorElems, viewBox };
   }, [elems, floor]);
   return (
     <div
       ref={mapContainer}
-      className="size-full bg-white"
+      className="size-full"
       onContextMenu={(e) => e.preventDefault()}
     >
       <svg
@@ -34,8 +34,27 @@ export const Floormap: React.FC<{
         xmlns="http://www.w3.org/2000/svg"
         viewBox={`0 0 ${viewBox.width} ${viewBox.height}`}
       >
-        <Elements d={floorElems} />
+        <Elements d={floorElems.wall} />
+        <Elements d={floorElems.pillar} />
+        <Elements d={floorElems.room} />
+        <Elements d={floorElems.text} />
+        <Elements d={floorElems.icon} />
       </svg>
     </div>
   );
 };
+
+const elemsFilter = (elems: Elem[], floor: number) =>
+  elems.reduce<Record<ElemTypes, Elem[]>>(
+    (acc, elem) => {
+      if (elem.floor === floor) acc[elem.type].push(elem);
+      return acc;
+    },
+    {
+      wall: [],
+      pillar: [],
+      text: [],
+      icon: [],
+      room: [],
+    }
+  );

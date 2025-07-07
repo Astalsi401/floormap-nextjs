@@ -22,7 +22,7 @@ export const Elements: React.FC<{ d: Elem[] }> = ({ d }) => {
 
 const Wall: React.FC<{ d: Elem }> = ({ d }) => (
   <path
-    stroke="black"
+    stroke="var(--fp-wall)"
     fill={d.fill}
     strokeWidth={d.strokeWidth}
     d={`M${d.x} ${d.y}${drawPath(d.p)}`}
@@ -31,7 +31,7 @@ const Wall: React.FC<{ d: Elem }> = ({ d }) => (
 
 const Pillar: React.FC<{ d: Elem }> = ({ d }) => (
   <path
-    fill="rgba(0, 0, 0, 0.2)"
+    fill="var(--fp-pillar)"
     d={`M${d.x} ${d.y}${drawPath(
       d.p.map((p) => ({ node: p.node, x: p.x + d.x, y: p.y + d.y } as PathLine))
     )}`}
