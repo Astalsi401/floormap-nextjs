@@ -52,5 +52,5 @@
   width: var(--scroll-bar-width);
   height: var(--scroll-bar-width);
   border-radius: var(--scroll-bar-width);
-  background: rgb(255 255 255 / 0.2);
+  background: color-mix(in srgb, theme(--color-foreground), transparent);
 }

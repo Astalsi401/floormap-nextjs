@@ -11,6 +11,7 @@ import { toggleOverview } from "@slices/floormap-slice";
 import { useDebounce } from "@/hooks/use-debounce";
 import { useAppSearchParams } from "@/hooks/use-search-params";
 import { useAppDispatch, useAppSelector } from "@/hooks";
+import { Tag } from "@ui/tag";
 
 export const Search: React.FC = () => {
   const { isWaiting, setWaiting } = useDebounce();
@@ -20,14 +21,21 @@ export const Search: React.FC = () => {
     if (isWaiting || !search.current) return;
     setSearchParams({ key: "keyword", value: search.current.value });
   };
-  const deleteTag = ({ key }: React.KeyboardEvent<HTMLInputElement>) => {
+  const deleteTag = (tag?: string) => {
+    console.log(tag);
+    const tags = JSON.parse(searchParams.get("tags") || "[]");
+    return tag
+      ? JSON.stringify(tags.filter((t: string) => t !== tag))
+      : JSON.stringify(tags.slice(0, -1));
+  };
+  const keyDownDeleteTag = ({ key }: React.KeyboardEvent<HTMLInputElement>) => {
     if (!search.current) return;
     const tags = JSON.parse(searchParams.get("tags") || "[]");
     if (tags.length === 0) return;
     if (search.current.selectionStart === 0 && key === "Backspace") {
       setSearchParams({
         key: "tags",
-        value: JSON.stringify(tags.slice(0, -1)),
+        value: deleteTag(),
       });
     }
   };
@@ -38,13 +46,13 @@ export const Search: React.FC = () => {
     <div className="flex gap-0.5 bg-background h-14">
       <ToggleOverview />
       <div className="flex flex-col grow p-0.5 max-w-[calc(100%-3.5rem)]">
-        <SearchTags searchParams={searchParams} />
+        <SearchTags deleteTag={deleteTag} />
         <Input
           ref={search}
           placeholder="Search..."
           className="grow focus-visible:outline-none"
           onChange={() => setWaiting(500)}
-          onKeyDown={deleteTag}
+          onKeyDown={keyDownDeleteTag}
         />
       </div>
       <div className="flex shrink-0 items-center h-full px-1 w-7">
@@ -68,9 +76,10 @@ const ToggleOverview: React.FC = () => {
   );
 };
 
-const SearchTags: React.FC<{ searchParams: ReadonlyURLSearchParams }> = ({
-  searchParams,
-}) => {
+const SearchTags: React.FC<{
+  deleteTag: (tag?: string) => string;
+}> = ({ deleteTag }) => {
+  const { setSearchParams, searchParams } = useAppSearchParams();
   const ref = useRef<HTMLDivElement>(null);
   const tags = JSON.parse(searchParams.get("tags") || "[]");
   useEffect(() => {
@@ -79,17 +88,17 @@ const SearchTags: React.FC<{ searchParams: ReadonlyURLSearchParams }> = ({
     }
   }, [searchParams]);
   return (
-    <OverflowFadeout
-      className="flex gap-1 text-xs w-full overflow-auto"
-      ref={ref}
-    >
+    <OverflowFadeout className="flex gap-1 text-xs w-full" ref={ref}>
       {tags.map((tag: string) => (
-        <span
-          className="bg-fp-lv4 rounded-sm text-nowrap p-0.5 block"
+        <Tag
           key={tag}
+          onClick={() =>
+            setSearchParams({ key: "tags", value: deleteTag(tag) })
+          }
+          className="bg-fp-lv4"
         >
           {tag}
-        </span>
+        </Tag>
       ))}
     </OverflowFadeout>
   );

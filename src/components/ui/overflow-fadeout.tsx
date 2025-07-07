@@ -14,7 +14,7 @@ export const OverflowFadeout = forwardRef<
   return (
     <div
       ref={ref}
-      className={clsx(className, {
+      className={clsx(className, "overflow-x-auto", {
         "mask-(--overflow-fadeout)": isOverflowing,
       })}
       {...props}
