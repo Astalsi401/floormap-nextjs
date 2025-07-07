@@ -1,19 +1,20 @@
 "use client";
 
 import { useMemo, useRef } from "react";
-import { useSearchParams } from "next/navigation";
 import { Elements } from "@floormap/elems";
 import { openModal } from "@slices/modal-slice";
 import { useAppDispatch } from "@/hooks";
+import { useAppSearchParams } from "@/hooks/use-search-params";
 import type { Elem, ElemTypes, Realsize } from "@/types";
+import { Container } from "./container";
 
 export const Floormap: React.FC<{
   realsize: Realsize[];
   elems: Elem[];
 }> = ({ realsize, elems }) => {
   const dispatch = useAppDispatch();
-  const searchparams = useSearchParams();
-  const floor = Number(searchparams.get("floor") ?? "0");
+  const { searchParams } = useAppSearchParams();
+  const floor = Number(searchParams.get("floor") ?? "1");
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<SVGSVGElement | null>(null);
   const { floorElems, viewBox } = useMemo(() => {
@@ -24,11 +25,7 @@ export const Floormap: React.FC<{
     return { floorElems, viewBox };
   }, [elems, floor]);
   return (
-    <div
-      ref={mapContainer}
-      className="size-full"
-      onContextMenu={(e) => e.preventDefault()}
-    >
+    <Container ref={mapContainer}>
       <svg
         className="size-full"
         ref={map}
@@ -42,7 +39,7 @@ export const Floormap: React.FC<{
         <Elements d={floorElems.text} />
         <Elements d={floorElems.icon} />
       </svg>
-    </div>
+    </Container>
   );
 };
 
