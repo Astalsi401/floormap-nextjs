@@ -2,7 +2,7 @@
 
 import { forwardRef } from "react";
 
-export const Container = forwardRef<
+const Container = forwardRef<
   HTMLDivElement,
   { children?: React.ReactNode; map: React.RefObject<SVGSVGElement | null> }
 >(({ children }, ref) => {
@@ -16,3 +16,6 @@ export const Container = forwardRef<
     </div>
   );
 });
+
+Container.displayName = "Container";
+export { Container };
