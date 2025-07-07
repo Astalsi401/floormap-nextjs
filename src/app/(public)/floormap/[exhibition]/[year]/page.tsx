@@ -1,12 +1,17 @@
-"use client";
+import { fetchData } from "@/data";
+import { Floormap } from "@floormap/index";
+import type { FloormapParams } from "@/types";
 
-import { useParams } from "next/navigation";
-
-export default function FloormapPage() {
-  const { exhibition, year } = useParams();
+export default async function FloormapPage({
+  params,
+}: {
+  params: Promise<FloormapParams>;
+}) {
+  const { exhibition, year } = await params;
+  const elems = await fetchData.floormap.elems({ exhibition, year });
   return (
     <div className="">
-      {exhibition} - {year}
+      <Floormap elems={elems} />
     </div>
   );
 }
