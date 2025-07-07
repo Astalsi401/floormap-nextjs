@@ -2,22 +2,24 @@
 
 import { useMemo, useRef } from "react";
 import { useSearchParams } from "next/navigation";
+import { Elements } from "@floormap/elems";
+import { openModal } from "@slices/modal-slice";
+import { useAppDispatch } from "@/hooks";
 import type { Elem, ElemTypes, Realsize } from "@/types";
-import { Elements } from "./elems";
 
 export const Floormap: React.FC<{
   realsize: Realsize[];
   elems: Elem[];
 }> = ({ realsize, elems }) => {
+  const dispatch = useAppDispatch();
   const searchparams = useSearchParams();
   const floor = Number(searchparams.get("floor") ?? "0");
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<SVGSVGElement | null>(null);
   const { floorElems, viewBox } = useMemo(() => {
-    const viewBox = realsize.find((r) => r.floor === floor);
-    if (!viewBox) {
-      throw new Error(`No viewBox found for floor ${floor}`);
-    }
+    let viewBox = realsize.find((r) => r.floor === floor);
+    if (!viewBox) dispatch(openModal(`Please set viewbox for the map`));
+    viewBox = viewBox || { width: 0, height: 0, floor };
     const floorElems = elemsFilter(elems, floor);
     return { floorElems, viewBox };
   }, [elems, floor]);
