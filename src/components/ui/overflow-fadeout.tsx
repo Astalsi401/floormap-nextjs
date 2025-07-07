@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { forwardRef, useEffect, useState } from "react";
 
-export const OverflowFadeout = forwardRef<
+const OverflowFadeout = forwardRef<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<"div">
 >(({ className, children, ...props }, ref) => {
@@ -23,3 +23,6 @@ export const OverflowFadeout = forwardRef<
     </div>
   );
 });
+
+OverflowFadeout.displayName = "OverflowFadeout";
+export { OverflowFadeout };
