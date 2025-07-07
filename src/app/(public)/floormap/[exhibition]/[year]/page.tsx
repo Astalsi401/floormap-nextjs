@@ -1,13 +1,22 @@
 import { fetchData } from "@/data";
 import { Floormap } from "@floormap/index";
 import type { FloormapParams } from "@/types";
+import { redirect } from "next/navigation";
+import { searchDefault } from "@/utils/search-default";
 
 export default async function FloormapPage({
   params,
+  searchParams,
 }: {
   params: Promise<FloormapParams>;
+  searchParams: Promise<{ floor?: string }>;
 }) {
+  const search = await searchParams;
   const { exhibition, year } = await params;
+  if (!search.floor) {
+    const searchString = searchDefault(search, { floor: "1" });
+    redirect(`/floormap/${exhibition}/${year}?${searchString}`);
+  }
   const elems = await fetchData.floormap.elems({ exhibition, year });
   const realsize = await fetchData.floormap.realsize({ exhibition, year });
   return (
