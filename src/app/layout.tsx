@@ -1,9 +1,9 @@
-import type { Metadata } from "next";
 import clsx from "clsx";
 import { SessionProvider } from "next-auth/react";
 import StoreProvider from "@/libs/redux/store-provider";
 import { Header } from "@/components/header";
 import { geistMono, geistSans } from "@/styles/font";
+import type { Metadata } from "next";
 import "@/styles/globals.css";
 
 export const metadata: Metadata = {
@@ -25,7 +25,7 @@ export default function RootLayout({
           geistSans.variable,
           geistMono.variable,
           "has-[[data-home]]:bg-(image:--bg-home)",
-          "has-[[data-floormap]]:[&_header]:ps-85 has-[[data-floormap]]:[&_header]:pe-5",
+          "has-[[data-floormap]]:[&_header]:sm:ps-85 has-[[data-floormap]]:[&_header]:pe-5",
           "has-[[data-floormap]]:[&_header]:bg-background",
           "relative antialiased bg-background text-foreground min-h-screen bg-no-repeat"
         )}
