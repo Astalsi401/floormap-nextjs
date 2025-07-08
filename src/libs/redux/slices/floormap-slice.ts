@@ -1,12 +1,14 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type FloormapState = {
   overview: boolean;
+  sidebar: boolean;
   dragStatus: { moving: boolean; distance: number };
 };
 
 const initialState: FloormapState = {
   overview: false,
+  sidebar: false,
   dragStatus: { moving: false, distance: 0 },
 };
 
@@ -17,11 +19,19 @@ export const floormapSlice = createSlice({
     toggleOverview: (state) => {
       state.overview = !state.overview;
     },
+    toggleSidebar: {
+      reducer: (state, action: PayloadAction<boolean | undefined>) => {
+        state.sidebar =
+          action.payload !== undefined ? action.payload : !state.sidebar;
+      },
+      prepare: (payload?: boolean) => ({ payload }),
+    },
     setDragStatus: (state, action) => {
       state.dragStatus = action.payload;
     },
   },
 });
 
-export const { toggleOverview, setDragStatus } = floormapSlice.actions;
+export const { toggleOverview, toggleSidebar, setDragStatus } =
+  floormapSlice.actions;
 export default floormapSlice.reducer;

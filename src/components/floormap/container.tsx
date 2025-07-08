@@ -2,7 +2,7 @@
 
 import clsx from "clsx";
 import { forwardRef } from "react";
-import { setDragStatus } from "@slices/floormap-slice";
+import { setDragStatus, toggleSidebar } from "@slices/floormap-slice";
 import { useAppDispatch, useAppSelector } from "@/hooks";
 import { dragCalculator, zoomCalculator } from "@/utils/floormap";
 
@@ -11,6 +11,7 @@ const Container = forwardRef<
   { children?: React.ReactNode; map: React.RefObject<SVGSVGElement | null> }
 >(({ children, map }, ref) => {
   const dispatch = useAppDispatch();
+  const sidebar = useAppSelector((state) => state.floormap.sidebar);
   const dragStatus = useAppSelector((state) => state.floormap.dragStatus);
   const handleStart = (newDragStatus: typeof dragStatus) =>
     dispatch(setDragStatus(newDragStatus));
@@ -117,6 +118,7 @@ const Container = forwardRef<
         "size-full overflow-hidden",
         dragStatus.moving && "cursor-move"
       )}
+      onClick={() => sidebar && dispatch(toggleSidebar(false))}
       onWheel={handleWheelZoom}
       onMouseDown={handleMouseStart}
       onMouseUp={handleMouseEnd}

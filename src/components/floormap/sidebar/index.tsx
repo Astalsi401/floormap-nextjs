@@ -1,33 +1,29 @@
+"use client";
+
 import clsx from "clsx";
-import { Suspense } from "react";
-import { Spinner } from "@ui/loading/spinner";
-import { LoadingContainer } from "@ui/loading/loading-container";
 import { Search } from "./search";
 import { Results } from "./results";
 import { Overview } from "./overview";
+import { useAppDispatch, useAppSelector } from "@/hooks";
+import { toggleSidebar } from "@slices/floormap-slice";
 
 export const Sidebar: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const sidebar = useAppSelector((state) => state.floormap.sidebar);
   return (
     <aside
+      onClick={() => !sidebar && dispatch(toggleSidebar(true))}
       className={clsx(
-        "fixed z-50",
+        sidebar ? "h-4/5" : "h-30",
+        "w-full sm:w-80 sm:h-full transition-[height] duration-300",
+        "fixed z-50 sm:top-0 bottom-0 left-0",
         "flex flex-col gap-2",
-        "bg-sidebar-bg shadow-sm shadow-fp-lv6",
-        "w-full sm:w-80 h-80 sm:h-full",
-        "sm:top-0 bottom-0 left-0"
+        "bg-sidebar-bg shadow-sm shadow-fp-lv6"
       )}
     >
       <Search />
       <div className="relative grow">
-        <Suspense
-          fallback={
-            <LoadingContainer>
-              <Spinner className="size-10" />
-            </LoadingContainer>
-          }
-        >
-          <Results />
-        </Suspense>
+        <Results />
         <Overview />
       </div>
     </aside>
