@@ -4,6 +4,7 @@ import { forwardRef } from "react";
 import { useAppDispatch, useAppSelector } from "@/hooks";
 import { setDragStatus } from "@slices/floormap-slice";
 import { dragCalculator, zoomCalculator } from "@/utils/floormap";
+import clsx from "clsx";
 
 const Container = forwardRef<
   HTMLDivElement,
@@ -112,7 +113,10 @@ const Container = forwardRef<
   return (
     <div
       ref={ref}
-      className="size-full overflow-hidden"
+      className={clsx(
+        "size-full overflow-hidden",
+        dragStatus.moving && "cursor-move"
+      )}
       onWheel={handleWheelZoom}
       onMouseDown={handleMouseStart}
       onMouseUp={handleMouseEnd}
