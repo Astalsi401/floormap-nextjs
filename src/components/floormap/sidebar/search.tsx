@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { Input } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Tag } from "@ui/tag";
 import { Button } from "@ui/button";
 import { Spinner } from "@ui/loading/spinner";
 import { OverflowFadeout } from "@ui/overflow-fadeout";
@@ -10,7 +11,6 @@ import { toggleOverview } from "@slices/floormap-slice";
 import { useDebounce } from "@/hooks/use-debounce";
 import { useAppSearchParams } from "@/hooks/use-search-params";
 import { useAppDispatch, useAppSelector } from "@/hooks";
-import { Tag } from "@ui/tag";
 
 export const Search: React.FC = () => {
   const { isWaiting, setWaiting } = useDebounce();

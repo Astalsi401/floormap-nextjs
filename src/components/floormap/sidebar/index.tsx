@@ -2,6 +2,9 @@ import clsx from "clsx";
 import { Search } from "./search";
 import { Results } from "./results";
 import { Overview } from "./overview";
+import { Suspense } from "react";
+import { Spinner } from "@ui/loading/spinner";
+import { LoadingContainer } from "@ui/loading/loading-container";
 
 export const Sidebar: React.FC = () => {
   return (
@@ -14,7 +17,15 @@ export const Sidebar: React.FC = () => {
     >
       <Search />
       <div className="relative grow">
-        <Results />
+        <Suspense
+          fallback={
+            <LoadingContainer>
+              <Spinner className="size-10" />
+            </LoadingContainer>
+          }
+        >
+          <Results />
+        </Suspense>
         <Overview />
       </div>
     </aside>
