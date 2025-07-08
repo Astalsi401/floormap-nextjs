@@ -2,6 +2,7 @@ import { FetchMethod } from "@/data/fetch/methods";
 import { API_ENDPOINTS } from "@/data/endpoints";
 import type {
   ApiResponse,
+  BoothPos,
   Elem,
   FloormapParams,
   OverviewData,
@@ -29,6 +30,16 @@ export class FetchData {
         )
         .catch((err) => {
           throw new Error(`Failed to fetch floormap elements data\n${err}`);
+        }),
+    boothPos: ({ exhibition, year }: FloormapParams) =>
+      this.method
+        .get<ApiResponse<BoothPos[]>>(
+          `${API_ENDPOINTS.FP_BOOTH_POS}/${exhibition}/${year}`
+        )
+        .catch((err) => {
+          throw new Error(
+            `Failed to fetch floormap booth position data\n${err}`
+          );
         }),
     realsize: ({ exhibition, year }: FloormapParams) =>
       this.method
