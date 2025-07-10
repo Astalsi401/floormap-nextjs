@@ -3,6 +3,8 @@ import { SessionProvider } from "next-auth/react";
 import StoreProvider from "@/libs/redux/store-provider";
 import { Header } from "@/components/header";
 import { geistMono, geistSans } from "@/styles/font";
+import { getDictionary, Locale, locales } from "@/dictionaries";
+import { DictProvider } from "@/dictionaries/provider";
 import type { Metadata } from "next";
 import "@/styles/globals.css";
 
@@ -11,15 +13,23 @@ export const metadata: Metadata = {
   description: "Expo Floormap",
 };
 
-export default function RootLayout({
+export async function generateStaticParams() {
+  return locales.map((lang) => ({ lang }));
+}
+
+export default async function RootLayout({
   children,
   modal,
+  params,
 }: Readonly<{
   children: React.ReactNode;
   modal: React.ReactNode;
+  params: Promise<{ lang: Locale }>;
 }>) {
+  const { lang } = await params;
+  const dict = await getDictionary(lang);
   return (
-    <html lang="en">
+    <html lang={lang}>
       <body
         className={clsx(
           geistSans.variable,
@@ -32,9 +42,11 @@ export default function RootLayout({
       >
         <SessionProvider>
           <StoreProvider>
-            <Header />
-            <main className="pt-16.25">{children}</main>
-            {modal}
+            <DictProvider dict={dict}>
+              <Header />
+              <main className="pt-16.25">{children}</main>
+              {modal}
+            </DictProvider>
           </StoreProvider>
         </SessionProvider>
       </body>

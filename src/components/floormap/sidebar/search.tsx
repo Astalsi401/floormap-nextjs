@@ -11,11 +11,13 @@ import { toggleOverview } from "@slices/floormap-slice";
 import { useDebounce } from "@/hooks/use-debounce";
 import { useAppSearchParams } from "@/hooks/use-search-params";
 import { useAppDispatch, useAppSelector } from "@/hooks";
+import { useDict } from "@/dictionaries/provider";
 
 export const Search: React.FC = () => {
   const { isWaiting, setWaiting } = useDebounce();
   const { setSearchParams, searchParams } = useAppSearchParams();
   const search = useRef<HTMLInputElement>(null);
+  const dict = useDict();
   const updateSearch = () => {
     if (isWaiting || !search.current) return;
     setSearchParams({ key: "keyword", value: search.current.value });
@@ -47,7 +49,7 @@ export const Search: React.FC = () => {
         <SearchTags deleteTag={deleteTag} />
         <Input
           ref={search}
-          placeholder="Search..."
+          placeholder={dict.floormap.sidebar.search}
           className="grow focus-visible:outline-none"
           onChange={() => setWaiting(500)}
           onKeyDown={keyDownDeleteTag}

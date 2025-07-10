@@ -1,0 +1,11 @@
+{
+  "floormap": {
+    "sidebar": {
+      "search": "Search..."
+    }
+  },
+  "userinfo": {
+    "signIn": "Sign in",
+    "signOut": "Sign out"
+  }
+}

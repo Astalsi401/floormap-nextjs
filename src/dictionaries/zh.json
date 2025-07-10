@@ -1,0 +1,11 @@
+{
+  "floormap": {
+    "sidebar": {
+      "search": "關鍵字搜尋..."
+    }
+  },
+  "userinfo": {
+    "signIn": "登入",
+    "signOut": "登出"
+  }
+}

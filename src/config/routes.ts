@@ -1,7 +1,7 @@
 export const Routes = {
   auth: {
-    signOut: "/sign-out",
-    signIn: "/sign-in",
+    signOut: "/auth/sign-out",
+    signIn: "/auth/sign-in",
   },
   public: {
     home: "/",
