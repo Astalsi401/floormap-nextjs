@@ -20,11 +20,13 @@ export type PathCurve = {
 };
 export type PathType = PathLine | PathCurve;
 
-export type ElemTypes = "wall" | "pillar" | "text" | "icon" | "room";
+export type ElemTypes = "wall" | "pillar" | "text" | "icon" | "room" | "booth";
 export type Elem = {
   id: string;
   type: ElemTypes;
   floor: number;
+  w: number;
+  h: number;
   x: number;
   y: number;
   fill: string;
@@ -35,6 +37,7 @@ export type Elem = {
   color: string | null;
   icon: string | null;
   shift: { x: number; y: number };
+  pillar: false;
 };
 
 export type Realsize = { floor: number; width: number; height: number };

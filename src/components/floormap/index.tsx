@@ -61,5 +61,6 @@ const elemsFilter = (elems: Elem[], floor: number) =>
       text: [],
       icon: [],
       room: [],
+      booth: [],
     }
   );

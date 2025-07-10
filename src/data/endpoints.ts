@@ -3,5 +3,4 @@ export const API_ENDPOINTS = {
   FP_OVERVIEW: `${process.env.NEXT_PUBLIC_REST_API_ENDPOINT}/api/floormap/overview`,
   FP_ELEMS: `${process.env.NEXT_PUBLIC_REST_API_ENDPOINT}/api/floormap/elems`,
   FP_REALSIZE: `${process.env.NEXT_PUBLIC_REST_API_ENDPOINT}/api/floormap/realsize`,
-  FP_BOOTH_POS: `${process.env.NEXT_PUBLIC_REST_API_ENDPOINT}/api/floormap/booth-pos`,
 };
