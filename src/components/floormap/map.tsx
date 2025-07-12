@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useMemo } from "react";
+import { forwardRef, useMemo } from "react";
 import { Elements } from "@floormap/elems";
 import { openModal } from "@slices/modal-slice";
 import { useAppDispatch } from "@/hooks";

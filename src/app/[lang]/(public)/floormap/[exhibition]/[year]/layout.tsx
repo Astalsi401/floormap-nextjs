@@ -1,4 +1,3 @@
-import clsx from "clsx";
 import { Sidebar } from "@floormap/sidebar";
 import type { Viewport } from "next";
 

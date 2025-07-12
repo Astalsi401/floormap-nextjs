@@ -1,9 +1,9 @@
 "use client";
 
 import { useRef } from "react";
+import dynamic from "next/dynamic";
 import { Container } from "@floormap/container";
 import type { Elem, Realsize } from "@/types";
-import dynamic from "next/dynamic";
 
 const MapSvg = dynamic(
   () => import("@floormap/map").then((mod) => mod.MapSvg),
