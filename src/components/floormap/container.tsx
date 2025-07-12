@@ -1,10 +1,16 @@
 "use client";
 
 import clsx from "clsx";
-import { forwardRef, useRef } from "react";
+import { forwardRef, useEffect, useRef } from "react";
 import { setDragStatus, toggleSidebar } from "@slices/floormap-slice";
 import { useAppDispatch, useAppSelector } from "@/hooks";
 import { dragCalculator, zoomCalculator } from "@/utils/floormap";
+
+const defaultPendingDrag = {
+  x: null,
+  y: null,
+  d: null,
+};
 
 const Container = forwardRef<
   HTMLDivElement,
@@ -14,7 +20,11 @@ const Container = forwardRef<
   const sidebar = useAppSelector((state) => state.floormap.sidebar);
   const dragStatus = useAppSelector((state) => state.floormap.dragStatus);
   const animationRef = useRef<number | null>(null);
-  const pendingDragRef = useRef<{ x: number; y: number } | null>(null);
+  const pendingDragRef = useRef<{
+    x: number | null;
+    y: number | null;
+    d: number | null;
+  }>(defaultPendingDrag);
   const handleStart = (newDragStatus: typeof dragStatus) =>
     dispatch(setDragStatus(newDragStatus));
   const handleMouseStart = (e: React.MouseEvent) =>
@@ -25,13 +35,7 @@ const Container = forwardRef<
       distance: e.touches[0].clientX + e.touches[0].clientY,
     });
   const handleEnd = (x: number, y: number) => {
-    const container = getRefElem(ref);
-    if (!container) return;
-    Object.assign(container.dataset, {
-      prevX: null,
-      prevY: null,
-      prevD: null,
-    });
+    pendingDragRef.current = defaultPendingDrag;
     dispatch(
       setDragStatus({ moving: false, distance: x + y - dragStatus.distance })
     );
@@ -43,11 +47,8 @@ const Container = forwardRef<
     handleEnd(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
   };
   const handleTouchDrag = (touches: React.TouchList) => {
-    const container = getRefElem(ref);
-    if (!container) return;
     const [touch] = Array.from(touches),
-      prevX = Math.round(Number(container.dataset.prevX)),
-      prevY = Math.round(Number(container.dataset.prevY));
+      { x: prevX, y: prevY } = pendingDragRef.current;
     if (!animationRef.current && prevX && prevY && dragStatus.moving) {
       animationRef.current = requestAnimationFrame(() => {
         map.current &&
@@ -59,14 +60,12 @@ const Container = forwardRef<
         animationRef.current = null;
       });
     }
-    Object.assign(container.dataset, {
-      prevX: touch.clientX,
-      prevY: touch.clientY,
-    });
+    pendingDragRef.current.x = touch.clientX;
+    pendingDragRef.current.y = touch.clientY;
   };
   const handleTouchZoom = (touches: React.TouchList) => {
-    const container = getRefElem(ref);
-    if (!container || !map.current) return;
+    const graph = getRefElem(ref);
+    if (!graph || !map.current) return;
     const [touch1, touch2] = Array.from(touches),
       x = (touch1.clientX + touch2.clientX) / 2,
       y = (touch1.clientY + touch2.clientY) / 2,
@@ -76,21 +75,21 @@ const Container = forwardRef<
           touch1.clientY - touch2.clientY
         )
       ),
-      prevD = Math.round(Number(container.dataset.prevD));
+      { d: prevD } = pendingDragRef.current;
     if (!animationRef.current && prevD) {
       animationRef.current = requestAnimationFrame(() => {
-        if (!(container && map.current)) return;
+        if (!map.current) return;
         zoomCalculator({
           clientX: x,
           clientY: y,
-          graph: container,
+          graph,
           svg: map.current,
           r: d / prevD,
         });
         animationRef.current = null;
       });
     }
-    container.dataset.prevD = String(d);
+    pendingDragRef.current.d = d;
   };
   const handleTouchDragZoom = ({ touches }: React.TouchEvent) => {
     touches.length === 1 ? handleTouchDrag(touches) : handleTouchZoom(touches);
@@ -119,6 +118,14 @@ const Container = forwardRef<
       animationRef.current = null;
     });
   };
+  useEffect(() => {
+    return () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+        animationRef.current = null;
+      }
+    };
+  }, []);
   return (
     <div
       ref={ref}
