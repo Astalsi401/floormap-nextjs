@@ -36,7 +36,7 @@ export default async function RootLayout({
           geistMono.variable,
           "has-[[data-home]]:bg-(image:--bg-home)",
           "has-[[data-floormap]]:[&_header]:sm:ps-85 has-[[data-floormap]]:[&_header]:pe-5",
-          "has-[[data-floormap]]:[&_header]:bg-background",
+          "has-[[data-floormap]]:[&_header]:shadow-xs has-[[data-floormap]]:[&_header]:shadow-fp-lv6",
           "relative antialiased bg-background text-foreground min-h-screen bg-no-repeat"
         )}
       >
