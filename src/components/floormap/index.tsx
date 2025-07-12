@@ -1,17 +1,25 @@
 "use client";
 
 import { useMemo, useRef } from "react";
-import { Elements } from "@floormap/elems";
+import dynamic from "next/dynamic";
 import { Container } from "@floormap/container";
 import { openModal } from "@slices/modal-slice";
 import { useAppDispatch } from "@/hooks";
 import { useAppSearchParams } from "@/hooks/use-search-params";
 import type { Elem, ElemTypes, Realsize } from "@/types";
 
+const Elements = dynamic(
+  () => import("@floormap/elems").then((mod) => mod.Elements),
+  {
+    ssr: false,
+  }
+);
+
 export const Floormap: React.FC<{
   realsize: Realsize[];
   elems: Elem[];
-}> = ({ realsize, elems }) => {
+  children?: React.ReactNode;
+}> = ({ realsize, elems, children }) => {
   const dispatch = useAppDispatch();
   const { searchParams } = useAppSearchParams();
   const floor = Number(searchParams.get("floor") ?? "1");
@@ -32,17 +40,18 @@ export const Floormap: React.FC<{
     viewBox && (
       <Container ref={mapContainer} map={map}>
         <svg
-          className="size-full"
+          className="size-full select-none"
           ref={map}
           style={{ translate: `0px 0px`, scale: "1" }}
           xmlns="http://www.w3.org/2000/svg"
           viewBox={`0 0 ${viewBox.width} ${viewBox.height}`}
         >
-          <Elements d={floorElems.wall} />
-          <Elements d={floorElems.pillar} />
-          <Elements d={floorElems.room} />
-          <Elements d={floorElems.text} />
-          <Elements d={floorElems.icon} />
+          <Elements elems={floorElems.wall} />
+          <Elements elems={floorElems.pillar} />
+          <Elements elems={floorElems.room} />
+          <Elements elems={floorElems.text} />
+          <Elements elems={floorElems.icon} />
+          {children}
         </svg>
       </Container>
     )
