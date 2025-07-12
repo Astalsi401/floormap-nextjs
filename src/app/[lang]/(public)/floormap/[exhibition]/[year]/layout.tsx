@@ -17,7 +17,7 @@ export default async function FloorMapLayout({
 }) {
   return (
     <div data-floormap className="-mt-16.25 h-svh">
-      <div className="sm:ps-80 h-full">
+      <div className="pt-16.25 sm:ps-80 h-full">
         <Sidebar />
         {children}
       </div>
