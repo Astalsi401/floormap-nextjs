@@ -1,7 +1,7 @@
 "use client";
 
 import clsx from "clsx";
-import { forwardRef } from "react";
+import { forwardRef, useRef } from "react";
 import { setDragStatus, toggleSidebar } from "@slices/floormap-slice";
 import { useAppDispatch, useAppSelector } from "@/hooks";
 import { dragCalculator, zoomCalculator } from "@/utils/floormap";
@@ -13,6 +13,8 @@ const Container = forwardRef<
   const dispatch = useAppDispatch();
   const sidebar = useAppSelector((state) => state.floormap.sidebar);
   const dragStatus = useAppSelector((state) => state.floormap.dragStatus);
+  const animationRef = useRef<number | null>(null);
+  const pendingDragRef = useRef<{ x: number; y: number } | null>(null);
   const handleStart = (newDragStatus: typeof dragStatus) =>
     dispatch(setDragStatus(newDragStatus));
   const handleMouseStart = (e: React.MouseEvent) =>
@@ -34,28 +36,29 @@ const Container = forwardRef<
       setDragStatus({ moving: false, distance: x + y - dragStatus.distance })
     );
   };
-  const handleMouseEnd = (e: React.MouseEvent) =>
+  const handleMouseEnd = (e: React.MouseEvent) => {
     handleEnd(e.clientX, e.clientY);
-  const handleTouchEnd = (e: React.TouchEvent) =>
+  };
+  const handleTouchEnd = (e: React.TouchEvent) => {
     handleEnd(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
+  };
   const handleTouchDrag = (touches: React.TouchList) => {
     const container = getRefElem(ref);
     if (!container) return;
     const [touch] = Array.from(touches),
       prevX = Math.round(Number(container.dataset.prevX)),
       prevY = Math.round(Number(container.dataset.prevY));
-    prevX &&
-      prevY &&
-      dragStatus.moving &&
-      requestAnimationFrame(
-        () =>
-          map.current &&
+    if (!animationRef.current && prevX && prevY && dragStatus.moving) {
+      animationRef.current = requestAnimationFrame(() => {
+        map.current &&
           dragCalculator({
             x: touch.clientX - prevX,
             y: touch.clientY - prevY,
             svg: map.current,
-          })
-      );
+          });
+        animationRef.current = null;
+      });
+    }
     Object.assign(container.dataset, {
       prevX: touch.clientX,
       prevY: touch.clientY,
@@ -74,32 +77,35 @@ const Container = forwardRef<
         )
       ),
       prevD = Math.round(Number(container.dataset.prevD));
-    prevD &&
-      requestAnimationFrame(
-        () =>
-          container &&
-          map.current &&
-          zoomCalculator({
-            clientX: x,
-            clientY: y,
-            graph: container,
-            svg: map.current,
-            r: d / prevD,
-          })
-      );
+    if (!animationRef.current && prevD) {
+      animationRef.current = requestAnimationFrame(() => {
+        if (!(container && map.current)) return;
+        zoomCalculator({
+          clientX: x,
+          clientY: y,
+          graph: container,
+          svg: map.current,
+          r: d / prevD,
+        });
+        animationRef.current = null;
+      });
+    }
     container.dataset.prevD = String(d);
   };
-  const handleTouchDragZoom = ({ touches }: React.TouchEvent) =>
+  const handleTouchDragZoom = ({ touches }: React.TouchEvent) => {
     touches.length === 1 ? handleTouchDrag(touches) : handleTouchZoom(touches);
-  const handleMouseDrag = ({ movementX, movementY }: React.MouseEvent) =>
-    dragStatus.moving &&
-    requestAnimationFrame(
-      () =>
-        map.current &&
-        dragCalculator({ x: movementX, y: movementY, svg: map.current })
-    );
-  const handleWheelZoom = ({ clientX, clientY, deltaY }: React.WheelEvent) =>
-    requestAnimationFrame(() => {
+  };
+  const handleMouseDrag = ({ movementX, movementY }: React.MouseEvent) => {
+    if (animationRef.current || !dragStatus.moving) return;
+    animationRef.current = requestAnimationFrame(() => {
+      if (!map.current) return;
+      dragCalculator({ x: movementX, y: movementY, svg: map.current });
+      animationRef.current = null;
+    });
+  };
+  const handleWheelZoom = ({ clientX, clientY, deltaY }: React.WheelEvent) => {
+    if (animationRef.current) return;
+    animationRef.current = requestAnimationFrame(() => {
       const graph = getRefElem(ref);
       graph &&
         map.current &&
@@ -110,7 +116,9 @@ const Container = forwardRef<
           svg: map.current,
           r: deltaY > 0 ? 0.95 : deltaY < 0 ? 1.05 : 1,
         });
+      animationRef.current = null;
     });
+  };
   return (
     <div
       ref={ref}
