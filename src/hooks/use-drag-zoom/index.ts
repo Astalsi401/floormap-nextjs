@@ -94,22 +94,18 @@ export const useDragZoom = () => {
       if (!target || !(target instanceof Element)) return false;
       return target.closest("[data-scroll]") !== null;
     };
-    document.addEventListener(
-      "touchmove",
-      (e) => !isInScrollableArea(e.target) && e.preventDefault(),
-      {
-        passive: false,
-        signal,
-      }
-    );
-    document.addEventListener(
-      "wheel",
-      (e) => !isInScrollableArea(e.target) && e.preventDefault(),
-      {
-        passive: false,
-        signal,
-      }
-    );
+    const preventDefault = (e: Event) => {
+      if (isInScrollableArea(e.target)) return;
+      e.preventDefault();
+    };
+    document.addEventListener("touchmove", preventDefault, {
+      passive: false,
+      signal,
+    });
+    document.addEventListener("wheel", preventDefault, {
+      passive: false,
+      signal,
+    });
     return () => {
       controller.abort();
     };

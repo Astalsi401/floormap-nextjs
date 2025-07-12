@@ -57,7 +57,7 @@ export const useTouchGestures = (
       });
       pendingDragRef.current.d = d;
     },
-    [graphRef, mapRef]
+    [graphRef, mapRef, dragStatus.moving]
   );
   const handleTouchMove = useCallback(
     ({ touches }: React.TouchEvent) => {
