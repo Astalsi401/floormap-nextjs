@@ -54,10 +54,3 @@
   border-radius: var(--scroll-bar-width);
   background: color-mix(in srgb, theme(--color-foreground), transparent);
 }
-
-/* globals.css - 為不支援 svh 的瀏覽器提供回退 */
-@supports not (height: 100svh) {
-  .h-\[100svh\] {
-    height: calc(var(--vh, 1vh) * 100);
-  }
-}

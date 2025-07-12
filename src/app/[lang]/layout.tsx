@@ -44,7 +44,7 @@ export default async function RootLayout({
           <StoreProvider>
             <DictProvider dict={dict}>
               <Header />
-              <main className="pt-16.25">{children}</main>
+              <main className="pt-16.25 min-h-screen h-full">{children}</main>
               {modal}
             </DictProvider>
           </StoreProvider>

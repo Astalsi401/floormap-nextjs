@@ -1,4 +1,4 @@
-import { forwardRef, useMemo } from "react";
+import { forwardRef, useEffect, useMemo } from "react";
 import { Elements } from "@floormap/elems";
 import { openModal } from "@slices/modal-slice";
 import { useAppDispatch } from "@/hooks";
@@ -31,7 +31,10 @@ const MapSvg = forwardRef<SVGSVGElement, MapProps>(
         navigator.userAgent
       );
     }, [navigator.userAgent]);
-    const height = useMemo(() => window.innerHeight - 65, [isMobile]);
+    const height = useMemo(() => window.innerHeight, [isMobile]);
+    useEffect(() => {
+      document.body.style.height = `${height}px`;
+    }, [height]);
     if (!floorElems || !viewBox) return null;
     return (
       <svg
