@@ -1,8 +1,8 @@
-import { fetchData } from "@/data";
-import { Floormap } from "@floormap/index";
-import type { FloormapParams } from "@/types";
 import { redirect } from "next/navigation";
+import { Floormap } from "@floormap/index";
+import { fetchData } from "@/data";
 import { searchDefault } from "@/utils/search-default";
+import type { FloormapParams } from "@/types";
 
 export default async function FloormapPage({
   params,
