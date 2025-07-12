@@ -33,7 +33,6 @@ const Container = forwardRef<
   };
   const handleEnd = (x: number, y: number) => {
     pendingDragRef.current = { x: null, y: null, d: null };
-    console.log("drag end", { x, y, pendingDragRef: pendingDragRef.current });
     dispatch(
       setDragStatus({ moving: false, distance: x + y - dragStatus.distance })
     );
