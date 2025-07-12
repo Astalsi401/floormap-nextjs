@@ -17,7 +17,7 @@ export default async function FloorMapLayout({
   children: Readonly<React.ReactNode>;
 }) {
   return (
-    <div data-floormap className={clsx("h-full")}>
+    <div data-floormap className="-mt-16.25 h-svh">
       <div className="sm:ps-80 h-full">
         <Sidebar />
         {children}

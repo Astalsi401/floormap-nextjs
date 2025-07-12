@@ -37,6 +37,7 @@ export default async function RootLayout({
           "has-[[data-home]]:bg-(image:--bg-home)",
           "has-[[data-floormap]]:[&_header]:sm:ps-85 has-[[data-floormap]]:[&_header]:pe-5",
           "has-[[data-floormap]]:[&_header]:shadow-xs has-[[data-floormap]]:[&_header]:shadow-fp-lv6",
+          "has-[[data-floormap]]:[&_header]:bg-background/80",
           "relative antialiased bg-background text-foreground min-h-screen bg-no-repeat"
         )}
       >
@@ -44,7 +45,7 @@ export default async function RootLayout({
           <StoreProvider>
             <DictProvider dict={dict}>
               <Header />
-              <main className="pt-16.25 min-h-screen h-full">{children}</main>
+              <main className="pt-16.25">{children}</main>
               {modal}
             </DictProvider>
           </StoreProvider>

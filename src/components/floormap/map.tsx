@@ -26,15 +26,6 @@ const MapSvg = forwardRef<SVGSVGElement, MapProps>(
       const floorElems = elemsFilter(elems, floor);
       return { floorElems, viewBox };
     }, [elems, floor]);
-    const isMobile = useMemo(() => {
-      return /windows phone|android|iPad|iPhone|iPod/i.test(
-        navigator.userAgent
-      );
-    }, [navigator.userAgent]);
-    const height = useMemo(() => window.innerHeight, [isMobile]);
-    useEffect(() => {
-      document.body.style.height = `${height}px`;
-    }, [height]);
     if (!floorElems || !viewBox) return null;
     return (
       <svg
@@ -43,7 +34,6 @@ const MapSvg = forwardRef<SVGSVGElement, MapProps>(
         style={{ translate: `0px 0px`, scale: "1" }}
         xmlns="http://www.w3.org/2000/svg"
         viewBox={`0 0 ${viewBox.width} ${viewBox.height}`}
-        height={height}
       >
         <Elements elems={floorElems.wall} />
         <Elements elems={floorElems.pillar} />
