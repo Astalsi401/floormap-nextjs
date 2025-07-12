@@ -1,8 +1,8 @@
 "use client";
 
-import { useRef } from "react";
 import dynamic from "next/dynamic";
 import { Container } from "@floormap/container";
+import { useDragZoom } from "@/hooks/use-drag-zoom";
 import type { Elem, Realsize } from "@/types";
 
 const MapSvg = dynamic(
@@ -15,11 +15,10 @@ export const Floormap: React.FC<{
   elems: Elem[];
   children?: React.ReactNode;
 }> = ({ realsize, elems, children }) => {
-  const mapContainer = useRef<HTMLDivElement>(null);
-  const map = useRef<SVGSVGElement | null>(null);
+  const { graphRef, mapRef, userActions } = useDragZoom();
   return (
-    <Container ref={mapContainer} map={map}>
-      <MapSvg ref={map} realsize={realsize} elems={elems}>
+    <Container ref={graphRef} {...userActions}>
+      <MapSvg ref={mapRef} realsize={realsize} elems={elems}>
         {children}
       </MapSvg>
     </Container>
