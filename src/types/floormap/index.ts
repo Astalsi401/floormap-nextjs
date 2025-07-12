@@ -3,6 +3,8 @@ export type OverviewData = {
   items: { id: string; label: string; count: number }[];
 };
 
+export type Realsize = { floor: number; width: number; height: number };
+
 export type FloormapParams = {
   exhibition: string;
   year: string;
@@ -40,4 +42,11 @@ export type Elem = {
   pillar: false;
 };
 
-export type Realsize = { floor: number; width: number; height: number };
+export type SoldBooth = {
+  id: string;
+  area: string;
+  tags: string[];
+  text: string;
+  size: number;
+  booths: string[];
+};

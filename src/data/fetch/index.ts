@@ -6,6 +6,7 @@ import type {
   FloormapParams,
   OverviewData,
   Realsize,
+  SoldBooth,
 } from "@/types";
 
 export class FetchData {
@@ -22,6 +23,14 @@ export class FetchData {
         .catch((err) => {
           throw new Error(`Failed to fetch floormap overview data\n${err}`);
         }),
+    realsize: ({ exhibition, year }: FloormapParams) =>
+      this.method
+        .get<ApiResponse<Realsize[]>>(
+          `${API_ENDPOINTS.FP_REALSIZE}/${exhibition}/${year}`
+        )
+        .catch((err) => {
+          throw new Error(`Failed to fetch floormap real size data\n${err}`);
+        }),
     elems: ({ exhibition, year }: FloormapParams) =>
       this.method
         .get<ApiResponse<Elem[]>>(
@@ -30,13 +39,13 @@ export class FetchData {
         .catch((err) => {
           throw new Error(`Failed to fetch floormap elements data\n${err}`);
         }),
-    realsize: ({ exhibition, year }: FloormapParams) =>
+    soldBooths: ({ exhibition, year }: FloormapParams) =>
       this.method
-        .get<ApiResponse<Realsize[]>>(
-          `${API_ENDPOINTS.FP_REALSIZE}/${exhibition}/${year}`
+        .get<ApiResponse<SoldBooth[]>>(
+          `${API_ENDPOINTS.FP_SOLD_BOOTHS}/${exhibition}/${year}`
         )
         .catch((err) => {
-          throw new Error(`Failed to fetch floormap real size data\n${err}`);
+          throw new Error(`Failed to fetch sold booths data\n${err}`);
         }),
   };
 }
