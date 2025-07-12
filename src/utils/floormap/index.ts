@@ -11,6 +11,7 @@ export const dragCalculator = ({
 }) => {
   const { prevx, prevy } = prevTranslateScale(svg);
   animate && animation(svg);
+  console.log("drag calculator", { prevx, x, y, prevy });
   svg.style.translate = `${prevx + x}px ${prevy + y}px`;
 };
 

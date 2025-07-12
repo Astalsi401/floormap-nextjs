@@ -6,12 +6,6 @@ import { setDragStatus, toggleSidebar } from "@slices/floormap-slice";
 import { useAppDispatch, useAppSelector } from "@/hooks";
 import { dragCalculator, zoomCalculator } from "@/utils/floormap";
 
-const defaultPendingDrag = {
-  x: null,
-  y: null,
-  d: null,
-};
-
 const Container = forwardRef<
   HTMLDivElement,
   { children?: React.ReactNode; map: React.RefObject<SVGSVGElement | null> }
@@ -24,18 +18,22 @@ const Container = forwardRef<
     x: number | null;
     y: number | null;
     d: number | null;
-  }>(defaultPendingDrag);
-  const handleStart = (newDragStatus: typeof dragStatus) =>
+  }>({ x: null, y: null, d: null });
+  const handleStart = (newDragStatus: typeof dragStatus) => {
     dispatch(setDragStatus(newDragStatus));
-  const handleMouseStart = (e: React.MouseEvent) =>
+  };
+  const handleMouseStart = (e: React.MouseEvent) => {
     handleStart({ moving: e.button === 0, distance: e.clientX + e.clientY });
-  const handleTouchStart = (e: React.TouchEvent) =>
+  };
+  const handleTouchStart = (e: React.TouchEvent) => {
     handleStart({
       moving: true,
       distance: e.touches[0].clientX + e.touches[0].clientY,
     });
+  };
   const handleEnd = (x: number, y: number) => {
-    pendingDragRef.current = defaultPendingDrag;
+    pendingDragRef.current = { x: null, y: null, d: null };
+    console.log("drag end", { x, y, pendingDragRef: pendingDragRef.current });
     dispatch(
       setDragStatus({ moving: false, distance: x + y - dragStatus.distance })
     );
@@ -106,15 +104,14 @@ const Container = forwardRef<
     if (animationRef.current) return;
     animationRef.current = requestAnimationFrame(() => {
       const graph = getRefElem(ref);
-      graph &&
-        map.current &&
-        zoomCalculator({
-          clientX,
-          clientY,
-          graph,
-          svg: map.current,
-          r: deltaY > 0 ? 0.95 : deltaY < 0 ? 1.05 : 1,
-        });
+      if (!graph || !map.current) return;
+      zoomCalculator({
+        clientX,
+        clientY,
+        graph,
+        svg: map.current,
+        r: deltaY > 0 ? 0.85 : deltaY < 0 ? 1.15 : 1,
+      });
       animationRef.current = null;
     });
   };
