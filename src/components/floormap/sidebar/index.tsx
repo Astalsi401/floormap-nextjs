@@ -1,11 +1,11 @@
 "use client";
 
 import clsx from "clsx";
+import { useAppDispatch, useAppSelector } from "@/hooks";
+import { toggleSidebar } from "@slices/floormap-slice";
 import { Search } from "./search";
 import { Results } from "./results";
 import { Overview } from "./overview";
-import { useAppDispatch, useAppSelector } from "@/hooks";
-import { toggleSidebar } from "@slices/floormap-slice";
 
 export const Sidebar: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -22,7 +22,7 @@ export const Sidebar: React.FC = () => {
       )}
     >
       <Search />
-      <div className="relative grow">
+      <div className="relative grow h-[calc(100%-4rem)]">
         <Results />
         <Overview />
       </div>

@@ -115,11 +115,35 @@ const Container = forwardRef<
     });
   };
   useEffect(() => {
+    const controller = new AbortController();
+    const { signal } = controller;
+    // 防止頁面滾動（避免觸發地址欄隱藏）
+    const isInScrollableArea = (target: EventTarget | null): boolean => {
+      if (!target || !(target instanceof Element)) return false;
+      return target.closest("[data-scroll]") !== null;
+    };
+    document.addEventListener(
+      "touchmove",
+      (e) => !isInScrollableArea(e.target) && e.preventDefault(),
+      {
+        passive: false,
+        signal,
+      }
+    );
+    document.addEventListener(
+      "wheel",
+      (e) => !isInScrollableArea(e.target) && e.preventDefault(),
+      {
+        passive: false,
+        signal,
+      }
+    );
     return () => {
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
         animationRef.current = null;
       }
+      controller.abort();
     };
   }, []);
   return (
