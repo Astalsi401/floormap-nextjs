@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
 import { auth } from "@/libs/nextauth/auth";
 import { locales } from "@/dictionaries";
 import { Routes } from "@/config/routes";
+import type { NextRequest } from "next/server";
 
 function getLocale(request: NextRequest): string {
   const acceptLanguage = request.headers.get("accept-language");
