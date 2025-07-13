@@ -96,7 +96,7 @@ const soldElemsFilter = ({
       return {
         ...elem,
         ...(soldBooth || {
-          area: "",
+          area: null,
           tags: [],
           text: "",
           size: 1,
