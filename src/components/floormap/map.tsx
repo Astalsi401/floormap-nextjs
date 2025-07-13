@@ -2,7 +2,6 @@ import { forwardRef } from "react";
 import { Elements } from "@floormap/elems";
 import { useMapElems } from "@/hooks/use-map-elems";
 import type { Elem, Realsize, SoldBooth } from "@/types";
-import { Booth } from "./elems/booth";
 
 export type MapProps = {
   realsize: Realsize[];
