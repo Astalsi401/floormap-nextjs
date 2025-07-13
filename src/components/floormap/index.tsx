@@ -1,15 +1,12 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { Container } from "@floormap/container";
 import { useDragZoom } from "@/hooks/use-drag-zoom";
 import type { Elem, Realsize, SoldBooth } from "@/types";
 
 const MapSvg = dynamic(
   () => import("@floormap/map").then((mod) => mod.MapSvg),
-  { ssr: false }
-);
-const Container = dynamic(
-  () => import("@floormap/container").then((mod) => mod.Container),
   { ssr: false }
 );
 
