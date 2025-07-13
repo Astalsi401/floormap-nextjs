@@ -48,7 +48,9 @@ export const Booth: React.FC<{ elem: Elem; size: number }> = ({
               elem.icon in icons
                 ? svgToBase64({
                     Component: icons[elem.icon],
-                    props: { color: getCssVariable("--foreground") },
+                    props: {
+                      color: getCssVariable(elem.color || "--foreground"),
+                    },
                   })
                 : undefined
             }
