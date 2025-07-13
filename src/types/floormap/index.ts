@@ -6,6 +6,7 @@ export type OverviewData = {
 export type Realsize = { floor: number; width: number; height: number };
 
 export type FloormapParams = {
+  lang: string;
   exhibition: string;
   year: string;
 };
@@ -51,6 +52,13 @@ export type SoldBooth = {
   booths: string[];
 };
 export type SoldBoothElem = SoldBooth & Elem;
+
+export type Exhibitor = {
+  _id: string;
+  id: string;
+  org: string;
+  info: string;
+};
 
 export type Area = {
   id: string;

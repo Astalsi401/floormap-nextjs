@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { openModal } from "@slices/modal-slice";
 import { useAppDispatch } from "@/hooks/use-redux";
 import { useAppSearchParams } from "@/hooks/use-search-params";
@@ -13,6 +13,7 @@ import type {
   SoldBooth,
   SoldBoothElem,
 } from "@/types";
+import { setSoldElems } from "@slices/floormap-slice";
 
 export const useMapElems = ({
   realsize,
@@ -47,6 +48,10 @@ export const useMapElems = ({
     });
     return { floorElems, viewBox, soldElems };
   }, [elems, soldBooths, floor]);
+  useEffect(() => {
+    if (!soldElems) return;
+    dispatch(setSoldElems(soldElems));
+  }, [soldElems]);
   return { floorElems, viewBox, soldElems };
 };
 

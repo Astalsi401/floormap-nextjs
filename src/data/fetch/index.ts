@@ -4,6 +4,7 @@ import type {
   ApiResponse,
   Area,
   Elem,
+  Exhibitor,
   FloormapParams,
   OverviewData,
   Realsize,
@@ -16,42 +17,50 @@ export class FetchData {
     this.method = new FetchMethod();
   }
   floormap = {
-    overview: ({ exhibition, year }: FloormapParams) =>
+    overview: ({ lang, exhibition, year }: FloormapParams) =>
       this.method
         .get<ApiResponse<OverviewData[]>>(
-          `${API_ENDPOINTS.FP_OVERVIEW}/${exhibition}/${year}`
+          `${API_ENDPOINTS.FP_OVERVIEW}/${exhibition}/${year}?lang=${lang}`
         )
         .catch((err) => {
           throw new Error(`Failed to fetch floormap overview data\n${err}`);
         }),
-    realsize: ({ exhibition, year }: FloormapParams) =>
+    realsize: ({ lang, exhibition, year }: FloormapParams) =>
       this.method
         .get<ApiResponse<Realsize[]>>(
-          `${API_ENDPOINTS.FP_REALSIZE}/${exhibition}/${year}`
+          `${API_ENDPOINTS.FP_REALSIZE}/${exhibition}/${year}?lang=${lang}`
         )
         .catch((err) => {
           throw new Error(`Failed to fetch floormap real size data\n${err}`);
         }),
-    elems: ({ exhibition, year }: FloormapParams) =>
+    elems: ({ lang, exhibition, year }: FloormapParams) =>
       this.method
         .get<ApiResponse<Elem[]>>(
-          `${API_ENDPOINTS.FP_ELEMS}/${exhibition}/${year}`
+          `${API_ENDPOINTS.FP_ELEMS}/${exhibition}/${year}?lang=${lang}`
         )
         .catch((err) => {
           throw new Error(`Failed to fetch floormap elements data\n${err}`);
         }),
-    soldBooths: ({ exhibition, year }: FloormapParams) =>
+    soldBooths: ({ lang, exhibition, year }: FloormapParams) =>
       this.method
         .get<ApiResponse<SoldBooth[]>>(
-          `${API_ENDPOINTS.FP_SOLD_BOOTHS}/${exhibition}/${year}`
+          `${API_ENDPOINTS.FP_SOLD_BOOTHS}/${exhibition}/${year}?lang=${lang}`
         )
         .catch((err) => {
           throw new Error(`Failed to fetch sold booths data\n${err}`);
         }),
-    areas: ({ exhibition, year }: FloormapParams) =>
+    exhibitors: ({ lang, exhibition, year }: FloormapParams) =>
+      this.method
+        .get<ApiResponse<Exhibitor[]>>(
+          `${API_ENDPOINTS.FP_EXHIBITORS}/${exhibition}/${year}?lang=${lang}`
+        )
+        .catch((err) => {
+          throw new Error(`Failed to fetch exhibitors data\n${err}`);
+        }),
+    areas: ({ lang, exhibition, year }: FloormapParams) =>
       this.method
         .get<ApiResponse<Area[]>>(
-          `${API_ENDPOINTS.FP_AREAS}/${exhibition}/${year}`
+          `${API_ENDPOINTS.FP_AREAS}/${exhibition}/${year}?lang=${lang}`
         )
         .catch((err) => {
           throw new Error(`Failed to fetch areas data\n${err}`);

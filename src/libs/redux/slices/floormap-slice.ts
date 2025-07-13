@@ -1,15 +1,18 @@
+import { SoldBoothElem } from "@/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type FloormapState = {
   overview: boolean;
   sidebar: boolean;
   dragStatus: { moving: boolean; distance: number };
+  soldElems: SoldBoothElem[];
 };
 
 const initialState: FloormapState = {
   overview: false,
   sidebar: false,
   dragStatus: { moving: false, distance: 0 },
+  soldElems: [],
 };
 
 export const floormapSlice = createSlice({
@@ -32,9 +35,12 @@ export const floormapSlice = createSlice({
     ) => {
       state.dragStatus = action.payload;
     },
+    setSoldElems: (state, action: PayloadAction<SoldBoothElem[]>) => {
+      state.soldElems = action.payload;
+    },
   },
 });
 
-export const { toggleOverview, toggleSidebar, setDragStatus } =
+export const { toggleOverview, toggleSidebar, setDragStatus, setSoldElems } =
   floormapSlice.actions;
 export default floormapSlice.reducer;

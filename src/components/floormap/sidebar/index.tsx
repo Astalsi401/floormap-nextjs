@@ -3,11 +3,14 @@
 import clsx from "clsx";
 import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import { toggleSidebar } from "@slices/floormap-slice";
+import type { Exhibitor } from "@/types";
 import { Search } from "./search";
 import { Results } from "./results";
 import { Overview } from "./overview";
 
-export const Sidebar: React.FC = () => {
+export const Sidebar: React.FC<{ exhibitors: Exhibitor[] }> = ({
+  exhibitors,
+}) => {
   const dispatch = useAppDispatch();
   const sidebar = useAppSelector((state) => state.floormap.sidebar);
   return (
@@ -23,7 +26,7 @@ export const Sidebar: React.FC = () => {
     >
       <Search />
       <div className="relative grow h-[calc(100%-4rem)]">
-        <Results />
+        <Results exhibitors={exhibitors} />
         <Overview />
       </div>
     </aside>

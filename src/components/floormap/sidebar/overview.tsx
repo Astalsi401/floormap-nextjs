@@ -10,16 +10,17 @@ import { fetchData } from "@/data";
 import type { OverviewData, FloormapParams } from "@/types";
 
 export const Overview: React.FC = () => {
-  const { exhibition, year } = useParams<FloormapParams>();
+  const params = useParams<FloormapParams>();
   const overviewToggle = useAppSelector((state) => state.floormap.overview);
   const [overviews, setOverviews] = useState<OverviewData[]>([]);
   const [isPending, startTransition] = useTransition();
   useEffect(() => {
+    if (!overviewToggle) return;
     startTransition(async () => {
-      const res = await fetchData.floormap.overview({ exhibition, year });
+      const res = await fetchData.floormap.overview(params);
       setOverviews(res);
     });
-  }, [exhibition, year]);
+  }, [params, overviewToggle]);
   return (
     <div
       className={clsx(
