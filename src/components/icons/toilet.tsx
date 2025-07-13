@@ -35,3 +35,4 @@ export const ToiletIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
     </g>
   </svg>
 );
+export default ToiletIcon;
