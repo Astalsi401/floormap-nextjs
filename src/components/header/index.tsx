@@ -26,9 +26,9 @@ export const Header: React.FC = () => {
               href: "/test",
             },
             {
-              key: "floormap-twtc",
-              label: "Floormap TWTC",
-              href: "/floormap/twtc/2023",
+              key: "floormap",
+              label: "Floormap",
+              href: "/floormap/tai-nex/2024",
             },
           ]}
           customElem={UserInfo}
