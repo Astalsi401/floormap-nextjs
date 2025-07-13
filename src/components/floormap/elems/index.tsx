@@ -1,4 +1,6 @@
+import { useMemo } from "react";
 import { drawPath } from "@/utils/draw-path";
+import { useAppSelector } from "@/hooks/use-redux";
 import type { Elem, PathLine, SoldBoothElem } from "@/types";
 import { Room } from "./room";
 import { Booth } from "./booth";
@@ -7,6 +9,11 @@ export const Elements: React.FC<{
   elems: Elem[] | SoldBoothElem[];
   size?: number;
 }> = ({ elems, size = 200 }) => {
+  const resultsRecord = useAppSelector((state) => state.floormap.resultsMap);
+  const resultsMap = useMemo(
+    () => new Map(Object.entries(resultsRecord)),
+    [resultsRecord]
+  );
   return (
     <>
       {elems.map((elem) => {
@@ -23,7 +30,13 @@ export const Elements: React.FC<{
             return <Room key={elem.id} elem={elem} size={size} />;
           case "booth":
             return (
-              <Booth key={elem.id} elem={elem as SoldBoothElem} size={size} />
+              <Booth
+                key={elem.id}
+                elem={elem as SoldBoothElem}
+                size={size}
+                show={resultsMap.get(elem.id) || false}
+                active={false}
+              />
             );
           default:
             return null;

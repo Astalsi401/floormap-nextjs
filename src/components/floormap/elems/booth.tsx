@@ -6,16 +6,18 @@ import { getCssVariable } from "@/utils/get-css-variable";
 import { svgToBase64 } from "@/utils/svg-to-base64";
 import type { SoldBoothElem } from "@/types";
 
-export const Booth: React.FC<{ elem: SoldBoothElem; size: number }> = ({
-  elem,
-  size,
-}) => {
+export const Booth: React.FC<{
+  elem: SoldBoothElem;
+  size: number;
+  show: boolean;
+  active?: boolean;
+}> = ({ elem, size, show, active }) => {
   const icon_l = useMemo(() => Math.min(elem.w, elem.h, 500), [elem.w, elem.h]);
   return (
     <g
       key={elem.id}
       id={elem.id}
-      className={clsx("booth")}
+      className={clsx("booth", show && "show", active && "active")}
       transform={`translate(${elem.x},${elem.y})`}
     >
       <path

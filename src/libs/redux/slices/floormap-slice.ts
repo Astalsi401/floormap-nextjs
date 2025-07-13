@@ -6,6 +6,7 @@ type FloormapState = {
   sidebar: boolean;
   dragStatus: { moving: boolean; distance: number };
   soldElems: SoldBoothElem[];
+  resultsMap: Record<string, boolean>;
 };
 
 const initialState: FloormapState = {
@@ -13,6 +14,7 @@ const initialState: FloormapState = {
   sidebar: false,
   dragStatus: { moving: false, distance: 0 },
   soldElems: [],
+  resultsMap: {},
 };
 
 export const floormapSlice = createSlice({
@@ -35,12 +37,26 @@ export const floormapSlice = createSlice({
     ) => {
       state.dragStatus = action.payload;
     },
-    setSoldElems: (state, action: PayloadAction<SoldBoothElem[]>) => {
+    setSoldElems: (
+      state,
+      action: PayloadAction<FloormapState["soldElems"]>
+    ) => {
       state.soldElems = action.payload;
+    },
+    setResultsMap: (
+      state,
+      action: PayloadAction<FloormapState["resultsMap"]>
+    ) => {
+      state.resultsMap = action.payload;
     },
   },
 });
 
-export const { toggleOverview, toggleSidebar, setDragStatus, setSoldElems } =
-  floormapSlice.actions;
+export const {
+  toggleOverview,
+  toggleSidebar,
+  setDragStatus,
+  setSoldElems,
+  setResultsMap,
+} = floormapSlice.actions;
 export default floormapSlice.reducer;

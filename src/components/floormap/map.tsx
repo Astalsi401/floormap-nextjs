@@ -20,7 +20,7 @@ const MapSvg = forwardRef<SVGSVGElement, MapProps>(
     if (!floorElems || !viewBox || !soldElems) return null;
     return (
       <svg
-        className="size-full select-none"
+        className="floormap size-full select-none"
         ref={ref}
         style={{ translate: `0px 0px`, scale: "1" }}
         xmlns="http://www.w3.org/2000/svg"

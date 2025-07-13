@@ -3,7 +3,8 @@
 import clsx from "clsx";
 import { useMemo } from "react";
 import { useAppSelector } from "@/hooks/use-redux";
-import type { Exhibitor, SoldBooth, SoldBoothElem } from "@/types";
+import { useSearchBooths } from "@/hooks/use-search-booths";
+import type { Exhibitor, SoldBoothElem } from "@/types";
 
 export const Results: React.FC<{ exhibitors: Exhibitor[] }> = ({
   exhibitors,
@@ -13,18 +14,22 @@ export const Results: React.FC<{ exhibitors: Exhibitor[] }> = ({
     () => new Map(soldElems.map((elem) => [elem.id, elem])),
     [soldElems]
   );
+  const resultMap = useSearchBooths({ soldElemsMap, exhibitors });
   return (
     <div
       data-scroll
       className="flex flex-col gap-1 pb-10 h-full overflow-y-auto"
     >
-      {exhibitors.map((exhibitor) => (
-        <ResultItem
-          key={exhibitor._id}
-          {...exhibitor}
-          soldElemsMap={soldElemsMap}
-        />
-      ))}
+      {exhibitors.map(
+        (exhibitor) =>
+          resultMap.get(exhibitor.id) && (
+            <ResultItem
+              key={exhibitor._id}
+              {...exhibitor}
+              soldElemsMap={soldElemsMap}
+            />
+          )
+      )}
     </div>
   );
 };
