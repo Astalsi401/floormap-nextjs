@@ -8,7 +8,7 @@
   --fp-indoor: rgb(255 255 255);
   --fp-wall: rgb(0 0 0);
   --fp-room: rgb(241 241 241);
-  --fp-icon-red: rgb(229, 0, 18);
+  --fp-icon-red: rgb(229 0 18);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -17,7 +17,7 @@
     --fp-pillar: rgb(255 255 255 / 0.2);
     --fp-indoor: rgb(0 0 0);
     --fp-wall: rgb(255 255 255);
-    --fp-room: rgb(34, 34, 34);
-    --fp-icon-red: rgb(229, 0, 18);
+    --fp-room: rgb(34 34 34);
+    --fp-icon-red: rgb(229 0 18);
   }
 }

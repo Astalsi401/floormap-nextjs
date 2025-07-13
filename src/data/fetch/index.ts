@@ -2,6 +2,7 @@ import { FetchMethod } from "@/data/fetch/methods";
 import { API_ENDPOINTS } from "@/data/endpoints";
 import type {
   ApiResponse,
+  Area,
   Elem,
   FloormapParams,
   OverviewData,
@@ -46,6 +47,14 @@ export class FetchData {
         )
         .catch((err) => {
           throw new Error(`Failed to fetch sold booths data\n${err}`);
+        }),
+    areas: ({ exhibition, year }: FloormapParams) =>
+      this.method
+        .get<ApiResponse<Area[]>>(
+          `${API_ENDPOINTS.FP_AREAS}/${exhibition}/${year}`
+        )
+        .catch((err) => {
+          throw new Error(`Failed to fetch areas data\n${err}`);
         }),
   };
 }

@@ -18,7 +18,7 @@ export const Sidebar: React.FC = () => {
         "w-full sm:w-80 sm:h-full transition-[height] duration-300",
         "fixed z-50 sm:top-0 bottom-0 left-0",
         "flex flex-col gap-2",
-        "bg-sidebar-bg shadow-sm shadow-fp-lv6"
+        "bg-sidebar-bg shadow-sm shadow-foreground/50"
       )}
     >
       <Search />

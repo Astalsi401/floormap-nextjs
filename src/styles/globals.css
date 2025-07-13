@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "./custom/theme.css";
 @import "./custom/index.css";
+@import "./custom/map.css";
 
 :root {
   --scroll-bar-width: 2px;

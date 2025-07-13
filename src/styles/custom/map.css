@@ -1,0 +1,7 @@
+.booth path {
+  fill-opacity: 0.6;
+}
+
+.booth:hover path {
+  fill-opacity: 0.8;
+}

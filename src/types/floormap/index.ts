@@ -44,10 +44,16 @@ export type Elem = {
 
 export type SoldBooth = {
   id: string;
-  area: string;
-  tags: string[];
+  area: { id: string; name: string; color: string } | null;
+  tags: { id: string; name: string; color: string }[];
   text: string;
   size: number;
   booths: string[];
 };
 export type SoldBoothElem = SoldBooth & Elem;
+
+export type Area = {
+  id: string;
+  name: string;
+  color: string;
+};

@@ -1,17 +1,23 @@
 import clsx from "clsx";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import { icons } from "@/components/icons";
 import { drawPath } from "@/utils/draw-path";
 import { getCssVariable } from "@/utils/get-css-variable";
 import { svgToBase64 } from "@/utils/svg-to-base64";
 import type { SoldBoothElem } from "@/types";
+import { useAppSelector } from "@/hooks/use-redux";
 
 export const Booth: React.FC<{ elem: SoldBoothElem; size: number }> = ({
   elem,
   size,
 }) => {
-  const textShift = { x: elem.shift.x || 0, y: elem.shift.y || 0 };
-  const icon_l = Math.min(elem.w, elem.h, 500);
+  const areas = useAppSelector((state) => state.floormap.areas);
+  const areaColor = useMemo(() => {
+    if (!elem.area) return "none";
+    const areasMap = new Map(areas.map((area) => [area.id, area.color]));
+    return areasMap.get(elem.area.id) || "none";
+  }, [areas, elem.area]);
+  const icon_l = useMemo(() => Math.min(elem.w, elem.h, 500), [elem.w, elem.h]);
   return (
     <g
       key={elem.id}
@@ -21,11 +27,11 @@ export const Booth: React.FC<{ elem: SoldBoothElem; size: number }> = ({
     >
       <path
         stroke="var(--foreground)"
-        fill="none"
+        fill={areaColor}
         strokeWidth={1}
         d={`M0 0${drawPath(elem.p)}`}
       />
-      <BoothTextGroup elem={elem} size={size} textShift={textShift} />
+      <BoothTextGroup elem={elem} size={size} />
       {elem.icon && (
         <>
           <clipPath id={`${elem.type}-${elem.floor}-${elem.id}`}>
@@ -63,8 +69,8 @@ export const Booth: React.FC<{ elem: SoldBoothElem; size: number }> = ({
           className="booth-id"
           fill="var(--foreground)"
           fontSize={size * 0.3}
-          x={20 + textShift.x}
-          y={elem.h - 20 + textShift.y}
+          x={20 + elem.shift.x}
+          y={elem.h - 20 + elem.shift.y}
         >
           {elem.id}
         </text>
@@ -75,17 +81,16 @@ export const Booth: React.FC<{ elem: SoldBoothElem; size: number }> = ({
 const BoothTextGroup: React.FC<{
   elem: SoldBoothElem;
   size: number;
-  textShift: { x: number; y: number };
-}> = ({ elem, size, textShift }) => {
+}> = ({ elem, size }) => {
   const fontSize = size * elem.size;
   const lineHeight = fontSize * 1.2;
   const boothText = elem.text;
   return (
     <g
-      transform={`translate(${elem.w / 2 + textShift.x},${
+      transform={`translate(${elem.w / 2 + elem.shift.x},${
         elem.h / 2 -
         ((boothText.split("\n").length - 1) * lineHeight) / 2 +
-        textShift.y
+        elem.shift.y
       })`}
       fontSize={fontSize}
     >
