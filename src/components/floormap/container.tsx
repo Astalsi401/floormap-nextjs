@@ -3,7 +3,7 @@
 import clsx from "clsx";
 import { forwardRef } from "react";
 import { toggleSidebar } from "@slices/floormap-slice";
-import { useAppDispatch, useAppSelector } from "@/hooks";
+import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 
 const Container = forwardRef<
   HTMLDivElement,

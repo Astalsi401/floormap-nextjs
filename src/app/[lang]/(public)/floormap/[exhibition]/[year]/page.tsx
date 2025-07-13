@@ -17,11 +17,12 @@ export default async function FloormapPage({
     const searchString = searchDefault(search, { floor: "1" });
     redirect(`/floormap/${exhibition}/${year}?${searchString}`);
   }
-  const elems = await fetchData.floormap.elems({ exhibition, year });
   const realsize = await fetchData.floormap.realsize({ exhibition, year });
+  const elems = await fetchData.floormap.elems({ exhibition, year });
+  const soldBooths = await fetchData.floormap.soldBooths({ exhibition, year });
   return (
     <>
-      <Floormap realsize={realsize} elems={elems} />
+      <Floormap realsize={realsize} elems={elems} soldBooths={soldBooths} />
     </>
   );
 }

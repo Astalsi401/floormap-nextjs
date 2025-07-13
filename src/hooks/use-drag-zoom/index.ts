@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef } from "react";
 import { setDragStatus } from "@slices/floormap-slice";
-import { useAppDispatch, useAppSelector } from "@/hooks";
+import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import { useDrag } from "./use-drag";
 import { useZoom } from "./use-zoom";
 import { useTouchGestures } from "./use-touch-gestures";

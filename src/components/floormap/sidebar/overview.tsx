@@ -4,7 +4,7 @@ import clsx from "clsx";
 import { useEffect, useState, useTransition } from "react";
 import { useParams } from "next/navigation";
 import { Spinner } from "@ui/loading/spinner";
-import { useAppSelector } from "@/hooks";
+import { useAppSelector } from "@/hooks/use-redux";
 import { useAppSearchParams } from "@/hooks/use-search-params";
 import { fetchData } from "@/data";
 import type { OverviewData, FloormapParams } from "@/types";

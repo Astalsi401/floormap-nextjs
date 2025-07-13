@@ -1,7 +1,7 @@
 "use client";
 
 import clsx from "clsx";
-import { useAppDispatch, useAppSelector } from "@/hooks";
+import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import { toggleSidebar } from "@slices/floormap-slice";
 import { Search } from "./search";
 import { Results } from "./results";

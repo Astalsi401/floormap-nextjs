@@ -50,3 +50,4 @@ export type SoldBooth = {
   size: number;
   booths: string[];
 };
+export type SoldBoothElem = SoldBooth & Elem;

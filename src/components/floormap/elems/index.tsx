@@ -1,6 +1,7 @@
 import { drawPath } from "@/utils/draw-path";
 import type { Elem, PathLine } from "@/types";
 import { Room } from "./room";
+import { Booth } from "./booth";
 
 export const Elements: React.FC<{ elems: Elem[]; size?: number }> = ({
   elems,
@@ -20,6 +21,8 @@ export const Elements: React.FC<{ elems: Elem[]; size?: number }> = ({
             return <Room key={elem.id} elem={elem} size={size} />;
           case "icon":
             return <Room key={elem.id} elem={elem} size={size} />;
+          case "booth":
+            return <Booth key={elem.id} elem={elem} size={size} />;
           default:
             return null;
         }

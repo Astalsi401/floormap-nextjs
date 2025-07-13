@@ -1,31 +1,18 @@
-import { forwardRef, useMemo } from "react";
+import { forwardRef } from "react";
 import { Elements } from "@floormap/elems";
-import { openModal } from "@slices/modal-slice";
-import { useAppDispatch } from "@/hooks";
-import { useAppSearchParams } from "@/hooks/use-search-params";
-import type { Elem, ElemTypes, Realsize } from "@/types";
+import type { Elem, Realsize, SoldBooth } from "@/types";
+import { useMapElems } from "@/hooks/use-map-elems";
 
 export type MapProps = {
   realsize: Realsize[];
   elems: Elem[];
+  soldBooths: SoldBooth[];
   children?: React.ReactNode;
 };
 
 const MapSvg = forwardRef<SVGSVGElement, MapProps>(
-  ({ realsize, elems, children }, ref) => {
-    const dispatch = useAppDispatch();
-    const { searchParams } = useAppSearchParams();
-    const floor = Number(searchParams.get("floor") ?? "1");
-    const { floorElems, viewBox } = useMemo(() => {
-      let viewBox = realsize.find((r) => r.floor === floor);
-      if (!viewBox) {
-        dispatch(openModal(`Please set viewbox for the map`));
-        return { floorElems: undefined, viewBox: undefined };
-      }
-      viewBox = viewBox || { width: 0, height: 0, floor };
-      const floorElems = elemsFilter(elems, floor);
-      return { floorElems, viewBox };
-    }, [elems, floor]);
+  ({ realsize, elems }, ref) => {
+    const { floorElems, viewBox } = useMapElems({ realsize, elems });
     if (!floorElems || !viewBox) return null;
     return (
       <svg
@@ -40,7 +27,7 @@ const MapSvg = forwardRef<SVGSVGElement, MapProps>(
         <Elements elems={floorElems.room} />
         <Elements elems={floorElems.text} />
         <Elements elems={floorElems.icon} />
-        {children}
+        <Elements elems={floorElems.booth} />
       </svg>
     );
   }
@@ -48,19 +35,3 @@ const MapSvg = forwardRef<SVGSVGElement, MapProps>(
 
 MapSvg.displayName = "MapSvg";
 export { MapSvg };
-
-const elemsFilter = (elems: Elem[], floor: number) =>
-  elems.reduce<Record<ElemTypes, Elem[]>>(
-    (acc, elem) => {
-      if (elem.floor === floor) acc[elem.type].push(elem);
-      return acc;
-    },
-    {
-      wall: [],
-      pillar: [],
-      text: [],
-      icon: [],
-      room: [],
-      booth: [],
-    }
-  );

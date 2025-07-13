@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { useAppSelector } from "@/hooks";
+import { useAppSelector } from "@/hooks/use-redux";
 import { dragCalculator } from "@/utils/floormap";
 import { useAnimationFrame } from "@/hooks/use-animation-frame";
 

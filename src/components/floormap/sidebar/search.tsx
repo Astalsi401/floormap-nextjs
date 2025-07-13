@@ -10,7 +10,7 @@ import { OverflowFadeout } from "@ui/overflow-fadeout";
 import { toggleOverview } from "@slices/floormap-slice";
 import { useDebounce } from "@/hooks/use-debounce";
 import { useAppSearchParams } from "@/hooks/use-search-params";
-import { useAppDispatch, useAppSelector } from "@/hooks";
+import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import { useDict } from "@/dictionaries/provider";
 
 export const Search: React.FC = () => {
