@@ -4,9 +4,9 @@ import { icons } from "@/components/icons";
 import { drawPath } from "@/utils/draw-path";
 import { getCssVariable } from "@/utils/get-css-variable";
 import { svgToBase64 } from "@/utils/svg-to-base64";
-import type { Elem } from "@/types";
+import type { SoldBoothElem } from "@/types";
 
-export const Booth: React.FC<{ elem: Elem; size: number }> = ({
+export const Booth: React.FC<{ elem: SoldBoothElem; size: number }> = ({
   elem,
   size,
 }) => {
@@ -73,7 +73,7 @@ export const Booth: React.FC<{ elem: Elem; size: number }> = ({
   );
 };
 const BoothTextGroup: React.FC<{
-  elem: Elem;
+  elem: SoldBoothElem;
   size: number;
   textShift: { x: number; y: number };
 }> = ({ elem, size, textShift }) => {

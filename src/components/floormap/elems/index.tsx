@@ -1,12 +1,12 @@
 import { drawPath } from "@/utils/draw-path";
-import type { Elem, PathLine } from "@/types";
+import type { Elem, PathLine, SoldBoothElem } from "@/types";
 import { Room } from "./room";
 import { Booth } from "./booth";
 
-export const Elements: React.FC<{ elems: Elem[]; size?: number }> = ({
-  elems,
-  size = 200,
-}) => {
+export const Elements: React.FC<{
+  elems: Elem[] | SoldBoothElem[];
+  size?: number;
+}> = ({ elems, size = 200 }) => {
   return (
     <>
       {elems.map((elem) => {
@@ -22,7 +22,9 @@ export const Elements: React.FC<{ elems: Elem[]; size?: number }> = ({
           case "icon":
             return <Room key={elem.id} elem={elem} size={size} />;
           case "booth":
-            return <Booth key={elem.id} elem={elem} size={size} />;
+            return (
+              <Booth key={elem.id} elem={elem as SoldBoothElem} size={size} />
+            );
           default:
             return null;
         }

@@ -1,7 +1,8 @@
 import { forwardRef } from "react";
 import { Elements } from "@floormap/elems";
-import type { Elem, Realsize, SoldBooth } from "@/types";
 import { useMapElems } from "@/hooks/use-map-elems";
+import type { Elem, Realsize, SoldBooth } from "@/types";
+import { Booth } from "./elems/booth";
 
 export type MapProps = {
   realsize: Realsize[];
@@ -11,9 +12,13 @@ export type MapProps = {
 };
 
 const MapSvg = forwardRef<SVGSVGElement, MapProps>(
-  ({ realsize, elems }, ref) => {
-    const { floorElems, viewBox } = useMapElems({ realsize, elems });
-    if (!floorElems || !viewBox) return null;
+  ({ realsize, elems, soldBooths }, ref) => {
+    const { floorElems, viewBox, soldElems } = useMapElems({
+      realsize,
+      elems,
+      soldBooths,
+    });
+    if (!floorElems || !viewBox || !soldElems) return null;
     return (
       <svg
         className="size-full select-none"
@@ -27,7 +32,7 @@ const MapSvg = forwardRef<SVGSVGElement, MapProps>(
         <Elements elems={floorElems.room} />
         <Elements elems={floorElems.text} />
         <Elements elems={floorElems.icon} />
-        <Elements elems={floorElems.booth} />
+        <Elements elems={soldElems} />
       </svg>
     );
   }
