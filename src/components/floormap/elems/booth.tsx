@@ -5,18 +5,11 @@ import { drawPath } from "@/utils/draw-path";
 import { getCssVariable } from "@/utils/get-css-variable";
 import { svgToBase64 } from "@/utils/svg-to-base64";
 import type { SoldBoothElem } from "@/types";
-import { useAppSelector } from "@/hooks/use-redux";
 
 export const Booth: React.FC<{ elem: SoldBoothElem; size: number }> = ({
   elem,
   size,
 }) => {
-  const areas = useAppSelector((state) => state.floormap.areas);
-  const areaColor = useMemo(() => {
-    if (!elem.area) return "none";
-    const areasMap = new Map(areas.map((area) => [area.id, area.color]));
-    return areasMap.get(elem.area.id) || "none";
-  }, [areas, elem.area]);
   const icon_l = useMemo(() => Math.min(elem.w, elem.h, 500), [elem.w, elem.h]);
   return (
     <g
@@ -27,7 +20,7 @@ export const Booth: React.FC<{ elem: SoldBoothElem; size: number }> = ({
     >
       <path
         stroke="var(--foreground)"
-        fill={areaColor}
+        fill={elem.area ? elem.area.color : "none"}
         strokeWidth={1}
         d={`M0 0${drawPath(elem.p)}`}
       />

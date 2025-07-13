@@ -1,18 +1,15 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import type { Area } from "@/types";
 
 type FloormapState = {
   overview: boolean;
   sidebar: boolean;
   dragStatus: { moving: boolean; distance: number };
-  areas: Area[];
 };
 
 const initialState: FloormapState = {
   overview: false,
   sidebar: false,
   dragStatus: { moving: false, distance: 0 },
-  areas: [],
 };
 
 export const floormapSlice = createSlice({
@@ -35,12 +32,9 @@ export const floormapSlice = createSlice({
     ) => {
       state.dragStatus = action.payload;
     },
-    setAreas: (state, action: PayloadAction<FloormapState["areas"]>) => {
-      state.areas = action.payload;
-    },
   },
 });
 
-export const { toggleOverview, toggleSidebar, setDragStatus, setAreas } =
+export const { toggleOverview, toggleSidebar, setDragStatus } =
   floormapSlice.actions;
 export default floormapSlice.reducer;
