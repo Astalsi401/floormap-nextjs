@@ -29,7 +29,7 @@ export const useMapElems = ({
   const dispatch = useAppDispatch();
   const { searchParams } = useAppSearchParams();
   const floor = Number(searchParams.get("floor") ?? "1");
-  const { floorElems, viewBox, soldElems } = useMemo(() => {
+  const { mapElems, viewBox, soldElems } = useMemo(() => {
     let viewBox = realsize.find((r) => r.floor === floor);
     if (!viewBox) {
       dispatch(openModal(`Please set viewbox for the map`));
@@ -40,25 +40,25 @@ export const useMapElems = ({
       };
     }
     viewBox = viewBox || { width: 0, height: 0, floor };
-    const floorElems = elemsFilter({ elems, floor });
+    const mapElems = elemsFilter({ elems });
     const soldElems = soldElemsFilter({
-      booths: floorElems.booth,
+      booths: mapElems.booth,
       soldBooths,
       edit,
     });
-    return { floorElems, viewBox, soldElems };
+    return { mapElems, viewBox, soldElems };
   }, [elems, soldBooths, floor]);
   useEffect(() => {
     if (!soldElems) return;
     dispatch(setSoldElems(soldElems));
   }, [soldElems]);
-  return { floorElems, viewBox, soldElems };
+  return { mapElems, viewBox, soldElems };
 };
 
-const elemsFilter = ({ elems, floor }: { elems: Elem[]; floor: number }) => {
+const elemsFilter = ({ elems }: { elems: Elem[] }) => {
   return elems.reduce<{ [key in ElemTypes]: Elem[] }>(
     (acc, elem) => {
-      if (elem.floor === floor) acc[elem.type].push(elem);
+      acc[elem.type].push(elem);
       return acc;
     },
     {

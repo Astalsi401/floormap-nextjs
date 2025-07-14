@@ -1,6 +1,6 @@
 export type OverviewData = {
   title: string;
-  items: { id: string; label: string; count: number }[];
+  items: { id: string; name: string; count: number }[];
 };
 
 export type Realsize = { floor: number; width: number; height: number };

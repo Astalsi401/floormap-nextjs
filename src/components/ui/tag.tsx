@@ -6,7 +6,10 @@ export const Tag: React.FC<React.ComponentPropsWithoutRef<"span">> = ({
   ...props
 }) => (
   <span
-    className={clsx("rounded-sm text-nowrap p-0.5 block", className)}
+    className={clsx(
+      "rounded-sm text-nowrap p-0.5 block cursor-pointer select-none",
+      className
+    )}
     {...props}
   >
     {children}

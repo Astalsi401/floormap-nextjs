@@ -12,12 +12,12 @@ export type MapProps = {
 
 const MapSvg = forwardRef<SVGSVGElement, MapProps>(
   ({ realsize, elems, soldBooths }, ref) => {
-    const { floorElems, viewBox, soldElems } = useMapElems({
+    const { mapElems, viewBox, soldElems } = useMapElems({
       realsize,
       elems,
       soldBooths,
     });
-    if (!floorElems || !viewBox || !soldElems) return null;
+    if (!mapElems || !viewBox || !soldElems) return null;
     return (
       <svg
         className="floormap size-full select-none"
@@ -26,11 +26,11 @@ const MapSvg = forwardRef<SVGSVGElement, MapProps>(
         xmlns="http://www.w3.org/2000/svg"
         viewBox={`0 0 ${viewBox.width} ${viewBox.height}`}
       >
-        <Elements elems={floorElems.wall} />
-        <Elements elems={floorElems.pillar} />
-        <Elements elems={floorElems.room} />
-        <Elements elems={floorElems.text} />
-        <Elements elems={floorElems.icon} />
+        <Elements elems={mapElems.wall} />
+        <Elements elems={mapElems.pillar} />
+        <Elements elems={mapElems.room} />
+        <Elements elems={mapElems.text} />
+        <Elements elems={mapElems.icon} />
         <Elements elems={soldElems} />
       </svg>
     );

@@ -10,17 +10,18 @@ import { fetchData } from "@/data";
 import type { OverviewData, FloormapParams } from "@/types";
 
 export const Overview: React.FC = () => {
-  const params = useParams<FloormapParams>();
+  const { lang, exhibition, year } = useParams<FloormapParams>();
   const overviewToggle = useAppSelector((state) => state.floormap.overview);
   const [overviews, setOverviews] = useState<OverviewData[]>([]);
   const [isPending, startTransition] = useTransition();
   useEffect(() => {
     if (!overviewToggle) return;
     startTransition(async () => {
-      const res = await fetchData.floormap.overview(params);
+      const res = await fetchData.floormap.overview({ lang, exhibition, year });
+      if (!res) return;
       setOverviews(res);
     });
-  }, [params, overviewToggle]);
+  }, [lang, exhibition, year, overviewToggle]);
   return (
     <div
       className={clsx(
@@ -54,14 +55,14 @@ const OverviewDetail: React.FC<OverviewData> = ({ title, items }) => (
 
 const OverviewItem: React.FC<OverviewData["items"][number]> = ({
   id,
-  label,
+  name,
   count,
 }) => {
   const { setSearchParams, searchParams } = useAppSearchParams();
   const addToSearch = () => {
     const tags = JSON.parse(searchParams.get("tags") || "[]");
-    if (tags.includes(label)) return;
-    setSearchParams({ key: "tags", value: JSON.stringify([...tags, label]) });
+    if (tags.includes(name)) return;
+    setSearchParams({ key: "tags", value: JSON.stringify([...tags, name]) });
   };
   return (
     <div
@@ -75,7 +76,7 @@ const OverviewItem: React.FC<OverviewData["items"][number]> = ({
       )}
       key={id}
     >
-      {label} ({count})
+      {name} ({count})
     </div>
   );
 };

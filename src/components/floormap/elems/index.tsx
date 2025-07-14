@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { useSearchParams } from "next/navigation";
 import { drawPath } from "@/utils/draw-path";
 import { useAppSelector } from "@/hooks/use-redux";
 import type { Elem, PathLine, SoldBoothElem } from "@/types";
@@ -14,9 +15,18 @@ export const Elements: React.FC<{
     () => new Map(Object.entries(resultsRecord)),
     [resultsRecord]
   );
+  const searchParams = useSearchParams();
+  const floor = useMemo(
+    () => Number(searchParams.get("floor") ?? "1"),
+    [searchParams.get("floor")]
+  );
+  const floorElems = useMemo(
+    () => elems.filter((elem) => elem.floor === floor),
+    [floor, elems]
+  );
   return (
     <>
-      {elems.map((elem) => {
+      {floorElems.map((elem) => {
         switch (elem.type) {
           case "wall":
             return <Wall key={elem.id} elem={elem} />;
