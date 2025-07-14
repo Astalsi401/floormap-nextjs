@@ -9,15 +9,15 @@ import type { SoldBoothElem } from "@/types";
 export const Booth: React.FC<{
   elem: SoldBoothElem;
   size: number;
-  show: boolean;
+  hide: boolean;
   active?: boolean;
-}> = ({ elem, size, show, active }) => {
+}> = ({ elem, size, hide, active }) => {
   const icon_l = useMemo(() => Math.min(elem.w, elem.h, 500), [elem.w, elem.h]);
   return (
     <g
       key={elem.id}
       id={elem.id}
-      className={clsx("booth", show && "show", active && "active")}
+      className={clsx("booth", hide && "opacity-20", active && "active")}
       transform={`translate(${elem.x},${elem.y})`}
     >
       <path

@@ -44,7 +44,7 @@ export const Elements: React.FC<{
                 key={elem.id}
                 elem={elem as SoldBoothElem}
                 size={size}
-                show={resultsMap.get(elem.id) || false}
+                hide={!resultsMap.get(elem.id)}
                 active={false}
               />
             );

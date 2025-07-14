@@ -1,12 +1,12 @@
 .booth path {
   fill-opacity: 0.6;
 }
-.floormap:has(.booth.show) .booth:not(.show, .active) {
-  opacity: 0.2;
-}
 
+.booth:hover,
+.booth.active {
+  opacity: 1 !important;
+}
 .booth:hover path,
 .booth.active path {
   fill-opacity: 0.8 !important;
-  opacity: 1 !important;
 }
