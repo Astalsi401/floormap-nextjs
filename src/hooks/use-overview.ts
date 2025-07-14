@@ -1,12 +1,14 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import _ from "lodash";
-import { useAppSelector } from "@/hooks/use-redux";
+import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import { useDict } from "@/dictionaries/provider";
+import { setAreasMap } from "@slices/floormap-slice";
 
 export const useOverviews = () => {
+  const dispatch = useAppDispatch();
   const dict = useDict();
   const soldElems = useAppSelector((state) => state.floormap.soldElems);
-  const overviews = useMemo(() => {
+  const { areas, overviews } = useMemo(() => {
     const areas = Object.entries(
       _.groupBy(soldElems, (elem) => elem.area?.id)
     ).map(([area, elems]) => ({
@@ -25,5 +27,10 @@ export const useOverviews = () => {
       ],
     };
   }, [soldElems]);
-  return overviews;
+  useEffect(() => {
+    dispatch(
+      setAreasMap(Object.fromEntries(areas.map((area) => [area.id, area])))
+    );
+  }, [areas]);
+  return { areas, overviews };
 };

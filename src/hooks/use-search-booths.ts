@@ -1,8 +1,8 @@
 import { useEffect, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import { useAppDispatch } from "@/hooks/use-redux";
-import type { Exhibitor, SoldBoothElem } from "@/types";
 import { setResultsMap } from "@slices/floormap-slice";
+import type { Exhibitor, SoldBoothElem } from "@/types";
 
 export const useSearchBooths = ({
   soldElemsMap,

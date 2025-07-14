@@ -1,22 +1,14 @@
 "use client";
 
 import clsx from "clsx";
-import { useEffect } from "react";
 import { useOverviews } from "@/hooks/use-overview";
 import { useAppSearchParams } from "@/hooks/use-search-params";
-import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
-import { setAreasMap } from "@slices/floormap-slice";
+import { useAppSelector } from "@/hooks/use-redux";
 import type { OverviewData } from "@/types";
 
 export const Overview: React.FC = () => {
-  const dispatch = useAppDispatch();
   const overviewToggle = useAppSelector((state) => state.floormap.overview);
-  const { overviews, areas } = useOverviews();
-  useEffect(() => {
-    dispatch(
-      setAreasMap(Object.fromEntries(areas.map((area) => [area.id, area])))
-    );
-  }, [areas]);
+  const { overviews } = useOverviews();
   return (
     <div
       className={clsx(
