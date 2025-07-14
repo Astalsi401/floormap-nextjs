@@ -6,7 +6,7 @@ import { setAreasMap } from "@slices/floormap-slice";
 
 export const useOverviews = () => {
   const dispatch = useAppDispatch();
-  const dict = useDict();
+  const areasTitle = useDict((state) => state.floormap.overview.areas);
   const soldElems = useAppSelector((state) => state.floormap.soldElems);
   const { areas, overviews } = useMemo(() => {
     const areas = Object.entries(
@@ -21,7 +21,7 @@ export const useOverviews = () => {
       areas,
       overviews: [
         {
-          title: dict.floormap.overview.areas,
+          title: areasTitle,
           items: areas,
         },
       ],

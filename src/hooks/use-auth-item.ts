@@ -11,15 +11,15 @@ export const useAuthItem = (): {
   authItem: MenuItemType;
 } => {
   const { data: session } = useSession();
-  const dict = useDict();
+  const userinfo = useDict((state) => state.userinfo);
   return {
     login: !!session,
     user: session?.user,
     authItem: {
       key: "authItem",
       ...(session
-        ? { label: dict.userinfo.signOut, onClick: () => signOut() }
-        : { label: dict.userinfo.signIn, onClick: () => signIn() }),
+        ? { label: userinfo.signOut, onClick: () => signOut() }
+        : { label: userinfo.signIn, onClick: () => signIn() }),
     },
   };
 };

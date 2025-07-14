@@ -17,7 +17,7 @@ export const Search: React.FC = () => {
   const { isWaiting, setWaiting } = useDebounce();
   const { setSearchParams, searchParams } = useAppSearchParams();
   const search = useRef<HTMLInputElement>(null);
-  const dict = useDict();
+  const searchPlaceholder = useDict((state) => state.floormap.sidebar.search);
   const updateSearch = () => {
     if (isWaiting || !search.current) return;
     setSearchParams({ key: "keyword", value: search.current.value });
@@ -49,7 +49,7 @@ export const Search: React.FC = () => {
         <SearchTags deleteTag={deleteTag} />
         <Input
           ref={search}
-          placeholder={dict.floormap.sidebar.search}
+          placeholder={searchPlaceholder}
           className="grow focus-visible:outline-none"
           onChange={() => setWaiting(500)}
           onKeyDown={keyDownDeleteTag}
