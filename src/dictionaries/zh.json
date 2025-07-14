@@ -2,6 +2,9 @@
   "floormap": {
     "sidebar": {
       "search": "關鍵字搜尋..."
+    },
+    "overview": {
+      "areas": "展區"
     }
   },
   "userinfo": {

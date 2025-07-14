@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { Input } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Tag } from "@ui/tag";
@@ -79,6 +79,8 @@ const ToggleOverview: React.FC = () => {
 const SearchTags: React.FC<{
   deleteTag: (tag?: string) => string;
 }> = ({ deleteTag }) => {
+  const areas = useAppSelector((state) => state.floormap.areasMap);
+  const areasMap = useMemo(() => new Map(Object.entries(areas)), [areas]);
   const { setSearchParams, searchParams } = useAppSearchParams();
   const ref = useRef<HTMLDivElement>(null);
   const tags = JSON.parse(searchParams.get("tags") || "[]");
@@ -92,12 +94,17 @@ const SearchTags: React.FC<{
       {tags.map((tag: string) => (
         <Tag
           key={tag}
+          style={
+            {
+              "--area-color": areasMap.get(tag)?.color || "var(--fp-lv4)",
+            } as React.CSSProperties
+          }
           onClick={() =>
             setSearchParams({ key: "tags", value: deleteTag(tag) })
           }
-          className="bg-fp-lv4"
+          className="bg-(--area-color)/60"
         >
-          {tag}
+          {areasMap.get(tag)?.name || tag}
         </Tag>
       ))}
     </OverflowFadeout>

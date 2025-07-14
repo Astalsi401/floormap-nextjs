@@ -1,6 +1,12 @@
+export type OverviewItem = {
+  id: string;
+  name: string;
+  count: number;
+  color: string;
+};
 export type OverviewData = {
   title: string;
-  items: { id: string; name: string; count: number }[];
+  items: OverviewItem[];
 };
 
 export type Realsize = { floor: number; width: number; height: number };

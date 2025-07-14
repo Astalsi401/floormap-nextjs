@@ -6,7 +6,6 @@ import type {
   Elem,
   Exhibitor,
   FloormapParams,
-  OverviewData,
   Realsize,
   SoldBooth,
 } from "@/types";
@@ -17,14 +16,6 @@ export class FetchData {
     this.method = new FetchMethod();
   }
   floormap = {
-    overview: ({ lang, exhibition, year }: FloormapParams) =>
-      this.method
-        .get<ApiResponse<OverviewData[]>>(
-          `${API_ENDPOINTS.FP_OVERVIEW}/${exhibition}/${year}?lang=${lang}`
-        )
-        .catch((err) => {
-          throw new Error(`Failed to fetch floormap overview data\n${err}`);
-        }),
     realsize: ({ lang, exhibition, year }: FloormapParams) =>
       this.method
         .get<ApiResponse<Realsize[]>>(

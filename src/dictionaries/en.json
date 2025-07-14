@@ -2,6 +2,9 @@
   "floormap": {
     "sidebar": {
       "search": "Search..."
+    },
+    "overview": {
+      "areas": "Areas"
     }
   },
   "userinfo": {

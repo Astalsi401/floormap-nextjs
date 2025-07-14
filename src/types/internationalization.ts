@@ -3,6 +3,9 @@ export type Dictionary = {
     sidebar: {
       search: string;
     };
+    overview: {
+      areas: string;
+    };
   };
   userinfo: {
     signIn: string;
