@@ -7,7 +7,7 @@ type NewParam = { key: string; value?: string };
 export const useAppSearchParams = () => {
   const searchParams = useSearchParams();
   const searchParamsUpdate = (paramString: string) => {
-    window.history.pushState(null, "", `?${paramString}`);
+    window.history.replaceState(null, "", `?${paramString}`);
   };
   const createQueryString = (empty: boolean, ...newParams: NewParam[]) => {
     const params = new URLSearchParams(

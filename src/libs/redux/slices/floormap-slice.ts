@@ -4,6 +4,7 @@ import type { OverviewItem, SoldBoothElem } from "@/types";
 type FloormapState = {
   overview: boolean;
   sidebar: boolean;
+  elemDetail: boolean;
   dragStatus: { moving: boolean; distance: number };
   soldElems: SoldBoothElem[];
   resultsMap: Record<string, boolean>;
@@ -13,6 +14,7 @@ type FloormapState = {
 const initialState: FloormapState = {
   overview: false,
   sidebar: false,
+  elemDetail: false,
   dragStatus: { moving: false, distance: 0 },
   soldElems: [],
   resultsMap: {},
@@ -25,6 +27,13 @@ export const floormapSlice = createSlice({
   reducers: {
     toggleOverview: (state) => {
       state.overview = !state.overview;
+    },
+    toggleElemDetail: {
+      reducer: (state, action: PayloadAction<boolean | undefined>) => {
+        state.elemDetail =
+          action.payload !== undefined ? action.payload : !state.elemDetail;
+      },
+      prepare: (payload?: boolean) => ({ payload }),
     },
     toggleSidebar: {
       reducer: (state, action: PayloadAction<boolean | undefined>) => {
@@ -60,6 +69,7 @@ export const floormapSlice = createSlice({
 export const {
   toggleOverview,
   toggleSidebar,
+  toggleElemDetail,
   setDragStatus,
   setSoldElems,
   setResultsMap,

@@ -7,6 +7,7 @@ import type { Exhibitor } from "@/types";
 import { Search } from "./search";
 import { Results } from "./results";
 import { Overview } from "./overview";
+import { ElemDetail } from "./elem-detail";
 
 export const Sidebar: React.FC<{ exhibitors: Exhibitor[] }> = ({
   exhibitors,
@@ -29,6 +30,7 @@ export const Sidebar: React.FC<{ exhibitors: Exhibitor[] }> = ({
         <Results exhibitors={exhibitors} />
         <Overview />
       </div>
+      <ElemDetail />
     </aside>
   );
 };

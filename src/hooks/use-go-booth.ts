@@ -1,7 +1,9 @@
 import { useCallback } from "react";
 import { dragCalculator, zoomCalculator } from "@/utils/floormap";
 import { useAppSearchParams } from "@/hooks/use-search-params";
+import { useAppDispatch } from "@/hooks/use-redux";
 import type { Elem } from "@/types";
+import { toggleElemDetail } from "@slices/floormap-slice";
 
 export type GoElem = {
   elem: Pick<Elem, "id" | "x" | "y" | "w" | "h" | "floor">;
@@ -15,15 +17,20 @@ export const useGoElem = ({
   graphRef: React.RefObject<HTMLDivElement | null>;
   mapRef: React.RefObject<SVGSVGElement | null>;
 }) => {
+  const dispatch = useAppDispatch();
   const { setSearchParams } = useAppSearchParams();
+  const elemActive = useCallback(async (elem: GoElem["elem"]) => {
+    dispatch(toggleElemDetail(true));
+    setSearchParams(
+      { key: "floor", value: String(elem.floor) },
+      { key: "id", value: elem.id }
+    );
+    await new Promise((resolve) => setTimeout(resolve, 50));
+  }, []);
   const goElem = useCallback(
     async ({ elem, ratio = 3 }: GoElem) => {
       if (!mapRef.current || !graphRef.current) return;
-      setSearchParams(
-        { key: "floor", value: String(elem.floor) },
-        { key: "id", value: elem.id }
-      );
-      await new Promise((resolve) => setTimeout(resolve, 50));
+      await elemActive(elem);
       // 定位選取攤位中心點至地圖中心點
       const svgPoint = mapRef.current.createSVGPoint();
       svgPoint.x = elem.x + elem.w / 2;
