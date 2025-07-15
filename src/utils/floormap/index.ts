@@ -58,7 +58,7 @@ const prevTranslateScale = (svg: SVGSVGElement) => {
   };
 };
 
-const animation = (elem: SVGSVGElement) => {
+export const animation = (elem: SVGSVGElement) => {
   elem.style.transition = "0.4s";
   setTimeout(() => (elem.style.transition = ""), 400);
 };

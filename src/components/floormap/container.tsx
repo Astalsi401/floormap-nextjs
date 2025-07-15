@@ -16,7 +16,7 @@ const Container = forwardRef<
     <div
       ref={ref}
       className={clsx(
-        "size-full overflow-hidden",
+        "size-full overflow-hidden relative",
         dragStatus.moving && "cursor-move",
         className
       )}

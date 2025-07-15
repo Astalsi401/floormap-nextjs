@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import { useDrag } from "./use-drag";
 import { useZoom } from "./use-zoom";
 import { useTouchGestures } from "./use-touch-gestures";
+import { useWidgetControl } from "./use-widget-control";
 
 export const useDragZoom = () => {
   const dispatch = useAppDispatch();
@@ -15,6 +16,7 @@ export const useDragZoom = () => {
     y: number | null;
     d: number | null;
   }>({ x: null, y: null, d: null });
+  const widgetActions = useWidgetControl(graphRef, mapRef);
   const { handleDrag } = useDrag(mapRef);
   const { handleZoom } = useZoom(graphRef, mapRef);
   const { handleTouchMove } = useTouchGestures(
@@ -114,5 +116,6 @@ export const useDragZoom = () => {
     graphRef,
     mapRef,
     userActions,
+    widgetActions,
   };
 };
