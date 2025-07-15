@@ -2,19 +2,23 @@
 
 import clsx from "clsx";
 import { useMemo } from "react";
+import { useFloormapRefs } from "@floormap/provider";
 import { useAppSelector } from "@/hooks/use-redux";
 import { useSearchBooths } from "@/hooks/use-search-booths";
+import { type GoElem, useGoElem } from "@/hooks/use-go-booth";
 import type { Exhibitor, SoldBoothElem } from "@/types";
 
 export const Results: React.FC<{ exhibitors: Exhibitor[] }> = ({
   exhibitors,
 }) => {
+  const refs = useFloormapRefs();
   const soldElems = useAppSelector((state) => state.floormap.soldElems);
   const soldElemsMap = useMemo(
     () => new Map(soldElems.map((elem) => [elem.id, elem])),
     [soldElems]
   );
   const resultMap = useSearchBooths({ soldElemsMap, exhibitors });
+  const { goElem } = useGoElem(refs);
   return (
     <div
       data-scroll
@@ -27,6 +31,7 @@ export const Results: React.FC<{ exhibitors: Exhibitor[] }> = ({
               key={exhibitor._id}
               {...exhibitor}
               soldElemsMap={soldElemsMap}
+              goElem={goElem}
             />
           )
       )}
@@ -35,8 +40,11 @@ export const Results: React.FC<{ exhibitors: Exhibitor[] }> = ({
 };
 
 export const ResultItem: React.FC<
-  Exhibitor & { soldElemsMap: Map<string, SoldBoothElem> }
-> = ({ id, org, soldElemsMap }) => {
+  Exhibitor & {
+    soldElemsMap: Map<string, SoldBoothElem>;
+    goElem: (props: GoElem) => Promise<void>;
+  }
+> = ({ id, org, soldElemsMap, goElem }) => {
   const soldElem = soldElemsMap.get(id);
   if (!soldElem) return null;
   return (
@@ -53,6 +61,7 @@ export const ResultItem: React.FC<
         "border-s-4 border-(--area-color)",
         "bg-background shadow hover:bg-background/50 transition-colors"
       )}
+      onClick={() => goElem({ elem: soldElem })}
     >
       <h3 className="font-semibold h-[3em] flex items-center grow">
         <span>{org}</span>

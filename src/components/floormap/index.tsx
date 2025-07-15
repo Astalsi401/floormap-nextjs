@@ -3,6 +3,7 @@
 import dynamic from "next/dynamic";
 import { Container } from "@floormap/container";
 import { Widgets } from "@floormap/widgets";
+import { useFloormapRefs } from "@floormap/provider";
 import { useDragZoom } from "@/hooks/use-drag-zoom";
 import type { Elem, Realsize, SoldBooth } from "@/types";
 
@@ -17,7 +18,11 @@ export const Floormap: React.FC<{
   soldBooths: SoldBooth[];
   children?: React.ReactNode;
 }> = ({ realsize, elems, soldBooths, children }) => {
-  const { graphRef, mapRef, userActions, widgetActions } = useDragZoom();
+  const { mapRef, graphRef } = useFloormapRefs();
+  const { userActions, widgetActions } = useDragZoom({
+    graphRef,
+    mapRef,
+  });
   return (
     <Container ref={graphRef} {...userActions}>
       <Widgets

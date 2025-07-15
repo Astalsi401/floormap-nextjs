@@ -1,3 +1,4 @@
+import { FloormapRefsProvider } from "@floormap/provider";
 import type { Viewport } from "next";
 
 export const viewport: Viewport = {
@@ -19,12 +20,14 @@ export default async function FloorMapLayout({
   map: Readonly<React.ReactNode>;
 }) {
   return (
-    <div data-floormap className="-mt-16.25 h-svh">
-      <div className="pt-16.25 sm:ps-80 h-full">
-        {sidebar}
-        {map}
-        {children}
+    <FloormapRefsProvider>
+      <div data-floormap className="-mt-16.25 h-svh">
+        <div className="pt-16.25 sm:ps-80 h-full">
+          {sidebar}
+          {map}
+          {children}
+        </div>
       </div>
-    </div>
+    </FloormapRefsProvider>
   );
 }

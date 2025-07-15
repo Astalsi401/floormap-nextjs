@@ -6,11 +6,15 @@ import { useZoom } from "./use-zoom";
 import { useTouchGestures } from "./use-touch-gestures";
 import { useWidgetControl } from "./use-widget-control";
 
-export const useDragZoom = () => {
+export const useDragZoom = ({
+  graphRef,
+  mapRef,
+}: {
+  graphRef: React.RefObject<HTMLDivElement | null>;
+  mapRef: React.RefObject<SVGSVGElement | null>;
+}) => {
   const dispatch = useAppDispatch();
   const dragStatus = useAppSelector((state) => state.floormap.dragStatus);
-  const graphRef = useRef<HTMLDivElement | null>(null);
-  const mapRef = useRef<SVGSVGElement | null>(null);
   const pendingDragRef = useRef<{
     x: number | null;
     y: number | null;
@@ -113,8 +117,6 @@ export const useDragZoom = () => {
     };
   }, []);
   return {
-    graphRef,
-    mapRef,
     userActions,
     widgetActions,
   };
