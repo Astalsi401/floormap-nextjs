@@ -18,19 +18,16 @@ export const Floormap: React.FC<{
   soldBooths: SoldBooth[];
   children?: React.ReactNode;
 }> = ({ realsize, elems, soldBooths, children }) => {
-  const { mapRef, graphRef } = useFloormapRefs();
-  const { userActions, widgetActions } = useDragZoom({
-    graphRef,
-    mapRef,
-  });
+  const refs = useFloormapRefs();
+  const { userActions, widgetActions } = useDragZoom(refs);
   return (
-    <Container ref={graphRef} {...userActions}>
+    <Container ref={refs.graphRef} {...userActions}>
       <Widgets
         floors={realsize.map((r) => r.floor)}
         widgetActions={widgetActions}
       />
       <MapSvg
-        ref={mapRef}
+        ref={refs.mapRef}
         realsize={realsize}
         elems={elems}
         soldBooths={soldBooths}

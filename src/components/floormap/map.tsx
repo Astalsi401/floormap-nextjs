@@ -1,5 +1,5 @@
 import { forwardRef } from "react";
-import { Elements } from "@floormap/elems";
+import { InteractiveElements, StaticElements } from "@floormap/elems";
 import { useMapElems } from "@/hooks/use-map-elems";
 import type { Elem, Realsize, SoldBooth } from "@/types";
 
@@ -26,12 +26,12 @@ const MapSvg = forwardRef<SVGSVGElement, MapProps>(
         xmlns="http://www.w3.org/2000/svg"
         viewBox={`0 0 ${viewBox.width} ${viewBox.height}`}
       >
-        <Elements elems={mapElems.wall} />
-        <Elements elems={mapElems.pillar} />
-        <Elements elems={mapElems.room} />
-        <Elements elems={mapElems.text} />
-        <Elements elems={mapElems.icon} />
-        <Elements elems={soldElems} />
+        <StaticElements elems={mapElems.wall} />
+        <StaticElements elems={mapElems.pillar} />
+        <StaticElements elems={mapElems.room} />
+        <StaticElements elems={mapElems.text} />
+        <StaticElements elems={mapElems.icon} />
+        <InteractiveElements elems={soldElems} />
       </svg>
     );
   }

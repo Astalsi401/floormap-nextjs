@@ -42,13 +42,19 @@ export const Results: React.FC<{ exhibitors: Exhibitor[] }> = ({
 export const ResultItem: React.FC<
   Exhibitor & {
     soldElemsMap: Map<string, SoldBoothElem>;
-    goElem: (props: GoElem) => Promise<void>;
+    goElem: (e: React.MouseEvent<HTMLElement>) => Promise<void>;
   }
 > = ({ id, org, soldElemsMap, goElem }) => {
   const soldElem = soldElemsMap.get(id);
   if (!soldElem) return null;
   return (
     <div
+      data-id={soldElem.id}
+      data-floor={soldElem.floor}
+      data-x={soldElem.x}
+      data-y={soldElem.y}
+      data-w={soldElem.w}
+      data-h={soldElem.h}
       style={
         {
           "--area-color": soldElem.area
@@ -61,7 +67,7 @@ export const ResultItem: React.FC<
         "border-s-4 border-(--area-color)",
         "bg-background shadow hover:bg-background/50 transition-colors"
       )}
-      onClick={() => goElem({ elem: soldElem })}
+      onClick={goElem}
     >
       <h3 className="font-semibold h-[3em] flex items-center grow">
         <span>{org}</span>
