@@ -35,6 +35,7 @@ export const InteractiveElements = memo<{
       await elemActive({
         floor: Number(elem.floor),
         id: elem.id,
+        isMap: true,
       });
     },
     [elemActive]

@@ -5,10 +5,10 @@ import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import { toggleElemDetail } from "@slices/floormap-slice";
 import type { Elem } from "@/types";
 
-export type GoElem = {
-  elem: Pick<Elem, "id" | "x" | "y" | "w" | "h" | "floor">;
-  ratio?: number;
-};
+type ElemActive = Pick<
+  Pick<Elem, "id" | "x" | "y" | "w" | "h" | "floor">,
+  "floor" | "id"
+> & { isMap: boolean };
 
 export const useGoElem = ({
   graphRef,
@@ -26,8 +26,8 @@ export const useGoElem = ({
   distanceRef.current = distance;
 
   const elemActive = useCallback(
-    async ({ floor, id }: Pick<GoElem["elem"], "floor" | "id">) => {
-      if (distanceRef.current !== 0) return;
+    async ({ floor, id, isMap }: ElemActive) => {
+      if (isMap && distanceRef.current !== 0) return;
       dispatch(toggleElemDetail(true));
       setSearchParams(
         { key: "floor", value: String(floor) },
@@ -44,7 +44,11 @@ export const useGoElem = ({
       const elem = currentTarget.dataset;
       if (!(elem.id && elem.floor && elem.x && elem.y && elem.w && elem.h))
         return;
-      await elemActive({ floor: Number(elem.floor), id: elem.id });
+      await elemActive({
+        floor: Number(elem.floor),
+        id: elem.id,
+        isMap: false,
+      });
       // 定位選取攤位中心點至地圖中心點
       const svgPoint = mapRef.current.createSVGPoint();
       svgPoint.x = Number(elem.x) + Number(elem.w) / 2;
