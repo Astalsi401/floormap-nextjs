@@ -24,7 +24,7 @@ export const useWidgetControl = (
         animate: true,
       });
     },
-    [graphRef.current, mapRef.current]
+    [graphRef, mapRef]
   );
   const resetWidgetZoom = useCallback(
     ({ animate = false }: { animate?: boolean }) => {
@@ -32,7 +32,7 @@ export const useWidgetControl = (
       animate && animation(mapRef.current);
       Object.assign(mapRef.current.style, { scale: "1", translate: "0px 0px" });
     },
-    [mapRef.current]
+    [mapRef]
   );
   return {
     handleWidgetZoom,

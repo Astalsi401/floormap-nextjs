@@ -1,7 +1,7 @@
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 import { dragCalculator, zoomCalculator } from "@/utils/floormap";
 import { useAppSearchParams } from "@/hooks/use-search-params";
-import { useAppDispatch } from "@/hooks/use-redux";
+import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import { toggleElemDetail } from "@slices/floormap-slice";
 import type { Elem } from "@/types";
 
@@ -17,10 +17,17 @@ export const useGoElem = ({
   graphRef: React.RefObject<HTMLDivElement | null>;
   mapRef: React.RefObject<SVGSVGElement | null>;
 }) => {
-  const dispatch = useAppDispatch();
   const { setSearchParams } = useAppSearchParams();
+  const dispatch = useAppDispatch();
+  const distance = useAppSelector(
+    (state) => state.floormap.dragStatus.distance
+  );
+  const distanceRef = useRef(distance);
+  distanceRef.current = distance;
+
   const elemActive = useCallback(
     async ({ floor, id }: Pick<GoElem["elem"], "floor" | "id">) => {
+      if (distanceRef.current !== 0) return;
       dispatch(toggleElemDetail(true));
       setSearchParams(
         { key: "floor", value: String(floor) },
@@ -28,7 +35,7 @@ export const useGoElem = ({
       );
       await new Promise((resolve) => setTimeout(resolve, 50));
     },
-    []
+    [dispatch, setSearchParams]
   );
   const goElem = useCallback(
     async ({ currentTarget }: React.MouseEvent<HTMLElement>) => {
@@ -71,7 +78,7 @@ export const useGoElem = ({
         animate: true,
       });
     },
-    [graphRef.current, mapRef.current]
+    [elemActive, graphRef, mapRef]
   );
   return { goElem, elemActive };
 };
