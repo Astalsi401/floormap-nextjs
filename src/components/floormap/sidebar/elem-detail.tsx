@@ -10,14 +10,14 @@ import { useBoothDetail } from "@/hooks/use-booth-detail";
 export const ElemDetail: React.FC = () => {
   const dispatch = useAppDispatch();
   const elemDetail = useAppSelector((state) => state.floormap.elemDetail);
-  const { setSearchParams } = useAppSearchParams();
   const boothDetail = useBoothDetail();
-  if (!boothDetail) return null;
+  const { setSearchParams } = useAppSearchParams();
   return (
     <div
       className={clsx(
-        !elemDetail && "-translate-x-full",
-        "absolute inset-0 transition-transform duration-300",
+        elemDetail ? "translate-0" : "-translate-x-full",
+        "transition-transform duration-300",
+        "absolute inset-0",
         "bg-sidebar-bg"
       )}
     >
@@ -31,12 +31,14 @@ export const ElemDetail: React.FC = () => {
         <ArrowUturnLeftIcon className="size-5" />
       </Button>
       <div className="p-2.5">
-        <BoothName
-          className="text-xl"
-          boothId={boothDetail.id}
-          floor={boothDetail.floor}
-          boothName={boothDetail.boothName}
-        />
+        {boothDetail && (
+          <BoothName
+            className="text-xl"
+            boothId={boothDetail.id}
+            floor={boothDetail.floor}
+            boothName={boothDetail.boothName}
+          />
+        )}
       </div>
     </div>
   );

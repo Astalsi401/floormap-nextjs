@@ -1,12 +1,12 @@
 import { memo, useCallback, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
+import { useFloormapRefs } from "@floormap/provider";
 import { drawPath } from "@/utils/draw-path";
 import { useAppSelector } from "@/hooks/use-redux";
-import { useFloormapRefs } from "@floormap/provider";
+import { useGoElem } from "@/hooks/use-go-booth";
 import type { Elem, PathLine, SoldBoothElem } from "@/types";
 import { Room } from "./room";
 import { Booth } from "./booth";
-import { useGoElem } from "@/hooks/use-go-booth";
 
 export const InteractiveElements = memo<{
   elems: SoldBoothElem[];
