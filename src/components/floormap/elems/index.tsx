@@ -8,7 +8,7 @@ import type { Elem, PathLine, SoldBoothElem } from "@/types";
 import { Room } from "./room";
 import { Booth } from "./booth";
 
-export const InteractiveElements = memo<{
+const InteractiveElements = memo<{
   elems: SoldBoothElem[];
   size?: number;
 }>(({ elems, size = 200 }) => {
@@ -56,7 +56,7 @@ export const InteractiveElements = memo<{
   );
 });
 
-export const StaticElements = memo<{ elems: Elem[]; size?: number }>(
+const StaticElements = memo<{ elems: Elem[]; size?: number }>(
   ({ elems, size = 200 }) => {
     const searchParams = useSearchParams();
     const floor = useMemo(
@@ -126,3 +126,7 @@ const Text: React.FC<{ elem: Elem }> = ({ elem }) => (
     ))}
   </g>
 );
+
+InteractiveElements.displayName = "InteractiveElements";
+StaticElements.displayName = "StaticElements";
+export { InteractiveElements, StaticElements };

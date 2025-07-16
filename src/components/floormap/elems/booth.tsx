@@ -6,7 +6,7 @@ import { getCssVariable } from "@/utils/get-css-variable";
 import { svgToBase64 } from "@/utils/svg-to-base64";
 import type { SoldBoothElem } from "@/types";
 
-export const Booth = memo<{
+const Booth = memo<{
   elem: SoldBoothElem;
   size: number;
   hide: boolean;
@@ -187,3 +187,8 @@ const BoothText = memo<{
     );
   }
 );
+
+export { Booth };
+Booth.displayName = "Booth";
+BoothTextGroup.displayName = "BoothTextGroup";
+BoothText.displayName = "BoothText";
