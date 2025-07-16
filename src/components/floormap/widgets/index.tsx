@@ -8,11 +8,11 @@ export const Widgets: React.FC<{
 }> = ({ floors, widgetActions }) => {
   return (
     <>
-      <div className="flex flex-col gap-2 absolute z-50 top-2 right-2">
+      <div className="flex flex-col gap-2 absolute z-10 top-2 right-2">
         <SwitchFloor floors={floors} />
         <SwitchLang />
       </div>
-      <div className="flex flex-col gap-2 absolute z-50 top-2 left-2">
+      <div className="flex flex-col gap-2 absolute z-10 top-2 left-2">
         <DragZoom {...widgetActions} />
       </div>
     </>
