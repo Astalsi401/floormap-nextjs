@@ -2,10 +2,11 @@
 
 import clsx from "clsx";
 import { useMemo } from "react";
+import { BoothName } from "@ui/booth-name";
 import { useFloormapRefs } from "@floormap/provider";
 import { useAppSelector } from "@/hooks/use-redux";
 import { useSearchBooths } from "@/hooks/use-search-booths";
-import { type GoElem, useGoElem } from "@/hooks/use-go-booth";
+import { useGoElem } from "@/hooks/use-go-booth";
 import type { Exhibitor, SoldBoothElem } from "@/types";
 
 export const Results: React.FC<{ exhibitors: Exhibitor[] }> = ({
@@ -48,7 +49,7 @@ export const ResultItem: React.FC<
   const soldElem = soldElemsMap.get(id);
   if (!soldElem) return null;
   return (
-    <div
+    <BoothName
       data-id={soldElem.id}
       data-floor={soldElem.floor}
       data-x={soldElem.x}
@@ -63,20 +64,13 @@ export const ResultItem: React.FC<
         } as React.CSSProperties
       }
       className={clsx(
-        "p-2 select-none cursor-pointer rounded-xs flex gap-1",
-        "border-s-4 border-(--area-color)",
+        "p-2 border-s-4 border-(--area-color)",
         "bg-background shadow hover:bg-background/50 transition-colors"
       )}
       onClick={goElem}
-    >
-      <h3 className="font-semibold h-[3em] flex items-center grow">
-        <span>{org}</span>
-      </h3>
-      <div className="w-[6em] shrink-0 text-xs flex items-center justify-end">
-        <span>
-          {soldElem.id} / {soldElem.floor}F
-        </span>
-      </div>
-    </div>
+      boothId={soldElem.id}
+      floor={soldElem.floor}
+      boothName={org}
+    />
   );
 };

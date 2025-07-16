@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import type { OverviewItem, SoldBoothElem } from "@/types";
+import type { Exhibitor, OverviewItem, SoldBoothElem } from "@/types";
 
 type FloormapState = {
   overview: boolean;
@@ -7,6 +7,7 @@ type FloormapState = {
   elemDetail: boolean;
   dragStatus: { moving: boolean; distance: number };
   soldElems: SoldBoothElem[];
+  exhibitors: Exhibitor[];
   resultsMap: Record<string, boolean>;
   areasMap: Record<string, OverviewItem>;
 };
@@ -17,6 +18,7 @@ const initialState: FloormapState = {
   elemDetail: false,
   dragStatus: { moving: false, distance: 0 },
   soldElems: [],
+  exhibitors: [],
   resultsMap: {},
   areasMap: {},
 };
@@ -54,6 +56,12 @@ export const floormapSlice = createSlice({
     ) => {
       state.soldElems = action.payload;
     },
+    setExhibitors: (
+      state,
+      action: PayloadAction<FloormapState["exhibitors"]>
+    ) => {
+      state.exhibitors = action.payload;
+    },
     setResultsMap: (
       state,
       action: PayloadAction<FloormapState["resultsMap"]>
@@ -72,6 +80,7 @@ export const {
   toggleElemDetail,
   setDragStatus,
   setSoldElems,
+  setExhibitors,
   setResultsMap,
   setAreasMap,
 } = floormapSlice.actions;

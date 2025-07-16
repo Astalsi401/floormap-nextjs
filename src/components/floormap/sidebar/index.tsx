@@ -1,8 +1,9 @@
 "use client";
 
 import clsx from "clsx";
+import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
-import { toggleSidebar } from "@slices/floormap-slice";
+import { setExhibitors, toggleSidebar } from "@slices/floormap-slice";
 import type { Exhibitor } from "@/types";
 import { Search } from "./search";
 import { Results } from "./results";
@@ -14,6 +15,9 @@ export const Sidebar: React.FC<{ exhibitors: Exhibitor[] }> = ({
 }) => {
   const dispatch = useAppDispatch();
   const sidebar = useAppSelector((state) => state.floormap.sidebar);
+  useEffect(() => {
+    dispatch(setExhibitors(exhibitors));
+  }, [dispatch, exhibitors]);
   return (
     <aside
       onClick={() => !sidebar && dispatch(toggleSidebar(true))}
