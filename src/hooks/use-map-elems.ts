@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from "react";
 import { openModal } from "@slices/modal-slice";
-import { setSoldElems } from "@slices/floormap-slice";
+import { setExhibitors, setSoldElems } from "@slices/floormap-slice";
 import { useAppDispatch } from "@/hooks/use-redux";
 import { useAppSearchParams } from "@/hooks/use-search-params";
 import {
@@ -10,6 +10,7 @@ import {
 import type {
   Elem,
   ElemTypes,
+  Exhibitor,
   Realsize,
   SoldBooth,
   SoldBoothElem,
@@ -19,11 +20,13 @@ export const useMapElems = ({
   realsize,
   elems,
   soldBooths,
+  exhibitors,
   edit = false,
 }: {
   realsize: Realsize[];
   elems: Elem[];
   soldBooths: SoldBooth[];
+  exhibitors: Exhibitor[];
   edit?: boolean;
 }) => {
   const dispatch = useAppDispatch();
@@ -52,6 +55,9 @@ export const useMapElems = ({
     if (!soldElems) return;
     dispatch(setSoldElems(soldElems));
   }, [soldElems]);
+  useEffect(() => {
+    dispatch(setExhibitors(exhibitors));
+  }, [exhibitors]);
   return { mapElems, viewBox, soldElems };
 };
 

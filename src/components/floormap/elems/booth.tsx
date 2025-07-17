@@ -7,7 +7,7 @@ import { svgToBase64 } from "@/utils/svg-to-base64";
 import type { SoldBoothElem } from "@/types";
 
 const Booth = memo<{
-  elem: SoldBoothElem;
+  elem: SoldBoothElem & { _id?: string };
   size: number;
   hide: boolean;
   onClick: (e: React.MouseEvent<SVGElement>) => void;
@@ -21,6 +21,7 @@ const Booth = memo<{
     return (
       <g
         key={elem.id}
+        data-_id={elem._id}
         data-id={elem.id}
         data-floor={elem.floor}
         onClick={onClick}

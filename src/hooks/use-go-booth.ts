@@ -1,14 +1,14 @@
-import { useCallback, useMemo, useRef } from "react";
+import { useCallback, useRef } from "react";
 import { dragCalculator, zoomCalculator } from "@/utils/floormap";
 import { useAppSearchParams } from "@/hooks/use-search-params";
 import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
-import { toggleElemDetail } from "@slices/floormap-slice";
+import { useElementDetail } from "@/hooks/use-elem-detail";
 import type { Elem } from "@/types";
 
 type ElemActive = Pick<
   Pick<Elem, "id" | "x" | "y" | "w" | "h" | "floor">,
   "floor" | "id"
-> & { isMap: boolean };
+> & { isMap: boolean; _id?: string };
 
 export const useGoElem = ({
   graphRef,
@@ -18,11 +18,13 @@ export const useGoElem = ({
   mapRef: React.RefObject<SVGSVGElement | null>;
 }) => {
   const { searchParams, setSearchParams } = useAppSearchParams();
+  const toggleDetail = useElementDetail();
   const dispatch = useAppDispatch();
   const elemDetail = useAppSelector((state) => state.floormap.elemDetail);
   const distance = useAppSelector(
     (state) => state.floormap.dragStatus.distance
   );
+
   const distanceRef = useRef(distance);
   distanceRef.current = distance;
   const currentIdRef = useRef<string | null>(searchParams.get("id"));
@@ -31,17 +33,10 @@ export const useGoElem = ({
   elemDetailRef.current = elemDetail;
 
   const elemActive = useCallback(
-    async ({ floor, id, isMap }: ElemActive) => {
+    async ({ floor, id, _id, isMap }: ElemActive) => {
       if (isMap && distanceRef.current !== 0) return;
-      dispatch(
-        toggleElemDetail(
-          isMap && currentIdRef.current === id ? undefined : true
-        )
-      );
-      setSearchParams(
-        { key: "floor", value: String(floor) },
-        { key: "id", value: id }
-      );
+      const state = isMap && currentIdRef.current === id ? undefined : true;
+      toggleDetail({ floor, id, _id, state });
       await new Promise((resolve) => setTimeout(resolve, 50));
     },
     [dispatch, setSearchParams]
@@ -56,6 +51,7 @@ export const useGoElem = ({
       await elemActive({
         floor: Number(elem.floor),
         id: elem.id,
+        _id: elem._id,
         isMap: false,
       });
       // 定位選取攤位中心點至地圖中心點

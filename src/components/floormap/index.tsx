@@ -5,7 +5,7 @@ import { Container } from "@floormap/container";
 import { Widgets } from "@floormap/widgets";
 import { useFloormapRefs } from "@floormap/provider";
 import { useDragZoom } from "@/hooks/use-drag-zoom";
-import type { Elem, Realsize, SoldBooth } from "@/types";
+import type { Elem, Exhibitor, Realsize, SoldBooth } from "@/types";
 
 const MapSvg = dynamic(
   () => import("@floormap/map").then((mod) => mod.MapSvg),
@@ -16,8 +16,9 @@ export const Floormap: React.FC<{
   realsize: Realsize[];
   elems: Elem[];
   soldBooths: SoldBooth[];
+  exhibitors: Exhibitor[];
   children?: React.ReactNode;
-}> = ({ realsize, elems, soldBooths, children }) => {
+}> = ({ realsize, elems, soldBooths, exhibitors, children }) => {
   const refs = useFloormapRefs();
   const { userActions, widgetActions } = useDragZoom(refs);
   return (
@@ -31,6 +32,7 @@ export const Floormap: React.FC<{
         realsize={realsize}
         elems={elems}
         soldBooths={soldBooths}
+        exhibitors={exhibitors}
       >
         {children}
       </MapSvg>

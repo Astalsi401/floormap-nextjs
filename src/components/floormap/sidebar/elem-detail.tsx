@@ -2,16 +2,14 @@ import clsx from "clsx";
 import { ArrowUturnLeftIcon } from "@heroicons/react/24/solid";
 import { Button } from "@ui/button";
 import { BoothName } from "@ui/booth-name";
-import { toggleElemDetail } from "@slices/floormap-slice";
-import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
-import { useAppSearchParams } from "@/hooks/use-search-params";
+import { useAppSelector } from "@/hooks/use-redux";
 import { useBoothDetail } from "@/hooks/use-booth-detail";
+import { useElementDetail } from "@/hooks/use-elem-detail";
 
 export const ElemDetail: React.FC = () => {
-  const dispatch = useAppDispatch();
+  const toggleDetail = useElementDetail();
   const elemDetail = useAppSelector((state) => state.floormap.elemDetail);
   const boothDetail = useBoothDetail();
-  const { setSearchParams } = useAppSearchParams();
   return (
     <div
       className={clsx(
@@ -23,21 +21,20 @@ export const ElemDetail: React.FC = () => {
     >
       <Button
         className="bg-background flex justify-center p-2 w-full shadow-sm shadow-foreground/10 hover:bg-background/50 transition-colors"
-        onClick={() => {
-          setSearchParams({ key: "id" });
-          dispatch(toggleElemDetail(false));
-        }}
+        onClick={() => toggleDetail({ state: false })}
       >
         <ArrowUturnLeftIcon className="size-5" />
       </Button>
-      <div className="p-2.5">
+      <div className="p-2.5 flex flex-col gap-2">
         {boothDetail && (
-          <BoothName
-            className="text-xl"
-            boothId={boothDetail.id}
-            floor={boothDetail.floor}
-            boothName={boothDetail.boothName}
-          />
+          <>
+            <BoothName
+              className="text-xl"
+              boothId={boothDetail.id}
+              floor={boothDetail.floor}
+              boothName={boothDetail.boothName}
+            />
+          </>
         )}
       </div>
     </div>

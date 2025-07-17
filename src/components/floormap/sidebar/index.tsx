@@ -1,23 +1,16 @@
 "use client";
 
 import clsx from "clsx";
-import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
-import { setExhibitors, toggleSidebar } from "@slices/floormap-slice";
-import type { Exhibitor } from "@/types";
+import { toggleSidebar } from "@slices/floormap-slice";
 import { Search } from "./search";
 import { Results } from "./results";
 import { Overview } from "./overview";
 import { ElemDetail } from "./elem-detail";
 
-export const Sidebar: React.FC<{ exhibitors: Exhibitor[] }> = ({
-  exhibitors,
-}) => {
+export const Sidebar: React.FC = () => {
   const dispatch = useAppDispatch();
   const sidebar = useAppSelector((state) => state.floormap.sidebar);
-  useEffect(() => {
-    dispatch(setExhibitors(exhibitors));
-  }, [dispatch, exhibitors]);
   return (
     <aside
       onClick={() => !sidebar && dispatch(toggleSidebar(true))}
@@ -31,7 +24,7 @@ export const Sidebar: React.FC<{ exhibitors: Exhibitor[] }> = ({
     >
       <Search />
       <div className="relative grow h-[calc(100%-4rem)]">
-        <Results exhibitors={exhibitors} />
+        <Results />
         <Overview />
       </div>
       <ElemDetail />

@@ -1,3 +1,4 @@
+import _ from "lodash";
 import { memo, useCallback, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import { useFloormapRefs } from "@floormap/provider";
@@ -13,21 +14,29 @@ const InteractiveElements = memo<{
   size?: number;
 }>(({ elems, size = 200 }) => {
   const refs = useFloormapRefs();
+  const searchParams = useSearchParams();
+  const floor = Number(searchParams.get("floor") ?? "1");
   const { elemActive } = useGoElem(refs);
+  const exhibitors = useAppSelector((state) => state.floormap.exhibitors);
   const resultsRecord = useAppSelector((state) => state.floormap.resultsMap);
+
   const resultsMap = useMemo(
     () => new Map(Object.entries(resultsRecord)),
     [resultsRecord]
   );
-  const searchParams = useSearchParams();
-  const floor = useMemo(
-    () => Number(searchParams.get("floor") ?? "1"),
-    [searchParams.get("floor")]
+  const exhibitorsMap = useMemo(
+    () => new Map(Object.entries(_.groupBy(exhibitors, "id"))),
+    [exhibitors]
   );
-  const floorElems = useMemo(
-    () => elems.filter((elem) => elem.floor === floor),
-    [floor, elems]
-  );
+  const floorElems = useMemo(() => {
+    return elems
+      .filter((elem) => elem.floor === floor)
+      .map((elem) => ({
+        ...elem,
+        _id: exhibitorsMap.get(elem.id)?.at(0)?._id,
+      }));
+  }, [floor, elems, exhibitorsMap]);
+
   const onClick = useCallback(
     async (e: React.MouseEvent<SVGElement>) => {
       const elem = e.currentTarget.dataset;
@@ -35,11 +44,13 @@ const InteractiveElements = memo<{
       await elemActive({
         floor: Number(elem.floor),
         id: elem.id,
+        _id: elem._id,
         isMap: true,
       });
     },
     [elemActive]
   );
+
   return (
     <>
       {floorElems.map((elem) => (

@@ -21,5 +21,13 @@ export default async function MapPage({
   const realsize = await fetchData.floormap.realsize(floormapParams);
   const elems = await fetchData.floormap.elems(floormapParams);
   const soldBooths = await fetchData.floormap.soldBooths(floormapParams);
-  return <Floormap realsize={realsize} elems={elems} soldBooths={soldBooths} />;
+  const exhibitors = await fetchData.floormap.exhibitors(floormapParams);
+  return (
+    <Floormap
+      realsize={realsize}
+      elems={elems}
+      soldBooths={soldBooths}
+      exhibitors={exhibitors}
+    />
+  );
 }

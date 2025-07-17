@@ -9,10 +9,9 @@ import { useSearchBooths } from "@/hooks/use-search-booths";
 import { useGoElem } from "@/hooks/use-go-booth";
 import type { Exhibitor, SoldBoothElem } from "@/types";
 
-export const Results: React.FC<{ exhibitors: Exhibitor[] }> = ({
-  exhibitors,
-}) => {
+export const Results: React.FC = () => {
   const refs = useFloormapRefs();
+  const exhibitors = useAppSelector((state) => state.floormap.exhibitors);
   const soldElems = useAppSelector((state) => state.floormap.soldElems);
   const soldElemsMap = useMemo(
     () => new Map(soldElems.map((elem) => [elem.id, elem])),
@@ -45,11 +44,12 @@ export const ResultItem: React.FC<
     soldElemsMap: Map<string, SoldBoothElem>;
     goElem: (e: React.MouseEvent<HTMLElement>) => Promise<void>;
   }
-> = ({ id, org, soldElemsMap, goElem }) => {
+> = ({ _id, id, org, soldElemsMap, goElem }) => {
   const soldElem = soldElemsMap.get(id);
   if (!soldElem) return null;
   return (
     <BoothName
+      data-_id={_id}
       data-id={soldElem.id}
       data-floor={soldElem.floor}
       data-x={soldElem.x}

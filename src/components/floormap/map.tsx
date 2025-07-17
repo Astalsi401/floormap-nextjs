@@ -1,21 +1,23 @@
 import { forwardRef } from "react";
 import { InteractiveElements, StaticElements } from "@floormap/elems";
 import { useMapElems } from "@/hooks/use-map-elems";
-import type { Elem, Realsize, SoldBooth } from "@/types";
+import type { Elem, Exhibitor, Realsize, SoldBooth } from "@/types";
 
 export type MapProps = {
   realsize: Realsize[];
   elems: Elem[];
   soldBooths: SoldBooth[];
+  exhibitors: Exhibitor[];
   children?: React.ReactNode;
 };
 
 const MapSvg = forwardRef<SVGSVGElement, MapProps>(
-  ({ realsize, elems, soldBooths }, ref) => {
+  ({ realsize, elems, soldBooths, exhibitors }, ref) => {
     const { mapElems, viewBox, soldElems } = useMapElems({
       realsize,
       elems,
       soldBooths,
+      exhibitors,
     });
     if (!mapElems || !viewBox || !soldElems) return null;
     return (
