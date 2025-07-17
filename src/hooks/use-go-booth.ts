@@ -32,12 +32,6 @@ export const useGoElem = ({
 
   const elemActive = useCallback(
     async ({ floor, id, isMap }: ElemActive) => {
-      console.log("elemActive", {
-        floor,
-        id,
-        currentId: currentIdRef.current,
-        elemDetail: elemDetailRef.current,
-      });
       if (isMap && distanceRef.current !== 0) return;
       dispatch(
         toggleElemDetail(
