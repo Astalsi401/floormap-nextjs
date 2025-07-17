@@ -64,6 +64,7 @@ export type Exhibitor = {
   id: string;
   org: string;
   info: string;
+  organizer: boolean;
 };
 
 export type Area = {
