@@ -1,4 +1,4 @@
-import { useCallback, useRef } from "react";
+import { useCallback, useMemo, useRef } from "react";
 import { dragCalculator, zoomCalculator } from "@/utils/floormap";
 import { useAppSearchParams } from "@/hooks/use-search-params";
 import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
@@ -17,18 +17,33 @@ export const useGoElem = ({
   graphRef: React.RefObject<HTMLDivElement | null>;
   mapRef: React.RefObject<SVGSVGElement | null>;
 }) => {
-  const { setSearchParams } = useAppSearchParams();
+  const { searchParams, setSearchParams } = useAppSearchParams();
   const dispatch = useAppDispatch();
+  const elemDetail = useAppSelector((state) => state.floormap.elemDetail);
   const distance = useAppSelector(
     (state) => state.floormap.dragStatus.distance
   );
   const distanceRef = useRef(distance);
   distanceRef.current = distance;
+  const currentIdRef = useRef<string | null>(searchParams.get("id"));
+  currentIdRef.current = searchParams.get("id");
+  const elemDetailRef = useRef<boolean>(elemDetail);
+  elemDetailRef.current = elemDetail;
 
   const elemActive = useCallback(
     async ({ floor, id, isMap }: ElemActive) => {
+      console.log("elemActive", {
+        floor,
+        id,
+        currentId: currentIdRef.current,
+        elemDetail: elemDetailRef.current,
+      });
       if (isMap && distanceRef.current !== 0) return;
-      dispatch(toggleElemDetail(true));
+      dispatch(
+        toggleElemDetail(
+          isMap && currentIdRef.current === id ? undefined : true
+        )
+      );
       setSearchParams(
         { key: "floor", value: String(floor) },
         { key: "id", value: id }

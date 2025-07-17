@@ -1,5 +1,6 @@
 import { useEffect, useMemo } from "react";
 import { openModal } from "@slices/modal-slice";
+import { setSoldElems } from "@slices/floormap-slice";
 import { useAppDispatch } from "@/hooks/use-redux";
 import { useAppSearchParams } from "@/hooks/use-search-params";
 import {
@@ -13,7 +14,6 @@ import type {
   SoldBooth,
   SoldBoothElem,
 } from "@/types";
-import { setSoldElems } from "@slices/floormap-slice";
 
 export const useMapElems = ({
   realsize,
