@@ -14,19 +14,17 @@ export const useBoothDetail = () => {
     if (!id) return null;
     const soldElem = soldElemsMap.get(id);
     const corps = exhibitorsMapByBooth.get(id);
-    if (!_id) return null;
-    const exhibitor = exhibitorsMap.get(_id);
-    console.log({ exhibitor, soldElem, corps });
-    if (!exhibitor || !soldElem) return null;
+    const exhibitor = exhibitorsMap.get(_id || "") || undefined;
+    if (!soldElem) return null;
     return {
       id,
       floor: soldElem.floor,
       boothName: soldElem.text,
-      org: exhibitor.org,
+      org: exhibitor?.org,
       area: soldElem.area,
       tags: soldElem.tags,
       corps,
-      info: exhibitor.info,
+      info: exhibitor?.info,
     };
   }, [exhibitorsMap, id, _id]);
 

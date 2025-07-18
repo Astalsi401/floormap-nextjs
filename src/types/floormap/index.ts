@@ -71,4 +71,18 @@ export type Area = {
   id: string;
   name: string;
   color: string;
+  count: number;
 };
+
+export type Overview = {
+  title: string;
+  items: Area[];
+};
+
+export type ComputedExhibitor = Exhibitor &
+  Pick<
+    SoldBoothElem,
+    "area" | "text" | "tags" | "floor" | "w" | "h" | "x" | "y"
+  >;
+
+export type ComputedSoldBoothElem = SoldBoothElem & { _id?: string };

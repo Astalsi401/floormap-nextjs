@@ -1,6 +1,15 @@
+import { groupBy } from "lodash";
 import { createContext, useContext, useMemo } from "react";
-import type { Elem, ElemTypes, SoldBooth, SoldBoothElem } from "@/types";
+import type {
+  Area,
+  Elem,
+  ElemTypes,
+  Overview,
+  SoldBooth,
+  SoldBoothElem,
+} from "@/types";
 import { BoothPosition, traceBoundaryPoints } from "@/utils/booth-path-trace";
+import { useDict } from "@/dictionaries/provider";
 
 type ElemsBaseContextType = {
   mapElems: {
@@ -12,6 +21,8 @@ type ElemsBaseContextType = {
     booth: Elem[];
   };
   soldElems: SoldBoothElem[];
+  areas: Area[];
+  overviews: Overview[];
 };
 
 const ElemsBaseContext = createContext<ElemsBaseContextType | null>(null);
@@ -21,6 +32,8 @@ export const ElemsBaseProvider: React.FC<{
   soldBooths: SoldBooth[];
   children?: React.ReactNode;
 }> = ({ elems, soldBooths, children }) => {
+  const areasTitle = useDict((state) => state.floormap.overview.areas);
+
   const mapElems = useMemo(() => elemsFilter({ elems }), [elems]);
   const soldElems = useMemo(() => {
     return soldElemsFilter({
@@ -28,9 +41,30 @@ export const ElemsBaseProvider: React.FC<{
       soldBooths,
     });
   }, [mapElems.booth, soldBooths]);
+  const { areas, overviews } = useMemo(() => {
+    const areas = Object.entries(
+      groupBy(soldElems, (elem) => elem.area?.id)
+    ).map(([area, elems]) => ({
+      id: area,
+      name: elems[0].area?.name || "Unselected Area",
+      count: elems.length,
+      color: elems[0].area?.color || "var(--foreground)",
+    }));
+    return {
+      areas,
+      overviews: [
+        {
+          title: areasTitle,
+          items: areas,
+        },
+      ],
+    };
+  }, [soldElems]);
 
   return (
-    <ElemsBaseContext.Provider value={{ mapElems, soldElems }}>
+    <ElemsBaseContext.Provider
+      value={{ mapElems, soldElems, areas, overviews }}
+    >
       {children}
     </ElemsBaseContext.Provider>
   );

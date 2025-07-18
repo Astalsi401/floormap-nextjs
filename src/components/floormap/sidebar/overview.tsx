@@ -1,14 +1,14 @@
 "use client";
 
 import clsx from "clsx";
-import { useOverviews } from "@/hooks/use-overview";
 import { useAppSearchParams } from "@/hooks/use-search-params";
 import { useAppSelector } from "@/hooks/use-redux";
 import type { OverviewData } from "@/types";
+import { useElemsBase } from "@floormap/provider";
 
 export const Overview: React.FC = () => {
   const overviewToggle = useAppSelector((state) => state.floormap.overview);
-  const { overviews } = useOverviews();
+  const { overviews } = useElemsBase();
   return (
     <div
       className={clsx(
