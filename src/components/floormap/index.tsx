@@ -5,7 +5,7 @@ import { Container } from "@floormap/container";
 import { Widgets } from "@floormap/widgets";
 import { useFloormapRefs } from "@floormap/provider";
 import { useDragZoom } from "@/hooks/use-drag-zoom";
-import type { Elem, Exhibitor, Realsize, SoldBooth } from "@/types";
+import { useAppSelector } from "@/hooks/use-redux";
 
 const MapSvg = dynamic(
   () => import("@floormap/map").then((mod) => mod.MapSvg),
@@ -13,29 +13,18 @@ const MapSvg = dynamic(
 );
 
 export const Floormap: React.FC<{
-  realsize: Realsize[];
-  elems: Elem[];
-  soldBooths: SoldBooth[];
-  exhibitors: Exhibitor[];
   children?: React.ReactNode;
-}> = ({ realsize, elems, soldBooths, exhibitors, children }) => {
+}> = ({ children }) => {
   const refs = useFloormapRefs();
   const { userActions, widgetActions } = useDragZoom(refs);
+  const realsize = useAppSelector((state) => state.floormap.realsize);
   return (
     <Container ref={refs.graphRef} {...userActions}>
       <Widgets
         floors={realsize.map((r) => r.floor)}
         widgetActions={widgetActions}
       />
-      <MapSvg
-        ref={refs.mapRef}
-        realsize={realsize}
-        elems={elems}
-        soldBooths={soldBooths}
-        exhibitors={exhibitors}
-      >
-        {children}
-      </MapSvg>
+      <MapSvg ref={refs.mapRef}>{children}</MapSvg>
     </Container>
   );
 };

@@ -1,5 +1,9 @@
-import { FloormapRefsProvider } from "@floormap/provider";
+import { FloormapProvider } from "@floormap/provider";
+import type { FloormapParams } from "@/types";
 import type { Viewport } from "next";
+import { searchDefault } from "@/utils/search-default";
+import { redirect } from "next/navigation";
+import { fetchData } from "@/data";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -14,13 +18,26 @@ export default async function FloorMapLayout({
   children,
   sidebar,
   map,
+  params,
 }: {
   children: Readonly<React.ReactNode>;
   sidebar: Readonly<React.ReactNode>;
   map: Readonly<React.ReactNode>;
+  params: Promise<FloormapParams>;
+  searchParams: Promise<{ floor?: string }>;
 }) {
+  const floormapParams = await params;
+  const realsize = await fetchData.floormap.realsize(floormapParams);
+  const elems = await fetchData.floormap.elems(floormapParams);
+  const soldBooths = await fetchData.floormap.soldBooths(floormapParams);
+  const exhibitors = await fetchData.floormap.exhibitors(floormapParams);
   return (
-    <FloormapRefsProvider>
+    <FloormapProvider
+      realsize={realsize}
+      elems={elems}
+      soldBooths={soldBooths}
+      exhibitors={exhibitors}
+    >
       <div data-floormap className="-mt-16.25 h-svh">
         <div className="pt-16.25 sm:ps-80 h-full">
           {sidebar}
@@ -28,6 +45,6 @@ export default async function FloorMapLayout({
           {children}
         </div>
       </div>
-    </FloormapRefsProvider>
+    </FloormapProvider>
   );
 }

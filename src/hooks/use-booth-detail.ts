@@ -1,32 +1,34 @@
 import _ from "lodash";
 import { useMemo } from "react";
 import { useSearchParams } from "next/navigation";
-import { useAppSelector } from "@/hooks/use-redux";
+import { useElemsMap } from "@floormap/provider";
 
 export const useBoothDetail = () => {
-  const soldElems = useAppSelector((state) => state.floormap.soldElems);
-  const exhibitors = useAppSelector((state) => state.floormap.exhibitors);
+  const { exhibitorsMap, exhibitorsMapByBooth, soldElemsMap } = useElemsMap();
+
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
-  const soldElemsMap = useMemo(
-    () => new Map(soldElems.map((elem) => [elem.id, elem])),
-    [soldElems]
-  );
-  const exhibitorsMap = useMemo(() => {
-    return new Map(Object.entries(_.groupBy(exhibitors, "id")));
-  }, [exhibitors]);
+  const _id = searchParams.get("_id");
+
   const boothDetail = useMemo(() => {
     if (!id) return null;
     const soldElem = soldElemsMap.get(id);
-    const exhibitor = exhibitorsMap.get(id);
-    if (!soldElem || !exhibitor) return null;
-    // console.log({ soldElem, exhibitor });
+    const corps = exhibitorsMapByBooth.get(id);
+    if (!_id) return null;
+    const exhibitor = exhibitorsMap.get(_id);
+    console.log({ exhibitor, soldElem, corps });
+    if (!exhibitor || !soldElem) return null;
     return {
       id,
       floor: soldElem.floor,
       boothName: soldElem.text,
+      org: exhibitor.org,
       area: soldElem.area,
+      tags: soldElem.tags,
+      corps,
+      info: exhibitor.info,
     };
-  }, [soldElems, exhibitors, id]);
+  }, [exhibitorsMap, id, _id]);
+
   return boothDetail;
 };

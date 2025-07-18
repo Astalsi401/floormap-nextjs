@@ -1,15 +1,15 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import type { Exhibitor, OverviewItem, SoldBoothElem } from "@/types";
+import type { Elem, Exhibitor, Realsize, SoldBooth } from "@/types";
 
 type FloormapState = {
   overview: boolean;
   sidebar: boolean;
   elemDetail: boolean;
   dragStatus: { moving: boolean; distance: number };
-  soldElems: SoldBoothElem[];
+  realsize: Realsize[];
+  elems: Elem[];
+  soldBooths: SoldBooth[];
   exhibitors: Exhibitor[];
-  resultsMap: Record<string, boolean>;
-  areasMap: Record<string, OverviewItem>;
 };
 
 const initialState: FloormapState = {
@@ -17,16 +17,30 @@ const initialState: FloormapState = {
   sidebar: false,
   elemDetail: false,
   dragStatus: { moving: false, distance: 0 },
-  soldElems: [],
+  realsize: [],
+  elems: [],
+  soldBooths: [],
   exhibitors: [],
-  resultsMap: {},
-  areasMap: {},
 };
 
 export const floormapSlice = createSlice({
   name: "floormap",
   initialState,
   reducers: {
+    initialize: (
+      state,
+      action: PayloadAction<{
+        realsize: Realsize[];
+        elems: Elem[];
+        soldBooths: SoldBooth[];
+        exhibitors: Exhibitor[];
+      }>
+    ) => {
+      state.realsize = action.payload.realsize;
+      state.elems = action.payload.elems;
+      state.soldBooths = action.payload.soldBooths;
+      state.exhibitors = action.payload.exhibitors;
+    },
     toggleOverview: (state) => {
       state.overview = !state.overview;
     },
@@ -50,27 +64,6 @@ export const floormapSlice = createSlice({
     ) => {
       state.dragStatus = action.payload;
     },
-    setSoldElems: (
-      state,
-      action: PayloadAction<FloormapState["soldElems"]>
-    ) => {
-      state.soldElems = action.payload;
-    },
-    setExhibitors: (
-      state,
-      action: PayloadAction<FloormapState["exhibitors"]>
-    ) => {
-      state.exhibitors = action.payload;
-    },
-    setResultsMap: (
-      state,
-      action: PayloadAction<FloormapState["resultsMap"]>
-    ) => {
-      state.resultsMap = action.payload;
-    },
-    setAreasMap: (state, action: PayloadAction<FloormapState["areasMap"]>) => {
-      state.areasMap = action.payload;
-    },
   },
 });
 
@@ -79,9 +72,6 @@ export const {
   toggleSidebar,
   toggleElemDetail,
   setDragStatus,
-  setSoldElems,
-  setExhibitors,
-  setResultsMap,
-  setAreasMap,
+  initialize,
 } = floormapSlice.actions;
 export default floormapSlice.reducer;

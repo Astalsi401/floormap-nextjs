@@ -1,41 +1,31 @@
 import _ from "lodash";
 import { memo, useCallback, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
-import { useFloormapRefs } from "@floormap/provider";
+import { useElemsSearched, useFloormapRefs } from "@floormap/provider";
 import { drawPath } from "@/utils/draw-path";
-import { useAppSelector } from "@/hooks/use-redux";
 import { useGoElem } from "@/hooks/use-go-booth";
-import type { Elem, PathLine, SoldBoothElem } from "@/types";
+import type {
+  ComputedSoldBoothElem,
+  Elem,
+  PathLine,
+  SoldBoothElem,
+} from "@/types";
 import { Room } from "./room";
 import { Booth } from "./booth";
 
 const InteractiveElements = memo<{
-  elems: SoldBoothElem[];
+  elems: ComputedSoldBoothElem[];
   size?: number;
 }>(({ elems, size = 200 }) => {
   const refs = useFloormapRefs();
+  const { elemActive } = useGoElem(refs);
+  const { resultsByBooth } = useElemsSearched();
   const searchParams = useSearchParams();
   const floor = Number(searchParams.get("floor") ?? "1");
-  const { elemActive } = useGoElem(refs);
-  const exhibitors = useAppSelector((state) => state.floormap.exhibitors);
-  const resultsRecord = useAppSelector((state) => state.floormap.resultsMap);
 
-  const resultsMap = useMemo(
-    () => new Map(Object.entries(resultsRecord)),
-    [resultsRecord]
-  );
-  const exhibitorsMap = useMemo(
-    () => new Map(Object.entries(_.groupBy(exhibitors, "id"))),
-    [exhibitors]
-  );
   const floorElems = useMemo(() => {
-    return elems
-      .filter((elem) => elem.floor === floor)
-      .map((elem) => ({
-        ...elem,
-        _id: exhibitorsMap.get(elem.id)?.at(0)?._id,
-      }));
-  }, [floor, elems, exhibitorsMap]);
+    return elems.filter((elem) => elem.floor === floor);
+  }, [floor, elems]);
 
   const onClick = useCallback(
     async (e: React.MouseEvent<SVGElement>) => {
@@ -58,7 +48,7 @@ const InteractiveElements = memo<{
           key={elem.id}
           elem={elem as SoldBoothElem}
           size={size}
-          hide={!resultsMap.get(elem.id)}
+          hide={!resultsByBooth.get(elem.id)}
           active={false}
           onClick={onClick}
         />

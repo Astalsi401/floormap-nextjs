@@ -34,6 +34,7 @@ export const ElemDetail: React.FC = () => {
               floor={boothDetail.floor}
               boothName={boothDetail.boothName}
             />
+            <div>{boothDetail.org}</div>
           </>
         )}
       </div>

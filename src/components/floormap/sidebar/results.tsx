@@ -1,38 +1,30 @@
 "use client";
 
 import clsx from "clsx";
-import { useMemo } from "react";
 import { BoothName } from "@ui/booth-name";
-import { useFloormapRefs } from "@floormap/provider";
-import { useAppSelector } from "@/hooks/use-redux";
-import { useSearchBooths } from "@/hooks/use-search-booths";
+import {
+  useElemsComputed,
+  useElemsSearched,
+  useFloormapRefs,
+} from "@floormap/provider";
 import { useGoElem } from "@/hooks/use-go-booth";
-import type { Exhibitor, SoldBoothElem } from "@/types";
+import type { ComputedExhibitor } from "@/types";
 
 export const Results: React.FC = () => {
   const refs = useFloormapRefs();
-  const exhibitors = useAppSelector((state) => state.floormap.exhibitors);
-  const soldElems = useAppSelector((state) => state.floormap.soldElems);
-  const soldElemsMap = useMemo(
-    () => new Map(soldElems.map((elem) => [elem.id, elem])),
-    [soldElems]
-  );
-  const resultMap = useSearchBooths({ soldElemsMap, exhibitors });
+  const { listExhibitors } = useElemsComputed();
+  const { resultsByExhibitor } = useElemsSearched();
   const { goElem } = useGoElem(refs);
+
   return (
     <div
       data-scroll
       className="flex flex-col gap-1 pb-10 h-full overflow-y-auto"
     >
-      {exhibitors.map(
+      {listExhibitors.map(
         (exhibitor) =>
-          resultMap.get(exhibitor.id) && (
-            <ResultItem
-              key={exhibitor._id}
-              {...exhibitor}
-              soldElemsMap={soldElemsMap}
-              goElem={goElem}
-            />
+          resultsByExhibitor.get(exhibitor._id) && (
+            <ResultItem key={exhibitor._id} {...exhibitor} goElem={goElem} />
           )
       )}
     </div>
@@ -40,27 +32,22 @@ export const Results: React.FC = () => {
 };
 
 export const ResultItem: React.FC<
-  Exhibitor & {
-    soldElemsMap: Map<string, SoldBoothElem>;
+  ComputedExhibitor & {
     goElem: (e: React.MouseEvent<HTMLElement>) => Promise<void>;
   }
-> = ({ _id, id, org, soldElemsMap, goElem }) => {
-  const soldElem = soldElemsMap.get(id);
-  if (!soldElem) return null;
+> = ({ _id, id, floor, x, y, w, h, area, org, goElem }) => {
   return (
     <BoothName
       data-_id={_id}
-      data-id={soldElem.id}
-      data-floor={soldElem.floor}
-      data-x={soldElem.x}
-      data-y={soldElem.y}
-      data-w={soldElem.w}
-      data-h={soldElem.h}
+      data-id={id}
+      data-floor={floor}
+      data-x={x}
+      data-y={y}
+      data-w={w}
+      data-h={h}
       style={
         {
-          "--area-color": soldElem.area
-            ? soldElem.area.color
-            : "var(--foreground)",
+          "--area-color": area ? area.color : "var(--foreground)",
         } as React.CSSProperties
       }
       className={clsx(
@@ -68,8 +55,8 @@ export const ResultItem: React.FC<
         "bg-background shadow hover:bg-background/50 transition-colors"
       )}
       onClick={goElem}
-      boothId={soldElem.id}
-      floor={soldElem.floor}
+      boothId={id}
+      floor={floor}
       boothName={org}
     />
   );

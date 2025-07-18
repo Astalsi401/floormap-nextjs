@@ -11,6 +11,7 @@ import { ElemDetail } from "./elem-detail";
 export const Sidebar: React.FC = () => {
   const dispatch = useAppDispatch();
   const sidebar = useAppSelector((state) => state.floormap.sidebar);
+
   return (
     <aside
       onClick={() => !sidebar && dispatch(toggleSidebar(true))}

@@ -2,10 +2,10 @@
 
 import { createContext, useContext, useRef, ReactNode } from "react";
 
-interface FloormapRefs {
+type FloormapRefs = {
   mapRef: React.RefObject<SVGSVGElement | null>;
   graphRef: React.RefObject<HTMLDivElement | null>;
-}
+};
 
 const FloormapRefsContext = createContext<FloormapRefs | null>(null);
 
