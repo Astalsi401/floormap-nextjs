@@ -1,10 +1,11 @@
 "use client";
 
 import clsx from "clsx";
+import { useElemsBase } from "@floormap/provider";
 import { useAppSearchParams } from "@/hooks/use-search-params";
 import { useAppSelector } from "@/hooks/use-redux";
+import { useConditions } from "@/hooks/use-conditions";
 import type { OverviewData } from "@/types";
-import { useElemsBase } from "@floormap/provider";
 
 export const Overview: React.FC = () => {
   const overviewToggle = useAppSelector((state) => state.floormap.overview);
@@ -41,10 +42,10 @@ const OverviewItem: React.FC<OverviewData["items"][number]> = ({
   count,
   color,
 }) => {
-  const { setSearchParams, searchParams } = useAppSearchParams();
+  const { tags } = useConditions();
+  const { setSearchParams } = useAppSearchParams();
   const addToSearch = () => {
-    const tags = JSON.parse(searchParams.get("tags") || "[]");
-    if (tags.includes(name)) return;
+    if (tags.includes(id)) return;
     setSearchParams({ key: "tags", value: JSON.stringify([...tags, id]) });
   };
   return (

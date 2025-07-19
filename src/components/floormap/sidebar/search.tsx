@@ -13,9 +13,11 @@ import { useDebounce } from "@/hooks/use-debounce";
 import { useAppSearchParams } from "@/hooks/use-search-params";
 import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import { useDict } from "@/dictionaries/provider";
+import { useConditions } from "@/hooks/use-conditions";
 
 export const Search: React.FC = () => {
   const { isWaiting, setWaiting } = useDebounce();
+  const { tags } = useConditions();
   const { setSearchParams, searchParams } = useAppSearchParams();
   const search = useRef<HTMLInputElement>(null);
   const searchPlaceholder = useDict((state) => state.floormap.sidebar.search);
@@ -25,14 +27,12 @@ export const Search: React.FC = () => {
     setSearchParams({ key: "keyword", value: search.current.value });
   };
   const deleteTag = (tag?: string) => {
-    const tags = JSON.parse(searchParams.get("tags") || "[]");
     return tag
       ? JSON.stringify(tags.filter((t: string) => t !== tag))
       : JSON.stringify(tags.slice(0, -1));
   };
   const keyDownDeleteTag = ({ key }: React.KeyboardEvent<HTMLInputElement>) => {
     if (!search.current) return;
-    const tags = JSON.parse(searchParams.get("tags") || "[]");
     if (tags.length === 0) return;
     if (search.current.selectionStart === 0 && key === "Backspace") {
       setSearchParams({
