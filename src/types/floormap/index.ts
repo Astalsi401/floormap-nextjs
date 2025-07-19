@@ -51,8 +51,8 @@ export type Elem = {
 
 export type SoldBooth = {
   id: string;
-  area: { id: string; name: string; color: string } | null;
-  tags: { id: string; name: string; color: string }[];
+  area: TagType | null;
+  tags: TagType[];
   text: string;
   size: number;
   booths: string[];
@@ -67,12 +67,13 @@ export type Exhibitor = {
   organizer: boolean;
 };
 
-export type Area = {
+export type TagType = {
   id: string;
   name: string;
   color: string;
-  count: number;
 };
+
+export type Area = TagType & { count: number };
 
 export type Overview = {
   title: string;

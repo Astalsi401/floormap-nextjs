@@ -1,9 +1,8 @@
 import { useMemo } from "react";
-import { useSearchParams } from "next/navigation";
+import { useConditionsString } from "@/hooks/use-conditions-string";
 
-export const useKeyword = () => {
-  const searchParams = useSearchParams();
-  const keywordString = searchParams.get("keyword") || "";
+export const useConditions = () => {
+  const { keywordString, tagsString } = useConditionsString();
 
   const keyword = useMemo(() => {
     return new RegExp(
@@ -15,8 +14,9 @@ export const useKeyword = () => {
       "i"
     );
   }, [keywordString]);
+  const tags = useMemo(() => JSON.parse(tagsString), [tagsString]);
 
-  return { keyword, keywordString };
+  return { keyword, keywordString, tags, tagsString };
 };
 
 const regexEscape = (str: string) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");

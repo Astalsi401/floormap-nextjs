@@ -1,5 +1,5 @@
 import { createContext, useContext, useMemo } from "react";
-import { useKeyword } from "@/hooks/use-keyword";
+import { useConditions } from "@/hooks/use-conditions";
 import { checkText } from "@/utils/checkText";
 import { useElemsMap } from "./elems-map";
 import { useElemsComputed } from "./elems-computed";
@@ -17,54 +17,67 @@ export const ElemsSearchedProvider: React.FC<{
   children?: React.ReactNode;
 }> = ({ children }) => {
   const { soldElemsMap, exhibitorsMapByBooth } = useElemsMap();
-  const { keyword, keywordString } = useKeyword();
+  const { keyword, keywordString, tags } = useConditions();
   const { listExhibitors } = useElemsComputed();
 
   const resultsByBooth = useMemo(() => {
     const boothResults = new Map<string, boolean>();
     exhibitorsMapByBooth.forEach((exhibitors, boothId) => {
-      if (keywordString.length === 0) {
-        boothResults.set(boothId, true);
-        return;
-      }
       const hasMatch = exhibitors.some((exhibitor) => {
-        const soldElem = soldElemsMap.get(exhibitor.id);
-        return checkText({
-          targets: [
-            exhibitor.org,
-            exhibitor.info,
-            exhibitor.id,
-            soldElem?.area?.name,
-            soldElem?.text,
-            ...(soldElem?.tags || []).map((t) => t.name),
-          ],
-          keyword,
-        });
+        const soldElem = soldElemsMap.get(exhibitor.id) || undefined;
+        const hasText =
+          keywordString.length > 0
+            ? checkText({
+                targets: [
+                  exhibitor.org,
+                  exhibitor.info,
+                  exhibitor.id,
+                  soldElem?.area?.name,
+                  soldElem?.text,
+                  ...(soldElem?.tags || []).map((t) => t.name),
+                ],
+                keyword,
+              })
+            : true;
+        const hasTags =
+          tags.length > 0
+            ? [...(soldElem?.tags || []), soldElem?.area?.id].some((id) =>
+                tags.includes(id)
+              )
+            : true;
+        return hasText && hasTags;
       });
       boothResults.set(boothId, hasMatch);
     });
     return boothResults;
-  }, [exhibitorsMapByBooth, soldElemsMap, keywordString, keyword]);
+  }, [exhibitorsMapByBooth, keywordString, keyword, tags]);
   const resultsByExhibitor = useMemo(() => {
     return new Map(
-      listExhibitors.map((exhibitor) => [
-        exhibitor._id,
-        keywordString.length > 0
-          ? checkText({
-              targets: [
-                exhibitor.org,
-                exhibitor.info,
-                exhibitor.id,
-                exhibitor.area?.name,
-                exhibitor.text,
-                ...(exhibitor.tags || []).map((t) => t.name),
-              ],
-              keyword,
-            })
-          : true,
-      ])
+      listExhibitors.map((exhibitor) => {
+        const hasText =
+          keywordString.length > 0
+            ? checkText({
+                targets: [
+                  exhibitor.org,
+                  exhibitor.info,
+                  exhibitor.id,
+                  exhibitor.area?.name,
+                  exhibitor.text,
+                  ...(exhibitor.tags || []).map((t) => t.name),
+                ],
+                keyword,
+              })
+            : true;
+        const hasTags =
+          tags.length > 0
+            ? [...(exhibitor.tags || []), exhibitor.area?.id].some((id) =>
+                tags.includes(id)
+              )
+            : true;
+        return [exhibitor._id, hasText && hasTags];
+      })
     );
-  }, [listExhibitors, keywordString, keyword]);
+  }, [listExhibitors, keywordString, keyword, tags]);
 
   return (
     <ElemsSearchedContext.Provider
