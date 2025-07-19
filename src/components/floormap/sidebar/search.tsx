@@ -8,11 +8,11 @@ import { Button } from "@ui/button";
 import { Spinner } from "@ui/loading/spinner";
 import { OverflowFadeout } from "@ui/overflow-fadeout";
 import { toggleOverview } from "@slices/floormap-slice";
+import { useElemsMap } from "@floormap/provider";
 import { useDebounce } from "@/hooks/use-debounce";
 import { useAppSearchParams } from "@/hooks/use-search-params";
 import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import { useDict } from "@/dictionaries/provider";
-import { useElemsMap } from "@floormap/provider";
 
 export const Search: React.FC = () => {
   const { isWaiting, setWaiting } = useDebounce();

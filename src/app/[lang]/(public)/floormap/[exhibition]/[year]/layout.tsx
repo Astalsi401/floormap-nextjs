@@ -1,9 +1,7 @@
 import { FloormapProvider } from "@floormap/provider";
+import { fetchData } from "@/data";
 import type { FloormapParams } from "@/types";
 import type { Viewport } from "next";
-import { searchDefault } from "@/utils/search-default";
-import { redirect } from "next/navigation";
-import { fetchData } from "@/data";
 
 export const viewport: Viewport = {
   width: "device-width",
