@@ -39,7 +39,7 @@ export const useGoElem = ({
       toggleDetail({ floor, id, _id, state });
       await new Promise((resolve) => setTimeout(resolve, 50));
     },
-    [dispatch, setSearchParams]
+    [dispatch, setSearchParams, toggleDetail]
   );
   const goElem = useCallback(
     async ({ currentTarget }: React.MouseEvent<HTMLElement>) => {

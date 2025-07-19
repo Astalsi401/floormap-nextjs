@@ -1,4 +1,3 @@
-import _ from "lodash";
 import { useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import { useElemsMap } from "@floormap/provider";
