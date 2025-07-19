@@ -19,6 +19,7 @@ export const Search: React.FC = () => {
   const { setSearchParams, searchParams } = useAppSearchParams();
   const search = useRef<HTMLInputElement>(null);
   const searchPlaceholder = useDict((state) => state.floormap.sidebar.search);
+
   const updateSearch = () => {
     if (isWaiting || !search.current) return;
     setSearchParams({ key: "keyword", value: search.current.value });
@@ -40,9 +41,11 @@ export const Search: React.FC = () => {
       });
     }
   };
+
   useEffect(() => {
     updateSearch();
   }, [isWaiting]);
+
   return (
     <div className="flex gap-0.5 bg-background h-14">
       <ToggleOverview />
@@ -54,6 +57,7 @@ export const Search: React.FC = () => {
           className="grow focus-visible:outline-none"
           onChange={() => setWaiting(500)}
           onKeyDown={keyDownDeleteTag}
+          defaultValue={searchParams.get("keyword") || ""}
         />
       </div>
       <div className="flex shrink-0 items-center h-full px-1 w-7">
