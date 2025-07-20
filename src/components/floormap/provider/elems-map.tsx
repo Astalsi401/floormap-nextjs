@@ -19,7 +19,7 @@ export const ElemsMapProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const exhibitors = useAppSelector((state) => state.floormap.exhibitors);
-  const { soldElems, areas, tagsMap } = useElemsBase();
+  const { soldElems, tagsMap } = useElemsBase();
 
   const value = useMemo(() => {
     const soldElemsMap = new Map(soldElems.map((elem) => [elem.id, elem]));

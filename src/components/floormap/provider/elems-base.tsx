@@ -4,7 +4,6 @@ import type {
   Elem,
   ElemTypes,
   OverviewData,
-  OverviewItem,
   SoldBooth,
   SoldBoothElem,
   TagType,
@@ -22,7 +21,6 @@ type ElemsBaseContextType = {
     booth: Elem[];
   };
   soldElems: SoldBoothElem[];
-  areas: OverviewItem[];
   tagsMap: Map<string, TagType>;
   overviews: OverviewData[];
 };
@@ -43,7 +41,7 @@ export const ElemsBaseProvider: React.FC<{
       soldBooths,
     });
   }, [mapElems.booth, soldBooths]);
-  const { areas, tagsMap, overviews } = useMemo(() => {
+  const { tagsMap, overviews } = useMemo(() => {
     const tagsMap = new Map<string, TagType>();
     const areas = Object.entries(
       groupBy(soldElems, (elem) => {
@@ -60,7 +58,6 @@ export const ElemsBaseProvider: React.FC<{
       return { ...areaItem, count: elems.length };
     });
     return {
-      areas,
       tagsMap,
       overviews: [
         {
@@ -73,7 +70,7 @@ export const ElemsBaseProvider: React.FC<{
 
   return (
     <ElemsBaseContext.Provider
-      value={{ mapElems, soldElems, areas, tagsMap, overviews }}
+      value={{ mapElems, soldElems, tagsMap, overviews }}
     >
       {children}
     </ElemsBaseContext.Provider>

@@ -18,7 +18,7 @@ export const ElemDetail: React.FC = () => {
   const toggleDetail = useElementDetail();
   const elemDetail = useAppSelector((state) => state.floormap.elemDetail);
   const boothDetail = useBoothDetail();
-  console.log(boothDetail);
+
   return (
     <div
       className={clsx(
@@ -96,11 +96,8 @@ const Exhibitors: React.FC<{ boothId: string; exhibitors: Exhibitor[] }> = ({
           return (
             <Tag
               key={`${boothId}-${exhibitor._id}`}
-              themeColor={isSelected ? "var(--fp-lv1)" : null}
-              className={clsx(
-                "cursor-pointer",
-                isSelected && "text-background"
-              )}
+              themeColor={isSelected ? "var(--fp-lv6)" : null}
+              className="cursor-pointer"
               onClick={() => {}}
             >
               {exhibitor.org}

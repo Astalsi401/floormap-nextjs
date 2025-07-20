@@ -6,7 +6,7 @@ export const Tag: React.FC<
   <span
     className={clsx(
       className,
-      "bg-(--area-color)/60",
+      "bg-(--area-color)/60 border border-foreground/10",
       "rounded-sm text-nowrap p-0.5 block cursor-pointer select-none"
     )}
     style={
