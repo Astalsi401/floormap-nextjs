@@ -2,7 +2,8 @@
   "floormap": {
     "sidebar": {
       "search": "Search...",
-      "exhibitors": "Exhibitors"
+      "exhibitors": "Exhibitors",
+      "relateEvents": "Events"
     },
     "overview": {
       "areas": "Areas"

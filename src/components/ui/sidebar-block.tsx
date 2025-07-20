@@ -1,10 +1,13 @@
+import clsx from "clsx";
+
 export const SidebarBlock: React.FC<{
   title?: string;
-  children: React.ReactNode;
-}> = ({ title, children }) => {
+  className?: string;
+  children?: React.ReactNode;
+}> = ({ title, className, children }) => {
   return (
-    <div className="flex flex-col gap-0.5">
-      {title && <div className="font-semibold">{title}</div>}
+    <div className={clsx("flex flex-col gap-0.5", className)}>
+      {title && <div className="font-semibold text-base">{title}</div>}
       {children}
     </div>
   );

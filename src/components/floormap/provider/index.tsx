@@ -1,14 +1,15 @@
 "use client";
 
+import { useEffect } from "react";
+import { initialize } from "@slices/floormap-slice";
+import { useAppDispatch } from "@/hooks/use-redux";
+import { useMapInitialize } from "@/hooks/use-map-initalize";
 import type { Elem, Exhibitor, Realsize, SoldBooth } from "@/types";
 import { ElemsBaseProvider } from "./elems-base";
 import { ElemsComputedProvider } from "./elems-computed";
 import { ElemsMapProvider } from "./elems-map";
 import { ElemsSearchedProvider } from "./elems-searched";
 import { FloormapRefsProvider } from "./floormap-refs";
-import { useEffect } from "react";
-import { initialize } from "@slices/floormap-slice";
-import { useAppDispatch } from "@/hooks/use-redux";
 
 export const FloormapProvider: React.FC<{
   realsize: Realsize[];
@@ -18,9 +19,13 @@ export const FloormapProvider: React.FC<{
   children?: React.ReactNode;
 }> = ({ children, realsize, elems, soldBooths, exhibitors }) => {
   const dispatch = useAppDispatch();
+
+  useMapInitialize();
+
   useEffect(() => {
     dispatch(initialize({ realsize, elems, soldBooths, exhibitors }));
   }, [realsize, elems, soldBooths, exhibitors, dispatch]);
+
   return (
     <FloormapRefsProvider>
       <ElemsBaseProvider elems={elems} soldBooths={soldBooths}>

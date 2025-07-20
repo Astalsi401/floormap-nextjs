@@ -3,6 +3,7 @@ export type Dictionary = {
     sidebar: {
       search: string;
       exhibitors: string;
+      relateEvents: string;
     };
     overview: {
       areas: string;
