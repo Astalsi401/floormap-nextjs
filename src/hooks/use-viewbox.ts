@@ -8,9 +8,7 @@ export const useViewbox = () => {
   const floor = Number(searchParams.get("floor"));
 
   const viewBox = useMemo(() => {
-    const res = realsize.find((r) => r.floor === floor);
-    if (!res) throw new Error(`Viewbox not found for floor ${floor}`);
-    return res;
+    return realsize.find((r) => r.floor === floor);
   }, [realsize, floor]);
 
   return viewBox;

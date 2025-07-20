@@ -2,6 +2,7 @@ import { forwardRef } from "react";
 import { InteractiveElements, StaticElements } from "@floormap/elems";
 import { useElemsBase, useElemsComputed } from "@floormap/provider";
 import { useViewbox } from "@/hooks/use-viewbox";
+import { Spinner } from "@ui/loading/spinner";
 
 export type MapProps = {
   children?: React.ReactNode;
@@ -11,8 +12,7 @@ const MapSvg = forwardRef<SVGSVGElement, MapProps>(({}, ref) => {
   const { mapBooths } = useElemsComputed();
   const { mapElems } = useElemsBase();
   const viewBox = useViewbox();
-
-  return (
+  return viewBox ? (
     <svg
       className="floormap size-full select-none"
       ref={ref}
@@ -27,6 +27,8 @@ const MapSvg = forwardRef<SVGSVGElement, MapProps>(({}, ref) => {
       <StaticElements elems={mapElems.icon} />
       <InteractiveElements elems={mapBooths} />
     </svg>
+  ) : (
+    <Spinner className="size-10 mx-auto my-20" />
   );
 });
 
