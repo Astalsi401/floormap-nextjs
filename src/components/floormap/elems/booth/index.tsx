@@ -22,7 +22,11 @@ const Booth: React.FC<BoothProps> = ({ elem, size, hide, onClick, active }) => (
     data-id={elem.id}
     data-floor={elem.floor}
     onClick={onClick}
-    className={clsx("booth", hide && "opacity-20", active && "active")}
+    className={clsx(
+      "booth hover:opacity-100",
+      hide && "opacity-20",
+      active && "active opacity-100"
+    )}
     transform={`translate(${elem.x},${elem.y})`}
   >
     <BoothBlock

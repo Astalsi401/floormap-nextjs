@@ -2,15 +2,14 @@
   fill-opacity: 0.6;
 }
 
-.booth:hover,
-.booth.active {
-  opacity: 1 !important;
-}
-
 .booth.active path {
   fill-opacity: 0.7 !important;
 }
 
 .booth:hover path {
   fill-opacity: 0.8 !important;
+}
+
+.floormap:has(.booth.active) .booth:not(.active) {
+  opacity: 0.4 !important;
 }
