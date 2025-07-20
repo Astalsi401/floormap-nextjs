@@ -1,15 +1,18 @@
 "use client";
 
 import clsx from "clsx";
+import { useSearchParams } from "next/navigation";
 import { ArrowUturnLeftIcon } from "@heroicons/react/24/solid";
-import { Tag } from "@ui/tag";
+import { Tag, TagsGroup } from "@ui/tag";
 import { Button } from "@ui/button";
 import { BoothName } from "@ui/booth-name";
+import { SidebarBlock } from "@ui/sidebar-block";
 import { useAppSelector } from "@/hooks/use-redux";
 import { useBoothDetail } from "@/hooks/use-booth-detail";
 import { useElementDetail } from "@/hooks/use-elem-detail";
 import { useTagSearch } from "@/hooks/use-tag-search";
-import type { TagType } from "@/types";
+import { useDict } from "@/dictionaries/provider";
+import type { Exhibitor, TagType } from "@/types";
 
 export const ElemDetail: React.FC = () => {
   const toggleDetail = useElementDetail();
@@ -31,17 +34,23 @@ export const ElemDetail: React.FC = () => {
       >
         <ArrowUturnLeftIcon className="size-5" />
       </Button>
-      <div className="p-2.5 flex flex-col gap-2">
+      <div className="p-2.5 flex flex-col gap-8">
         {boothDetail && (
           <>
-            <BoothName
-              className="text-xl"
+            <div>
+              <BoothName
+                className="text-xl"
+                boothId={boothDetail.id}
+                floor={boothDetail.floor}
+                boothName={boothDetail.boothName}
+              />
+              <div>{boothDetail.org}</div>
+              <Tags boothId={boothDetail.id} tags={boothDetail.tags} />
+            </div>
+            <Exhibitors
               boothId={boothDetail.id}
-              floor={boothDetail.floor}
-              boothName={boothDetail.boothName}
+              exhibitors={boothDetail.corps || []}
             />
-            <div>{boothDetail.org}</div>
-            <Tags boothId={boothDetail.id} tags={boothDetail.tags} />
           </>
         )}
       </div>
@@ -56,7 +65,7 @@ const Tags: React.FC<{ boothId: string; tags: TagType[] }> = ({
   const { addTagToSearch } = useTagSearch();
 
   return (
-    <div className="flex flex-wrap gap-1 text-xs">
+    <TagsGroup>
       {tags.map((tag) => (
         <Tag
           key={`${boothId}-${tag.id}`}
@@ -67,6 +76,38 @@ const Tags: React.FC<{ boothId: string; tags: TagType[] }> = ({
           {tag.name}
         </Tag>
       ))}
-    </div>
+    </TagsGroup>
+  );
+};
+
+const Exhibitors: React.FC<{ boothId: string; exhibitors: Exhibitor[] }> = ({
+  boothId,
+  exhibitors,
+}) => {
+  const exhibitorsText = useDict((state) => state.floormap.sidebar.exhibitors);
+  const searchParams = useSearchParams();
+  const _id = searchParams.get("_id");
+
+  return (
+    <SidebarBlock title={exhibitorsText}>
+      <TagsGroup>
+        {exhibitors.map((exhibitor) => {
+          const isSelected = _id === exhibitor._id;
+          return (
+            <Tag
+              key={`${boothId}-${exhibitor._id}`}
+              themeColor={isSelected ? "var(--fp-lv1)" : null}
+              className={clsx(
+                "cursor-pointer",
+                isSelected && "text-background"
+              )}
+              onClick={() => {}}
+            >
+              {exhibitor.org}
+            </Tag>
+          );
+        })}
+      </TagsGroup>
+    </SidebarBlock>
   );
 };

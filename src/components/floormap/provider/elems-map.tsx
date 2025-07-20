@@ -3,7 +3,7 @@
 import { createContext, useContext, useMemo } from "react";
 import { groupBy } from "lodash";
 import { useAppSelector } from "@/hooks/use-redux";
-import type { Area, Exhibitor, SoldBoothElem, TagType } from "@/types";
+import type { Exhibitor, SoldBoothElem, TagType } from "@/types";
 import { useElemsBase } from "./elems-base";
 
 type ElemsMapContextType = {

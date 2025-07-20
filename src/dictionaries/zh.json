@@ -1,7 +1,8 @@
 {
   "floormap": {
     "sidebar": {
-      "search": "關鍵字搜尋..."
+      "search": "關鍵字搜尋...",
+      "exhibitors": "聯展單位"
     },
     "overview": {
       "areas": "展區"

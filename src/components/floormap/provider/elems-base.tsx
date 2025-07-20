@@ -1,10 +1,10 @@
 import { groupBy } from "lodash";
 import { createContext, useContext, useMemo } from "react";
 import type {
-  Area,
   Elem,
   ElemTypes,
-  Overview,
+  OverviewData,
+  OverviewItem,
   SoldBooth,
   SoldBoothElem,
   TagType,
@@ -22,9 +22,9 @@ type ElemsBaseContextType = {
     booth: Elem[];
   };
   soldElems: SoldBoothElem[];
-  areas: Area[];
+  areas: OverviewItem[];
   tagsMap: Map<string, TagType>;
-  overviews: Overview[];
+  overviews: OverviewData[];
 };
 
 const ElemsBaseContext = createContext<ElemsBaseContextType | null>(null);

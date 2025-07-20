@@ -1,3 +1,9 @@
+export type TagType = {
+  id: string;
+  name: string;
+  color: string | null;
+};
+
 export type OverviewItem = TagType & {
   count: number;
 };
@@ -62,19 +68,6 @@ export type Exhibitor = {
   org: string;
   info: string;
   organizer: boolean;
-};
-
-export type TagType = {
-  id: string;
-  name: string;
-  color: string | null;
-};
-
-export type Area = TagType & { count: number };
-
-export type Overview = {
-  title: string;
-  items: Area[];
 };
 
 export type ComputedExhibitor = Exhibitor &

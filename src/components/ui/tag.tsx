@@ -20,3 +20,7 @@ export const Tag: React.FC<
     {children}
   </span>
 );
+
+export const TagsGroup: React.FC<{ children?: React.ReactNode }> = ({
+  children,
+}) => <div className="flex flex-wrap gap-1 text-xs">{children}</div>;

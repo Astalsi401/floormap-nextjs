@@ -23,7 +23,10 @@ const Booth: React.FC<BoothProps> = ({ elem, size, hide, onClick, active }) => (
     className={clsx("booth", hide && "opacity-20", active && "active")}
     transform={`translate(${elem.x},${elem.y})`}
   >
-    <BoothBlock fill={elem.area ? elem.area.color : "none"} p={elem.p} />
+    <BoothBlock
+      fill={elem.area && elem.area.color ? elem.area.color : "none"}
+      p={elem.p}
+    />
     <BoothTextGroup elem={elem} size={size} />
     <BoothIcon elem={elem} />
     <BoothId elem={elem} size={size} />
