@@ -6,9 +6,10 @@ import { BoothName } from "@ui/booth-name";
 import { SidebarBlock } from "@ui/sidebar-block";
 import { useBoothDetail } from "@/hooks/use-booth-detail";
 import { useTagSearch } from "@/hooks/use-tag-search";
-import { useDict } from "@/dictionaries/provider";
-import type { Exhibitor, TagType } from "@/types";
 import { useElementDetail } from "@/hooks/use-elem-detail";
+import { useDict } from "@/dictionaries/provider";
+import { textToHtml } from "@/utils/text-to-html";
+import type { Exhibitor, TagType } from "@/types";
 
 export const Detail: React.FC = () => {
   const boothDetail = useBoothDetail();
@@ -32,7 +33,14 @@ export const Detail: React.FC = () => {
           floor={boothDetail.floor}
           exhibitors={boothDetail.corps || []}
         />
-        <SidebarBlock className="text-sm">{boothDetail.info}</SidebarBlock>
+        <SidebarBlock className="text-sm">
+          <div
+            className="flex flex-col gap-2"
+            dangerouslySetInnerHTML={{
+              __html: textToHtml(boothDetail.info),
+            }}
+          />
+        </SidebarBlock>
         <SidebarBlock title={relateEvents}></SidebarBlock>
       </>
     )
