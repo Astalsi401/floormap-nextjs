@@ -1,7 +1,9 @@
-import { memo, useCallback, useEffect, useMemo, useRef } from "react";
-import type { SoldBoothElem } from "@/types";
+"use client";
 
-const BoothTextGroup = memo<{ elem: SoldBoothElem; size: number }>(
+import { memo, useCallback, useEffect, useMemo, useRef } from "react";
+import type { Elem, SoldBoothElem } from "@/types";
+
+const BoothTextGroup = memo<{ elem: SoldBoothElem | Elem; size: number }>(
   ({ elem, size }) => {
     const fontSize = useMemo(() => size * elem.size, [size, elem.size]);
     const lineHeight = useMemo(() => fontSize * 1.2, [fontSize]);

@@ -1,3 +1,5 @@
+"use client";
+
 import { memo, useCallback, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import { useElemsSearched, useFloormapRefs } from "@floormap/provider";

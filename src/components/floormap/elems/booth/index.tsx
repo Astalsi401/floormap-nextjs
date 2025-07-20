@@ -1,9 +1,11 @@
+"use client";
+
 import clsx from "clsx";
 import { memo } from "react";
-import { drawPath } from "@/utils/draw-path";
 import type { SoldBoothElem } from "@/types";
 import { BoothTextGroup } from "./text-group";
 import { BoothIcon } from "./booth-icon";
+import { BoothBlock } from "./booth-block";
 
 type BoothProps = {
   elem: SoldBoothElem & { _id?: string };
@@ -31,20 +33,6 @@ const Booth: React.FC<BoothProps> = ({ elem, size, hide, onClick, active }) => (
     <BoothIcon elem={elem} />
     <BoothId elem={elem} size={size} />
   </g>
-);
-
-const BoothBlock = memo<{ fill: string; p: SoldBoothElem["p"] }>(
-  ({ fill, p }) => (
-    <path
-      stroke="var(--foreground)"
-      fill={fill}
-      strokeWidth={1}
-      d={`M0 0${drawPath(p)}`}
-    />
-  ),
-  (prevProps, nextProps) => {
-    return prevProps.fill === nextProps.fill && prevProps.p === nextProps.p;
-  }
 );
 
 const BoothId = memo<Pick<BoothProps, "elem" | "size">>(
@@ -75,5 +63,4 @@ const BoothId = memo<Pick<BoothProps, "elem" | "size">>(
 
 export { Booth };
 Booth.displayName = "Booth";
-BoothBlock.displayName = "BoothBlock";
 BoothId.displayName = "BoothId";

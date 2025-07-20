@@ -1,8 +1,8 @@
 import { forwardRef } from "react";
+import { Spinner } from "@ui/loading/spinner";
 import { InteractiveElements, StaticElements } from "@floormap/elems";
 import { useElemsBase, useElemsComputed } from "@floormap/provider";
 import { useViewbox } from "@/hooks/use-viewbox";
-import { Spinner } from "@ui/loading/spinner";
 
 export type MapProps = {
   children?: React.ReactNode;

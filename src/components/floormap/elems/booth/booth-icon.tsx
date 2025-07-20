@@ -1,30 +1,50 @@
-import { memo, useMemo } from "react";
+"use client";
+
+import { memo, useEffect, useMemo, useState } from "react";
 import { svgToBase64 } from "@/utils/svg-to-base64";
 import { getCssVariable } from "@/utils/get-css-variable";
 import { icons } from "@/components/icons";
-import type { SoldBoothElem } from "@/types";
+import type { Elem, SoldBoothElem } from "@/types";
 
-const BoothIcon = memo<{ elem: SoldBoothElem }>(
+const BoothIcon = memo<{ elem: SoldBoothElem | Elem }>(
   ({ elem }) => {
+    const [xlinkHref, setXlinkHref] = useState<string | undefined>();
+
     const icon_l = useMemo(
       () => Math.min(elem.w, elem.h, 500),
       [elem.w, elem.h]
     );
-    const xlinkHref = useMemo(() => {
-      return elem.icon && elem.icon in icons
-        ? svgToBase64({
-            Component: icons[elem.icon],
-            props: {
-              color: getCssVariable(elem.color || "--foreground"),
-            },
-          })
-        : undefined;
-    }, [elem.icon, elem.color]);
     const { clipPathid, clipPath } = useMemo(() => {
       const clipPathid = `icon-${elem.floor}-${elem.id}`;
       const clipPath = `url(#${clipPathid})`;
       return { clipPathid, clipPath };
     }, [elem.floor, elem.id]);
+
+    useEffect(() => {
+      const generateIcon = async () => {
+        try {
+          // ✅ 等待動態組件載入並獲取 CSS 變數
+          const color = getCssVariable(elem.color || "--foreground");
+          const iconKey = elem.icon;
+          if (!iconKey || !(iconKey in icons)) {
+            setXlinkHref(undefined);
+            return;
+          }
+
+          const href = await svgToBase64({
+            Component: icons[iconKey],
+            props: { color },
+          });
+
+          setXlinkHref(href);
+        } catch (error) {
+          console.error("Failed to generate icon:", error);
+          setXlinkHref(undefined);
+        }
+      };
+
+      generateIcon();
+    }, [elem.icon, elem.color]);
 
     return (
       elem.icon && (
