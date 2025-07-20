@@ -21,6 +21,7 @@ const InteractiveElements = memo<{
   const { resultsByBooth } = useElemsSearched();
   const searchParams = useSearchParams();
   const floor = Number(searchParams.get("floor") ?? "1");
+  const id = searchParams.get("id");
 
   const floorElems = useMemo(() => {
     return elems.filter((elem) => elem.floor === floor);
@@ -48,7 +49,7 @@ const InteractiveElements = memo<{
           elem={elem as SoldBoothElem}
           size={size}
           hide={!resultsByBooth.get(elem.id)}
-          active={false}
+          active={elem.id === id}
           onClick={onClick}
         />
       ))}

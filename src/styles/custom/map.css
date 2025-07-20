@@ -6,7 +6,11 @@
 .booth.active {
   opacity: 1 !important;
 }
-.booth:hover path,
+
 .booth.active path {
+  fill-opacity: 0.7 !important;
+}
+
+.booth:hover path {
   fill-opacity: 0.8 !important;
 }

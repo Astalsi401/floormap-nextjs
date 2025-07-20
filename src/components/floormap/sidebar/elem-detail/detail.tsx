@@ -1,5 +1,6 @@
 "use client";
 
+import clsx from "clsx";
 import { useSearchParams } from "next/navigation";
 import { Tag, TagsGroup } from "@ui/tag";
 import { BoothName } from "@ui/booth-name";
@@ -75,8 +76,8 @@ const Exhibitors: React.FC<{ boothId: string; exhibitors: Exhibitor[] }> = ({
           return (
             <Tag
               key={`${boothId}-${exhibitor._id}`}
-              themeColor={isSelected ? "var(--fp-lv6)" : null}
-              className="cursor-pointer"
+              themeColor={isSelected ? "var(--fp-lv3)" : null}
+              className={clsx("cursor-pointer")}
               onClick={() => {}}
             >
               {exhibitor.org}
