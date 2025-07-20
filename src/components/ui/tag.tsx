@@ -1,12 +1,12 @@
 import clsx from "clsx";
 
 export const Tag: React.FC<
-  React.ComponentPropsWithoutRef<"span"> & { themeColor?: string }
+  React.ComponentPropsWithoutRef<"span"> & { themeColor?: string | null }
 > = ({ className, children, style, themeColor, ...props }) => (
   <span
     className={clsx(
       className,
-      themeColor ? "bg-(--area-color)/60" : "",
+      "bg-(--area-color)/60",
       "rounded-sm text-nowrap p-0.5 block cursor-pointer select-none"
     )}
     style={

@@ -1,8 +1,5 @@
-export type OverviewItem = {
-  id: string;
-  name: string;
+export type OverviewItem = TagType & {
   count: number;
-  color: string;
 };
 export type OverviewData = {
   title: string;
@@ -70,7 +67,7 @@ export type Exhibitor = {
 export type TagType = {
   id: string;
   name: string;
-  color: string;
+  color: string | null;
 };
 
 export type Area = TagType & { count: number };

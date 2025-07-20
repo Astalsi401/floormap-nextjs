@@ -7,6 +7,7 @@ import type {
   Overview,
   SoldBooth,
   SoldBoothElem,
+  TagType,
 } from "@/types";
 import { BoothPosition, traceBoundaryPoints } from "@/utils/booth-path-trace";
 import { useDict } from "@/dictionaries/provider";
@@ -22,6 +23,7 @@ type ElemsBaseContextType = {
   };
   soldElems: SoldBoothElem[];
   areas: Area[];
+  tagsMap: Map<string, TagType>;
   overviews: Overview[];
 };
 
@@ -41,17 +43,25 @@ export const ElemsBaseProvider: React.FC<{
       soldBooths,
     });
   }, [mapElems.booth, soldBooths]);
-  const { areas, overviews } = useMemo(() => {
+  const { areas, tagsMap, overviews } = useMemo(() => {
+    const tagsMap = new Map<string, TagType>();
     const areas = Object.entries(
-      groupBy(soldElems, (elem) => elem.area?.id)
-    ).map(([area, elems]) => ({
-      id: area,
-      name: elems[0].area?.name || "Unselected Area",
-      count: elems.length,
-      color: elems[0].area?.color || "var(--foreground)",
-    }));
+      groupBy(soldElems, (elem) => {
+        elem.tags.forEach((tag) => tagsMap.set(tag.id, tag));
+        return elem.area?.id;
+      })
+    ).map(([area, elems]) => {
+      const areaItem = {
+        id: area,
+        name: elems[0].area?.name || "Unselected Area",
+        color: elems[0].area?.color || "var(--foreground)",
+      };
+      tagsMap.set(areaItem.id, areaItem);
+      return { ...areaItem, count: elems.length };
+    });
     return {
       areas,
+      tagsMap,
       overviews: [
         {
           title: areasTitle,
@@ -63,7 +73,7 @@ export const ElemsBaseProvider: React.FC<{
 
   return (
     <ElemsBaseContext.Provider
-      value={{ mapElems, soldElems, areas, overviews }}
+      value={{ mapElems, soldElems, areas, tagsMap, overviews }}
     >
       {children}
     </ElemsBaseContext.Provider>

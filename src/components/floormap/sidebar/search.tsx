@@ -12,12 +12,12 @@ import { useElemsMap } from "@floormap/provider";
 import { useDebounce } from "@/hooks/use-debounce";
 import { useAppSearchParams } from "@/hooks/use-search-params";
 import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
+import { useTagSearch } from "@/hooks/use-tag-search";
 import { useDict } from "@/dictionaries/provider";
-import { useConditions } from "@/hooks/use-conditions";
 
 export const Search: React.FC = () => {
   const { isWaiting, setWaiting } = useDebounce();
-  const { tags } = useConditions();
+  const { tags, removeTagFromSearch } = useTagSearch();
   const { setSearchParams, searchParams } = useAppSearchParams();
   const search = useRef<HTMLInputElement>(null);
   const searchPlaceholder = useDict((state) => state.floormap.sidebar.search);
@@ -26,18 +26,13 @@ export const Search: React.FC = () => {
     if (isWaiting || !search.current) return;
     setSearchParams({ key: "keyword", value: search.current.value });
   };
-  const deleteTag = (tag?: string) => {
-    return tag
-      ? JSON.stringify(tags.filter((t: string) => t !== tag))
-      : JSON.stringify(tags.slice(0, -1));
-  };
   const keyDownDeleteTag = ({ key }: React.KeyboardEvent<HTMLInputElement>) => {
     if (!search.current) return;
     if (tags.length === 0) return;
     if (search.current.selectionStart === 0 && key === "Backspace") {
       setSearchParams({
         key: "tags",
-        value: deleteTag(),
+        value: removeTagFromSearch(),
       });
     }
   };
@@ -50,7 +45,7 @@ export const Search: React.FC = () => {
     <div className="flex gap-0.5 bg-background h-14">
       <ToggleOverview />
       <div className="flex flex-col grow p-0.5 max-w-[calc(100%-3.5rem)]">
-        <SearchTags deleteTag={deleteTag} />
+        <SearchTags tags={tags} removeTagFromSearch={removeTagFromSearch} />
         <Input
           ref={search}
           placeholder={searchPlaceholder}
@@ -82,12 +77,12 @@ const ToggleOverview: React.FC = () => {
 };
 
 const SearchTags: React.FC<{
-  deleteTag: (tag?: string) => string;
-}> = ({ deleteTag }) => {
+  tags: string[];
+  removeTagFromSearch: (tag?: string) => string;
+}> = ({ tags, removeTagFromSearch }) => {
   const ref = useRef<HTMLDivElement>(null);
-  const { areasMap } = useElemsMap();
+  const { tagsMap } = useElemsMap();
   const { setSearchParams, searchParams } = useAppSearchParams();
-  const tags = JSON.parse(searchParams.get("tags") || "[]");
 
   useEffect(() => {
     if (ref.current) {
@@ -100,12 +95,12 @@ const SearchTags: React.FC<{
       {tags.map((tag: string) => (
         <Tag
           key={tag}
-          themeColor={areasMap.get(tag)?.color || "var(--fp-lv4)"}
+          themeColor={tagsMap.get(tag)?.color}
           onClick={() =>
-            setSearchParams({ key: "tags", value: deleteTag(tag) })
+            setSearchParams({ key: "tags", value: removeTagFromSearch(tag) })
           }
         >
-          {areasMap.get(tag)?.name || tag}
+          {tagsMap.get(tag)?.name || tag}
         </Tag>
       ))}
     </OverflowFadeout>

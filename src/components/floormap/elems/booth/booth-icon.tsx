@@ -20,15 +20,16 @@ const BoothIcon = memo<{ elem: SoldBoothElem }>(
           })
         : undefined;
     }, [elem.icon, elem.color]);
-    const clipPath = useMemo(
-      () => `url(#icon-${elem.floor}-${elem.id})`,
-      [elem.floor, elem.id]
-    );
+    const { clipPathid, clipPath } = useMemo(() => {
+      const clipPathid = `icon-${elem.floor}-${elem.id}`;
+      const clipPath = `url(#${clipPathid})`;
+      return { clipPathid, clipPath };
+    }, [elem.floor, elem.id]);
 
     return (
       elem.icon && (
         <>
-          <clipPath id={`${elem.type}-${elem.floor}-${elem.id}`}>
+          <clipPath id={clipPathid}>
             <rect
               className="icon"
               width={icon_l}
@@ -52,7 +53,7 @@ const BoothIcon = memo<{ elem: SoldBoothElem }>(
     );
   },
   (prevProps, nextProps) => {
-    if (prevProps.elem.icon && nextProps.elem.icon) return true;
+    if (!prevProps.elem.icon && !nextProps.elem.icon) return true;
     if (prevProps.elem.icon !== nextProps.elem.icon) return false;
     return (
       prevProps.elem.id === nextProps.elem.id &&

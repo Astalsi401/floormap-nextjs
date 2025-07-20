@@ -2,9 +2,8 @@
 
 import clsx from "clsx";
 import { useElemsBase } from "@floormap/provider";
-import { useAppSearchParams } from "@/hooks/use-search-params";
 import { useAppSelector } from "@/hooks/use-redux";
-import { useConditions } from "@/hooks/use-conditions";
+import { useTagSearch } from "@/hooks/use-tag-search";
 import type { OverviewData } from "@/types";
 
 export const Overview: React.FC = () => {
@@ -42,16 +41,11 @@ const OverviewItem: React.FC<OverviewData["items"][number]> = ({
   count,
   color,
 }) => {
-  const { tags } = useConditions();
-  const { setSearchParams } = useAppSearchParams();
-  const addToSearch = () => {
-    if (tags.includes(id)) return;
-    setSearchParams({ key: "tags", value: JSON.stringify([...tags, id]) });
-  };
+  const { addTagToSearch } = useTagSearch();
   return (
     <div
       style={{ "--area-color": color } as React.CSSProperties}
-      onClick={addToSearch}
+      onClick={() => addTagToSearch(id)}
       className={clsx(
         "ps-4 py-2 relative rounded-xs cursor-pointer",
         "before:content-[''] before:absolute before:block before:left-0 before:top-0 before:w-1 before:h-full before:rounded-xs before:bg-(--area-color)",
