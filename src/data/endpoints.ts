@@ -4,4 +4,5 @@ export const API_ENDPOINTS = {
   FP_ELEMS: `${process.env.NEXT_PUBLIC_REST_API_ENDPOINT}/api/floormap/elems`,
   FP_SOLD_BOOTHS: `${process.env.NEXT_PUBLIC_REST_API_ENDPOINT}/api/floormap/sold-booths`,
   FP_EXHIBITORS: `${process.env.NEXT_PUBLIC_REST_API_ENDPOINT}/api/floormap/exhibitors`,
+  FP_EVENTS: `${process.env.NEXT_PUBLIC_REST_API_ENDPOINT}/api/floormap/events`,
 };

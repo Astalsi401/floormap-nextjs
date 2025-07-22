@@ -4,6 +4,7 @@ import type {
   ApiResponse,
   Elem,
   Exhibitor,
+  ExpoEvent,
   FloormapParams,
   Realsize,
   SoldBooth,
@@ -47,5 +48,9 @@ export class FetchData {
         .catch((err) => {
           throw new Error(`Failed to fetch exhibitors data\n${err}`);
         }),
+    events: ({ lang, exhibition, year }: FloormapParams) =>
+      this.method.get<ApiResponse<ExpoEvent[]>>(
+        `${API_ENDPOINTS.FP_EVENTS}/${exhibition}/${year}?lang=${lang}`
+      ),
   };
 }
