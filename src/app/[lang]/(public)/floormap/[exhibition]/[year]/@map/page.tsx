@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { Floormap } from "@floormap/index";
+import { Map } from "@floormap/visitor-view";
 import { searchDefault } from "@/utils/search-default";
 import type { FloormapParams } from "@/types";
 
@@ -16,5 +16,5 @@ export default async function MapPage({
     const searchString = searchDefault(search, { floor: "1" });
     redirect(`/floormap/${exhibition}/${year}?${searchString}`);
   }
-  return <Floormap />;
+  return <Map />;
 }

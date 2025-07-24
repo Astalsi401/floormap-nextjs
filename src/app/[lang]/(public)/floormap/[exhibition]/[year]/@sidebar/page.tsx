@@ -1,5 +1,5 @@
-import { Sidebar } from "@floormap/sidebar";
+import { Detail } from "@floormap/sidebar/elem-detail/visitor-view";
 
-export default async function SidebarPage() {
-  return <Sidebar />;
+export default function SidebarPage() {
+  return <Detail />;
 }

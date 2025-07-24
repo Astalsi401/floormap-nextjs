@@ -1,15 +1,14 @@
 import { forwardRef } from "react";
 import { Spinner } from "@ui/loading/spinner";
-import { InteractiveElements, StaticElements } from "@floormap/elems";
-import { useElemsBase, useElemsComputed } from "@floormap/provider";
+import { StaticElements } from "@floormap/elems";
+import { useElemsBase } from "@floormap/provider";
 import { useViewbox } from "@/hooks/use-viewbox";
 
 export type MapProps = {
   children?: React.ReactNode;
 };
 
-const MapSvg = forwardRef<SVGSVGElement, MapProps>(({}, ref) => {
-  const { mapBooths } = useElemsComputed();
+const MapSvg = forwardRef<SVGSVGElement, MapProps>(({ children }, ref) => {
   const { mapElems } = useElemsBase();
   const viewBox = useViewbox();
   return viewBox ? (
@@ -25,7 +24,7 @@ const MapSvg = forwardRef<SVGSVGElement, MapProps>(({}, ref) => {
       <StaticElements elems={mapElems.room} />
       <StaticElements elems={mapElems.text} />
       <StaticElements elems={mapElems.icon} />
-      <InteractiveElements elems={mapBooths} />
+      {children}
     </svg>
   ) : (
     <Spinner className="size-10 mx-auto my-20" />

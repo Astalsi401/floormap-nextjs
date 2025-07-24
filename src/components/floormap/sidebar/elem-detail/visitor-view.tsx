@@ -1,14 +1,12 @@
 "use client";
 
-import { Tag, TagsGroup } from "@ui/tag";
 import { BoothName } from "@ui/booth-name";
 import { SidebarBlock } from "@ui/sidebar-block";
 import { useBoothDetail } from "@/hooks/use-booth-detail";
-import { useTagSearch } from "@/hooks/use-tag-search";
 import { textToHtml } from "@/utils/text-to-html";
-import type { TagType } from "@/types";
 import { Exhibitors } from "./exhibitors";
 import { ExpoEvents } from "./expo-events";
+import { Tags } from "./tags";
 
 export const Detail: React.FC = () => {
   const boothDetail = useBoothDetail();
@@ -42,27 +40,5 @@ export const Detail: React.FC = () => {
         <ExpoEvents />
       </>
     )
-  );
-};
-
-const Tags: React.FC<{ boothId: string; tags: TagType[] }> = ({
-  boothId,
-  tags,
-}) => {
-  const { addTagToSearch } = useTagSearch();
-
-  return (
-    <TagsGroup>
-      {tags.map((tag) => (
-        <Tag
-          key={`${boothId}-${tag.id}`}
-          themeColor={tag.color}
-          className="cursor-pointer"
-          onClick={() => addTagToSearch(tag.id)}
-        >
-          {tag.name}
-        </Tag>
-      ))}
-    </TagsGroup>
   );
 };

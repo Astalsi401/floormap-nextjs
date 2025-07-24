@@ -31,7 +31,7 @@ export const Results: React.FC = () => {
   );
 };
 
-export const ResultItem: React.FC<
+const ResultItem: React.FC<
   ComputedExhibitor & {
     goElem: (e: React.MouseEvent<HTMLElement>) => Promise<void>;
   }

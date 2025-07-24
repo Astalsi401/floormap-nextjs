@@ -8,10 +8,11 @@ import { Results } from "./results";
 import { Overview } from "./overview";
 import { ElemDetail } from "./elem-detail";
 
-export const Sidebar: React.FC = () => {
+export const Sidebar: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const dispatch = useAppDispatch();
   const sidebar = useAppSelector((state) => state.floormap.sidebar);
-
   return (
     <aside
       onClick={() => !sidebar && dispatch(toggleSidebar(true))}
@@ -28,7 +29,7 @@ export const Sidebar: React.FC = () => {
         <Results />
         <Overview />
       </div>
-      <ElemDetail />
+      <ElemDetail>{children}</ElemDetail>
     </aside>
   );
 };

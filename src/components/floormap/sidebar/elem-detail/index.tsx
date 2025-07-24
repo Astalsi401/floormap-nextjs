@@ -5,9 +5,10 @@ import { ArrowUturnLeftIcon } from "@heroicons/react/24/solid";
 import { Button } from "@ui/button";
 import { useAppSelector } from "@/hooks/use-redux";
 import { useElementDetail } from "@/hooks/use-elem-detail";
-import { Detail } from "./detail";
 
-export const ElemDetail: React.FC = () => {
+export const ElemDetail: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const toggleDetail = useElementDetail();
   const elemDetail = useAppSelector((state) => state.floormap.elemDetail);
 
@@ -30,7 +31,7 @@ export const ElemDetail: React.FC = () => {
         data-scroll
         className="p-2.5 flex flex-col gap-8 overflow-y-auto h-[calc(100%-2.875rem)]"
       >
-        <Detail />
+        {children}
       </div>
     </div>
   );
