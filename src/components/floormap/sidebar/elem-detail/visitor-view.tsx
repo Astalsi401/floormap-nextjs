@@ -37,7 +37,7 @@ export const Detail: React.FC = () => {
             }}
           />
         </SidebarBlock>
-        <ExpoEvents />
+        <ExpoEvents boothId={boothDetail.id} />
       </>
     )
   );

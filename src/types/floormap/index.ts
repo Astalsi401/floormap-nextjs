@@ -81,7 +81,7 @@ export type ComputedSoldBoothElem = SoldBoothElem & { _id?: string };
 export type ExpoEvent = {
   _id: string;
   id: string;
-  timeList: { start: string; end: string }[];
+  timeList: { _id: string; start: string; end: string }[];
   title: string;
   topic: string;
 };

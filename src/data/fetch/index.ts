@@ -48,9 +48,14 @@ export class FetchData {
         .catch((err) => {
           throw new Error(`Failed to fetch exhibitors data\n${err}`);
         }),
-    events: ({ lang, exhibition, year }: FloormapParams) =>
+    events: ({
+      lang,
+      exhibition,
+      year,
+      id,
+    }: FloormapParams & { id: SoldBooth["id"] }) =>
       this.method.get<ApiResponse<ExpoEvent[]>>(
-        `${API_ENDPOINTS.FP_EVENTS}/${exhibition}/${year}?lang=${lang}`
+        `${API_ENDPOINTS.FP_EVENTS}/${exhibition}/${year}?lang=${lang}&id=${id}`
       ),
   };
 }

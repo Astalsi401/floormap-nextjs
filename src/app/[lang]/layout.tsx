@@ -5,6 +5,7 @@ import { Header } from "@/components/header";
 import { geistMono, geistSans } from "@/styles/font";
 import { getDictionary, Locale, locales } from "@/dictionaries";
 import { DictProvider } from "@/dictionaries/provider";
+import { QueryProvider } from "@/libs/react-query/provider";
 import type { Metadata } from "next";
 import "@/styles/globals.css";
 
@@ -43,13 +44,15 @@ export default async function RootLayout({
         )}
       >
         <SessionProvider>
-          <StoreProvider>
-            <DictProvider dict={dict}>
-              <Header />
-              <main className="pt-16.25">{children}</main>
-              {modal}
-            </DictProvider>
-          </StoreProvider>
+          <QueryProvider>
+            <StoreProvider>
+              <DictProvider dict={dict}>
+                <Header />
+                <main className="pt-16.25">{children}</main>
+                {modal}
+              </DictProvider>
+            </StoreProvider>
+          </QueryProvider>
         </SessionProvider>
       </body>
     </html>
