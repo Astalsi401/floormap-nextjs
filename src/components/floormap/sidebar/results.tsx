@@ -57,7 +57,8 @@ const ResultItem: React.FC<
       onClick={goElem}
       boothId={id}
       floor={floor}
-      boothName={org}
-    />
+    >
+      {org}
+    </BoothName>
   );
 };

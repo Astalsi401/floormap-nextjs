@@ -17,6 +17,7 @@ export const useBoothDetail = () => {
     if (!soldElem) return null;
     return {
       id,
+      _id,
       floor: soldElem.floor,
       boothName: soldElem.text,
       org: exhibitor?.org,

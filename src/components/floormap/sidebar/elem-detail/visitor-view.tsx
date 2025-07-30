@@ -19,8 +19,9 @@ export const Detail: React.FC = () => {
             className="text-xl"
             boothId={boothDetail.id}
             floor={boothDetail.floor}
-            boothName={boothDetail.boothName}
-          />
+          >
+            {boothDetail.boothName}
+          </BoothName>
           <div>{boothDetail.org}</div>
           <Tags boothId={boothDetail.id} tags={boothDetail.tags} />
         </div>

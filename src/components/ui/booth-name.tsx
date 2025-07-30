@@ -4,9 +4,9 @@ export const BoothName: React.FC<
   React.HTMLProps<HTMLDivElement> & {
     boothId: string;
     floor: number;
-    boothName: string;
+    children?: React.ReactNode;
   }
-> = ({ className, boothName, boothId, floor, ...props }) => {
+> = ({ className, children, boothId, floor, ...props }) => {
   return (
     <div
       {...props}
@@ -15,8 +15,8 @@ export const BoothName: React.FC<
         className
       )}
     >
-      <h3 className="font-semibold h-[3em] flex items-center grow">
-        <span>{boothName}</span>
+      <h3 className="font-semibold min-h-[3em] flex items-center grow">
+        <span className="w-full block">{children}</span>
       </h3>
       <div className="w-[6em] shrink-0 text-xs flex items-center justify-end">
         <span>
