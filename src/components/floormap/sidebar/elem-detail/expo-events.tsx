@@ -15,7 +15,10 @@ export const ExpoEvents: React.FC<{ boothId: string }> = ({ boothId }) => {
   const { isFetching, data } = useEventsData({ id: boothId });
 
   return (
-    <SidebarBlock className="gap-1" title={expoEventsText}>
+    <SidebarBlock
+      className="gap-1"
+      title={data && data.length > 0 ? expoEventsText : ""}
+    >
       {isFetching ? (
         <LoadingContainer>
           <Spinner />

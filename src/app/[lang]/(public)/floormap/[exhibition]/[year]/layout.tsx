@@ -15,12 +15,12 @@ export const viewport: Viewport = {
 };
 
 export default async function FloorMapLayout({
+  children,
   sidebar,
-  map,
   params,
 }: {
+  children: Readonly<React.ReactNode>;
   sidebar: Readonly<React.ReactNode>;
-  map: Readonly<React.ReactNode>;
   params: Promise<FloormapParams>;
   searchParams: Promise<{ floor?: string }>;
 }) {
@@ -39,7 +39,7 @@ export default async function FloorMapLayout({
       <div data-floormap className="-mt-16.25 h-svh">
         <div className="pt-16.25 sm:ps-80 h-full">
           <Sidebar>{sidebar}</Sidebar>
-          <Floormap>{map}</Floormap>
+          <Floormap>{children}</Floormap>
         </div>
       </div>
     </FloormapProvider>
